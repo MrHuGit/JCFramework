@@ -12,7 +12,7 @@ ext.defaultConfigs = defaultConfigs
 
 def versions = [:]
 versions.latest = "+"
-versions.support = "27.1.0"
+versions.support = "27.1.1"
 versions.rxjava2 = "2.1.6"
 versions.rxandroid2 = "2.0.1"
 versions.kotlin = "1.2.31"
@@ -130,9 +130,7 @@ deps.system_status_bar="com.readystatesoftware.systembartint:systembartint:1.0.3
 ext.deps = deps
 
 
-
-
-def addRepos(RepositoryHandler handler) {
+static def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
     handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }

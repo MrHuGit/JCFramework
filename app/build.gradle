@@ -1,10 +1,12 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.android.jcframework"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -16,13 +18,27 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.appcompat
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //    implementation 'com.github.MrHuGit:JCFramework:T0.0.1'
+    implementation 'com.aliyun.dpa:oss-android-sdk:2.8.4'
+    implementation deps.okhttp3
+    implementation 'com.squareup.okio:okio:1.14.0'
+    implementation 'com.neovisionaries:nv-websocket-client:2.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+//    implementation "org.jetbrains.anko:anko-common:$anko_version"
+    implementation deps.support.recyclerview
+    implementation project(':framework')
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<framework_configuration xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        description="OkHttp连接超时时间（MILLISECONDS）"
+        key="okHttpConnectTimeout"
+        value="20000"/>
+    <item
+        description="OkHttp读取超时时间（MILLISECONDS）"
+        key="okHttpReadTimeout"
+        value="20000"/>
+    <item
+        description="OkHttp写入超时时间（MILLISECONDS）"
+        key="okHttpWriteTimeout"
+        value="20000"/>
+</framework_configuration>
