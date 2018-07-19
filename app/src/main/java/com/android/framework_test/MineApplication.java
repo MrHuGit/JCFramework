@@ -15,5 +15,8 @@ public class MineApplication extends Application {
     public void onCreate() {
         super.onCreate();
         JcFramework.init(this);
+
+
+
     }
 }
