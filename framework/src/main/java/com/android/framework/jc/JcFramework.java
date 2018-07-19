@@ -56,7 +56,6 @@ public class JcFramework {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 mActivityList.add(activity);
-                mTopActivity = activity;
             }
 
             @Override
@@ -66,7 +65,7 @@ public class JcFramework {
 
             @Override
             public void onActivityResumed(Activity activity) {
-
+                mTopActivity = activity;
             }
 
             @Override

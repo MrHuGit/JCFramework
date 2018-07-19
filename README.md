@@ -1,6 +1,23 @@
 # JCFramework
 简单功能封装
-
+<br/>
+Step 1. Add the JitPack repository to your build file
+<br/>
+Add it in your root build.gradle at the end of repositories:
+```aidl
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+Step 2. Add the dependency
+```aidl
+dependencies {
+	        implementation 'com.github.MrHuGit:JCFramework:T1.0.0'
+	}
+```
 ###初始化
 
 ```java
