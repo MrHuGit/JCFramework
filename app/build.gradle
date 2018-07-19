@@ -33,10 +33,17 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //    implementation 'com.github.MrHuGit:JCFramework:T0.0.1'
     implementation 'com.aliyun.dpa:oss-android-sdk:2.8.4'
-    implementation deps.okhttp3
     implementation 'com.squareup.okio:okio:1.14.0'
     implementation 'com.neovisionaries:nv-websocket-client:2.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    implementation deps.okhttp3
+    implementation deps.okhttp3_logging_interceptor
+    implementation deps.rxjava2
+    implementation deps.rxandroid2
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.adapter
 //    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 //    implementation "org.jetbrains.anko:anko-common:$anko_version"
     implementation deps.support.recyclerview

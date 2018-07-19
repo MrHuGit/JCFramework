@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <framework_configuration xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        description="Log是否显示（true,false）"
+        key="logDebug"
+        value="true"/>
     <item
         description="OkHttp连接超时时间（MILLISECONDS）"
         key="okHttpConnectTimeout"

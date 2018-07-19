@@ -13,19 +13,19 @@ import okhttp3.Cookie;
  * @update
  */
 
-public class JcCookie {
+public class FkCookie {
     private Cookie mCookie;
 
-    public JcCookie(Cookie cookie) {
+    public FkCookie(Cookie cookie) {
         this.mCookie = cookie;
     }
 
-    protected static List<JcCookie> decorateAll(Collection<Cookie> cookies) {
-        List<JcCookie> jcCookies = new ArrayList<>(cookies.size());
+    protected static List<FkCookie> decorateAll(Collection<Cookie> cookies) {
+        List<FkCookie> fkCookies = new ArrayList<>(cookies.size());
         for (Cookie cookie : cookies) {
-            jcCookies.add(new JcCookie(cookie));
+            fkCookies.add(new FkCookie(cookie));
         }
-        return jcCookies;
+        return fkCookies;
     }
 
     public Cookie getCookie() {
@@ -37,12 +37,12 @@ public class JcCookie {
         if (obj == null || (obj.getClass() == this.getClass())) {
             return false;
         } else {
-            JcCookie otherJcCookie = (JcCookie) obj;
-            boolean result = this.mCookie.name().equals(otherJcCookie.getCookie().name());
-            result = result && this.mCookie.domain().equals(otherJcCookie.getCookie().domain());
-            result = result && this.mCookie.path().equals(otherJcCookie.getCookie().path());
-            result = result && this.mCookie.secure() == otherJcCookie.getCookie().secure();
-            result = result && this.mCookie.hostOnly() == otherJcCookie.getCookie().hostOnly();
+            FkCookie otherFkCookie = (FkCookie) obj;
+            boolean result = this.mCookie.name().equals(otherFkCookie.getCookie().name());
+            result = result && this.mCookie.domain().equals(otherFkCookie.getCookie().domain());
+            result = result && this.mCookie.path().equals(otherFkCookie.getCookie().path());
+            result = result && this.mCookie.secure() == otherFkCookie.getCookie().secure();
+            result = result && this.mCookie.hostOnly() == otherFkCookie.getCookie().hostOnly();
             return result;
         }
     }

@@ -24,7 +24,7 @@ import retrofit2.Retrofit;
 /**
  * @author Mr.Hu(Jc)
  * @create 2018/6/23 11:27
- * @describe
+ * @describe 自定义json解析器
  * @update
  */
 public class FkJsonConverterFactory extends Converter.Factory {
@@ -63,7 +63,7 @@ public class FkJsonConverterFactory extends Converter.Factory {
         private final Gson mGson;
         private final TypeAdapter<T> mAdapter;
 
-        public GsonRequestBodyConverter(Gson gson, TypeAdapter<T> adapter) {
+        GsonRequestBodyConverter(Gson gson, TypeAdapter<T> adapter) {
             this.mGson = gson;
             this.mAdapter = adapter;
         }
@@ -84,7 +84,7 @@ public class FkJsonConverterFactory extends Converter.Factory {
         private final Gson mGson;
         private final TypeAdapter<T> mAdapter;
 
-        public GsonResponseBodyConverter(Gson gson, TypeAdapter<T> adapter) {
+        GsonResponseBodyConverter(Gson gson, TypeAdapter<T> adapter) {
             this.mGson = gson;
             this.mAdapter = adapter;
         }

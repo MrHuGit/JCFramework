@@ -18,11 +18,11 @@ import okhttp3.Cookie;
  */
 
 public class MemoryCookieCache implements ICookieCache {
-    private final Set<JcCookie> mCookieSets = new HashSet<>();
+    private final Set<FkCookie> mCookieSets = new HashSet<>();
 
     @Override
     public void saveAll(Collection<Cookie> collection) {
-        List<JcCookie> cookieList = JcCookie.decorateAll(collection);
+        List<FkCookie> cookieList = FkCookie.decorateAll(collection);
         this.mCookieSets.removeAll(cookieList);
         this.mCookieSets.addAll(cookieList);
     }
@@ -44,9 +44,9 @@ public class MemoryCookieCache implements ICookieCache {
     }
 
    private final class SetCookieCacheIterator implements Iterator<Cookie> {
-        private final Iterator<JcCookie> mCookies;
+        private final Iterator<FkCookie> mCookies;
 
-        public SetCookieCacheIterator(Iterator<JcCookie> cookies) {
+        public SetCookieCacheIterator(Iterator<FkCookie> cookies) {
             this.mCookies = cookies;
         }
 

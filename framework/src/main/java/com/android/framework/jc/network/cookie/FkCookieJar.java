@@ -9,7 +9,10 @@ import okhttp3.CookieJar;
  * @update
  */
 
-public interface JcCookieJar extends CookieJar{
+public interface FkCookieJar extends CookieJar{
 
+    /**
+     * 清除cookie
+     */
     void clear();
 }

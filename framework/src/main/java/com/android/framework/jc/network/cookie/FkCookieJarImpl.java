@@ -1,5 +1,7 @@
 package com.android.framework.jc.network.cookie;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +15,10 @@ import okhttp3.HttpUrl;
  * @update
  */
 
-public class JcCookieJarImpl implements JcCookieJar {
+public class FkCookieJarImpl implements FkCookieJar {
     private final ICookieCache mCookieCache;
 
-    public JcCookieJarImpl(ICookieCache cookieCache) {
+    public FkCookieJarImpl(ICookieCache cookieCache) {
         this.mCookieCache = cookieCache;
     }
 
@@ -26,15 +28,15 @@ public class JcCookieJarImpl implements JcCookieJar {
     }
 
     @Override
-    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-        synchronized (JcCookieJarImpl.this) {
+    public void saveFromResponse(@NonNull HttpUrl url, @NonNull List<Cookie> cookies) {
+        synchronized (FkCookieJarImpl.this) {
             this.mCookieCache.saveAll(cookies);
         }
     }
 
     @Override
-    public List<Cookie> loadForRequest(HttpUrl url) {
-        synchronized (JcCookieJarImpl.this) {
+    public List<Cookie> loadForRequest(@NonNull HttpUrl url) {
+        synchronized (FkCookieJarImpl.this) {
             List<Cookie> removeCookies = new ArrayList<>();
             List<Cookie> result = new ArrayList<>();
             for (Cookie cookie : this.mCookieCache) {

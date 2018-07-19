@@ -66,11 +66,10 @@ public class SharedPrefsCookieCache implements ICookieCache {
     }
 
     private List<Cookie> loadAll() {
-        List<Cookie> cookies = new ArrayList();
-        Iterator iterator = this.mPreferences.getAll().entrySet().iterator();
-        while(iterator.hasNext()) {
-            Map.Entry<String, ?> entry = (Map.Entry)iterator.next();
-            String serializedCookie = (String)entry.getValue();
+        List<Cookie> cookies = new ArrayList<>();
+        for (Object o : this.mPreferences.getAll().entrySet()) {
+            Map.Entry entry = (Map.Entry) o;
+            String serializedCookie = (String) entry.getValue();
             Cookie cookie = (new SerializableCookie()).decodeCookie(serializedCookie);
             cookies.add(cookie);
         }
