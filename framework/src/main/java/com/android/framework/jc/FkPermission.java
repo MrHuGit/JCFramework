@@ -43,7 +43,7 @@ public class FkPermission {
          * @param permission
          *         需要申请的权限
          *
-         * @return
+         * @return builder
          */
         public Builder permission(String permission) {
             mPermissions.add(permission);
@@ -53,7 +53,7 @@ public class FkPermission {
         /**
          * 添加监听
          *
-         * @param listener
+         * @param listener 回调监听
          *
          * @return
          */
@@ -62,6 +62,9 @@ public class FkPermission {
             return this;
         }
 
+        /**
+         * Request.
+         */
         public void request() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (Looper.getMainLooper().getThread() != Thread.currentThread()) {
@@ -108,6 +111,14 @@ public class FkPermission {
             mContext = context;
         }
 
+        /**
+         * Request permissions.
+         *
+         * @param permissions
+         *         the permissions
+         * @param listener
+         *         the listener
+         */
         @RequiresApi(api = Build.VERSION_CODES.M)
         protected void requestPermissions(List<String> permissions, IPermissionListener listener) {
             List<String> requestPermissions = new ArrayList<>();

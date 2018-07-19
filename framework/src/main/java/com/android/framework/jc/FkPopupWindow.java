@@ -39,12 +39,23 @@ public class FkPopupWindow {
         });
     }
 
+    /**
+     * Dismiss.
+     */
     public void dismiss() {
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
     }
 
+    /**
+     * Sets on dismiss listener.
+     *
+     * @param onDismissListener
+     *         the on dismiss listener
+     *
+     * @return FkPopupWindow
+     */
     public FkPopupWindow setOnDismissListener(PopupWindow.OnDismissListener onDismissListener) {
         this.mOnDismissListener = onDismissListener;
         return this;
@@ -53,9 +64,12 @@ public class FkPopupWindow {
     /**
      * 根据id获取view
      *
+     * @param <T>
+     *         the type parameter
      * @param viewId
+     *         the view id
      *
-     * @return
+     * @return item view
      */
     public <T extends View> T getItemView(int viewId) {
         if (mPopupWindow != null) {
@@ -68,11 +82,15 @@ public class FkPopupWindow {
      * 根据父布局，显示位置
      *
      * @param parentViewId
+     *         the parent view id
      * @param gravity
+     *         the gravity
      * @param x
+     *         the x
      * @param y
+     *         the y
      *
-     * @return
+     * @return FkPopupWindow
      */
     public FkPopupWindow showAtLocation(int parentViewId, int gravity, int x, int y) {
         if (mPopupWindow != null) {
@@ -86,11 +104,15 @@ public class FkPopupWindow {
      * 根据父布局，显示位置
      *
      * @param parentView
+     *         the parent view
      * @param gravity
+     *         the gravity
      * @param x
+     *         the x
      * @param y
+     *         the y
      *
-     * @return
+     * @return FkPopupWindow
      */
     public FkPopupWindow showAtLocation(View parentView, int gravity, int x, int y) {
         if (parentView != null) {
@@ -103,11 +125,15 @@ public class FkPopupWindow {
      * 根据id获取view ，并显示在该view的位置
      *
      * @param targetviewId
+     *         the targetView id
      * @param gravity
+     *         the gravity
      * @param offx
+     *         the offx
      * @param offy
+     *         the offy
      *
-     * @return
+     * @return FkPopupWindow
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public FkPopupWindow showAsDropDown(int targetviewId, int gravity, int offx, int offy) {
@@ -118,6 +144,12 @@ public class FkPopupWindow {
         return this;
     }
 
+    /**
+     * Sets window alpha.
+     *
+     * @param alpha
+     *         the alpha
+     */
     public void setWindowAlpha(float alpha) {
         if (mContext instanceof Activity) {
             Activity activity = (Activity) mContext;
@@ -133,9 +165,11 @@ public class FkPopupWindow {
     }
 
     /**
-     * @param parentView
+     * Show as drop down.
      *
-     * @return
+     * @param parentView
+     *         the parent view
+     *
      */
     public void showAsDropDown(View parentView) {
         if (mPopupWindow != null) {
@@ -147,11 +181,15 @@ public class FkPopupWindow {
      * 显示在 targetView 的不同位置
      *
      * @param anchor
+     *         the anchor
      * @param xoff
+     *         the xoff
      * @param yoff
+     *         the yoff
      * @param gravity
+     *         the gravity
      *
-     * @return
+     * @return api
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public FkPopupWindow showAsDropDown(View anchor, int xoff, int yoff, int gravity) {
@@ -165,7 +203,9 @@ public class FkPopupWindow {
      * 根据id设置焦点监听
      *
      * @param itemViewId
+     *         the item view id
      * @param listener
+     *         the listener
      */
     public void setOnItemClickListener(int itemViewId, View.OnClickListener listener) {
         View view = getItemView(itemViewId);
