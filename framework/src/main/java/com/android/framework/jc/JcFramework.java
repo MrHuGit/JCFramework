@@ -44,7 +44,7 @@ public class JcFramework {
     }
 
     private void initialize(Application application) {
-        if (!AppUtils.checkMainProcess(application)){
+        if (!AppUtils.checkMainProcess(application)) {
             return;
         }
         if (mApplication != null) {
@@ -109,6 +109,9 @@ public class JcFramework {
         }
     }
 
+    /**
+     * 退出app
+     */
     public static void exitApp() {
         JcFramework framework = getInstance();
         NetworkManager.getInstance().clearDisposable();
@@ -124,6 +127,7 @@ public class JcFramework {
      * 初始化
      *
      * @param application
+     *         application
      *
      * @return
      */
@@ -132,23 +136,25 @@ public class JcFramework {
         framework.initialize(application);
         return framework;
     }
+
     /**
      * 设置自定义okHttpClient
      *
      * @param okHttpClient
      *         自定义
      */
-    public JcFramework setCustomOkHttpClient(@NonNull OkHttpClient okHttpClient){
+    public JcFramework setCustomOkHttpClient(@NonNull OkHttpClient okHttpClient) {
         NetworkManager.getInstance().initCustomOkHttp(okHttpClient);
         return this;
     }
+
     /**
      * 设置自定义retrofit
      *
      * @param retrofit
      *         自定义
      */
-    public JcFramework setCustomRetrofit(@NonNull Retrofit retrofit){
+    public JcFramework setCustomRetrofit(@NonNull Retrofit retrofit) {
         NetworkManager.getInstance().initCustomRetrofit(retrofit);
         return this;
     }

@@ -17,6 +17,5 @@ public class MineApplication extends Application {
         JcFramework.init(this);
 
 
-
     }
 }
