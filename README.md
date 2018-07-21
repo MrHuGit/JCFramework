@@ -15,9 +15,10 @@ allprojects {
 Step 2. Add the dependency
 ```aidl
 dependencies {
-	        implementation 'com.github.MrHuGit:JCFramework:T1.0.3'
+	        implementation 'com.github.MrHuGit:JCFramework:版本号'
 	}
 ```
+[版本号]（https://github.com/MrHuGit/JCFramework/releases）
 ###初始化
 
 ```java

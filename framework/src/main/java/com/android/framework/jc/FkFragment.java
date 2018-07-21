@@ -17,6 +17,8 @@ import com.android.framework.jc.wrapper.IViewWrapper;
 
 import java.util.ArrayList;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/7/16 18:28
@@ -90,10 +92,15 @@ public abstract class FkFragment extends Fragment{
         headWrappers.add(wrapper);
         return this;
     }
+    protected void addDispose(@NonNull Disposable disposable) {
+        NetworkManager.getInstance().addDispose(this, disposable);
+    }
+
 
 
     @Override
     public void onDestroy() {
+        NetworkManager.getInstance().dispose(this);
         super.onDestroy();
         for (IViewWrapper wrapper : headWrappers) {
             wrapper.onWrapperDestroy();

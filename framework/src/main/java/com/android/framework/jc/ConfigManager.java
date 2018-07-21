@@ -5,6 +5,7 @@ import android.content.res.XmlResourceParser;
 import android.text.TextUtils;
 
 import com.android.framework.jc.configuration.ConfigBean;
+import com.android.framework.jc.exception.NoConfigException;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -87,14 +88,14 @@ public class ConfigManager {
      */
     public String getValue(String key) {
         if (TextUtils.isEmpty(key)) {
-            return null;
+           throw new RuntimeException("key is empty");
         }
         for (ConfigBean bean : configSet) {
             if (key.equals(bean.getKey())) {
                 return bean.getValue();
             }
         }
-        return null;
+        throw new NoConfigException(key);
     }
 
     /**

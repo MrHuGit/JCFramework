@@ -9,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.internal.Util;
 import retrofit2.Retrofit;
 
 /**
@@ -20,6 +21,8 @@ import retrofit2.Retrofit;
 public class NetworkManager {
     private final LinkedHashMap<HttpUrl, Retrofit> mRetrofitMaps;
     private final HashMap<Object, CompositeDisposable> mDisposableMap;
+    private final static String HTTP="http:";
+    private final static String HTTPS="https:";
     private Retrofit mCustomRetrofit;
     private final Retrofit.Builder mDefaultRetrofitBuild;
 
@@ -34,7 +37,7 @@ public class NetworkManager {
      * 根据url创建service
      *
      * @param url
-     *         url
+     *         url or urlName
      * @param service
      *         需要创建的service
      * @param <T>
@@ -43,6 +46,11 @@ public class NetworkManager {
      * @return service
      */
     public <T> T createService(@NonNull String url, @NonNull final Class<T> service) {
+        int pos = Util.skipLeadingAsciiWhitespace(url, 0, url.length());
+        boolean isUrl=url.regionMatches(true, pos, HTTPS, 0, 6)||url.regionMatches(true, pos, HTTP, 0, 5);
+        if (!isUrl) {
+            url=UrlManager.getInstance().getUrl(url);
+        }
         HttpUrl httpUrl = HttpUrl.parse(url);
         if (httpUrl == null) {
             throw new IllegalArgumentException("Illegal URL: " + url);
@@ -61,6 +69,7 @@ public class NetworkManager {
         }
         return retrofit.create(service);
     }
+
 
 
 

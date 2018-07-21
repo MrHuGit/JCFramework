@@ -1,10 +1,13 @@
 package com.android.framework.jc;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.framework.jc.util.ToastUtils;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -24,8 +27,9 @@ public class FkActivity extends AppCompatActivity {
     }
 
     protected void toast(Throwable throwable) {
-      ToastUtils.toast(this,throwable);
+        ToastUtils.toast(this, throwable);
     }
+
     protected <T extends Fragment> T findFragment(Class<T> tClass) {
         Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         T t = null;
@@ -50,4 +54,13 @@ public class FkActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragment).commit();
     }
 
+    protected void addDispose(@NonNull Disposable disposable) {
+        NetworkManager.getInstance().addDispose(this, disposable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        NetworkManager.getInstance().dispose(this);
+        super.onDestroy();
+    }
 }
