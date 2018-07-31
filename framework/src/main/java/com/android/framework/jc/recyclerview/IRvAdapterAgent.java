@@ -6,7 +6,7 @@ import android.view.View;
 import java.util.List;
 
 /**
- * @author Mr.Hu(Jc)
+ * @author Mr.Hu(Jc) JCFramework
  * @create 2018/4/3 17:36
  * @describe
  * @update

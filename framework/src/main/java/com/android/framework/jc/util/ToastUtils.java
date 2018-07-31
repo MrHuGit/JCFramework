@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
+import com.android.framework.jc.R;
 import com.android.framework.jc.exception.MessageException;
 
 import java.net.SocketTimeoutException;
@@ -27,9 +28,9 @@ public class ToastUtils {
         if (throwable instanceof MessageException) {
             toast(context, throwable.getMessage());
         } else if (throwable instanceof SocketTimeoutException) {
-            toast(context, "请求超时");
+            toast(context, R.string.network_timeout);
         } else {
-            toast(context, "网络异常");
+            toast(context, R.string.network_error);
         }
     }
 }

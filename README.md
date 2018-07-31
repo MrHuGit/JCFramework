@@ -19,6 +19,8 @@ dependencies {
 	}
 ```
 [版本号]（https://github.com/MrHuGit/JCFramework/releases）
+<br/>
+
 ###初始化
 
 ```java
@@ -30,6 +32,7 @@ public class MineApplication extends Application {
     }
 }
 ```
+<br/>
 
 ###配置文件
 ```html
@@ -58,6 +61,8 @@ public class MineApplication extends Application {
 ConfigManager.getInstance().getValue("logDebug");
 ```
 方式获取
+<br/>
+
 ###下载文件
 调用此方法下载文件
 ```java

@@ -17,7 +17,16 @@ android {
 
 
     buildTypes {
+
         release {
+            buildConfigField("String", "frameworkCongigurationXmlName", '"framework_configuration"')
+            minifyEnabled false
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            buildConfigField("String", "frameworkCongigurationXmlName", '"framework_configuration"')
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

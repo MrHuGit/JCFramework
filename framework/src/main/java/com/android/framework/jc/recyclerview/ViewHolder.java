@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * @author Mr.Hu(Jc)
+ * @author Mr.Hu(Jc) JCFramework
  * @create 2018/3/23 15:31
  * @describe
  * @update

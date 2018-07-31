@@ -6,7 +6,7 @@ import android.view.View;
 import java.util.List;
 
 /**
- * @author Mr.Hu(Jc)
+ * @author Mr.Hu(Jc) JCFramework
  * @create 2018/4/6 19:43
  * @describe recyclerView的普通adapter
  * @update

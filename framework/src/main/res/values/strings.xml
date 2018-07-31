@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">JcFramework</string>
+    <string name="network_error">网络异常</string>
+    <string name="network_timeout">请求超时</string>
 </resources>

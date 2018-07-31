@@ -1,5 +1,7 @@
 package com.android.framework.jc;
 
+import android.text.TextUtils;
+
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -50,12 +52,15 @@ public class UrlManager {
     }
 
     public String getUrl(String configUrlName) {
+        String url = null;
         if (mAdapter != null) {
             NetworkManager.getInstance().dispose(UrlManager.this);
-            return mAdapter.getUrl(configUrlName);
+            url = mAdapter.getUrl(configUrlName);
         }
-
-        return ConfigManager.getInstance().getValue(configUrlName);
+        if (TextUtils.isEmpty(url)) {
+            return ConfigManager.getInstance().getValue(configUrlName);
+        }
+        return url;
     }
 
 

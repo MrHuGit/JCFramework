@@ -21,7 +21,7 @@ import java.util.Set;
  * @update
  */
 public class ConfigManager {
-    private final static String XML_NAME = "framework_configuration";
+    private final static String XML_NAME = BuildConfig.frameworkCongigurationXmlName;
     private final Set<ConfigBean> configSet;
 
     private ConfigManager() {

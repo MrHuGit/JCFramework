@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">JcFramework</string>
+    <string name="network_error">Network Anomalies</string>
+    <string name="network_timeout">Network Timeout</string>
 </resources>

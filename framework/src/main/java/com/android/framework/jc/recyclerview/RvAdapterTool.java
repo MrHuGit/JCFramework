@@ -5,9 +5,8 @@ import android.support.v4.util.SparseArrayCompat;
 import java.util.List;
 
 /**
- * @author Mr.Hu(Jc)
+ * @author Mr.Hu(Jc) JCFramework
  * @create 2018/4/3 18:10
- * @organize 卓世达科
  * @describe
  * @update
  */

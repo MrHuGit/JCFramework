@@ -10,13 +10,13 @@ import java.io.InputStream;
 import java.util.UUID;
 
 /**
- * @author Mr.Hu(Jc)
+ * @author Mr.Hu(Jc)JCFramework
  * @create 2018/4/15 11:50
- * @organize 卓世达科
- * @describe
+ * @describe 文件相关工具类
  * @update
  */
 public class FileUtils {
+
     public static void write(InputStream inputStream, String savePath) throws IOException {
         if (inputStream == null) {
             throw new IOException("inputStream can not null");
