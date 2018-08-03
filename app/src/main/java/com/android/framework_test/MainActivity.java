@@ -1,16 +1,21 @@
 package com.android.framework_test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import com.android.framework.jc.AppStateManager;
 import com.android.framework.jc.NetworkManager;
+import com.android.framework.jc.recyclerview.IRvAdapterAgent;
 import com.android.framework.jc.recyclerview.NormalRvAdapter;
 import com.android.framework.jc.recyclerview.ViewHolder;
 import com.android.framework.jc.util.LogUtils;
 import com.android.framework.jc.util.ScreenUtils;
 import com.android.framework_test.data.TestService;
+import com.android.framework_test.kline.KlineMainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppStateManager.getInstance().setAppRunningState();
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
                         throwable.printStackTrace();
                     }
                 });
+
+        mAdapter.setOnItemClickListener(new IRvAdapterAgent.OnItemClickListener<String>() {
+            @Override
+            public void onItemClick(View view, RecyclerView.ViewHolder holder, String s, int position) {
+                startActivity(new Intent(MainActivity.this, KlineMainActivity.class));
+            }
+        });
         NetworkManager.getInstance().addDispose(this, disposable);
     }
 

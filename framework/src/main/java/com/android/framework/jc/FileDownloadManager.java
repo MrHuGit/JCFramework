@@ -3,7 +3,7 @@ package com.android.framework.jc;
 import android.Manifest;
 import android.app.Activity;
 
-import com.android.framework.jc.exception.MessageException;
+import com.android.framework.jc.exception.NetworkErrorException;
 import com.android.framework.jc.network.interceptor.ProgressInterceptor;
 import com.android.framework.jc.util.FileUtils;
 
@@ -55,12 +55,12 @@ public class FileDownloadManager {
 
                     @Override
                     public void onRationale(String[] permissions) {
-                        listener.onError(new MessageException("授权拒绝"));
+                        listener.onError(new NetworkErrorException(activity.getString(R.string.Authorized_refused_to)));
                     }
 
                     @Override
                     public void onDenied(String[] permissions) {
-                        listener.onError(new MessageException("授权拒绝"));
+                        listener.onError(new NetworkErrorException(activity.getString(R.string.Authorized_refused_to)));
                     }
                 }).request();
 

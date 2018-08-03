@@ -49,7 +49,7 @@ public class NetworkManager {
         int pos = Util.skipLeadingAsciiWhitespace(url, 0, url.length());
         boolean isUrl=url.regionMatches(true, pos, HTTPS, 0, 6)||url.regionMatches(true, pos, HTTP, 0, 5);
         if (!isUrl) {
-            url=UrlManager.getInstance().getUrl(url);
+            url= FkUrlManager.getInstance().getUrl(url);
         }
         HttpUrl httpUrl = HttpUrl.parse(url);
         if (httpUrl == null) {

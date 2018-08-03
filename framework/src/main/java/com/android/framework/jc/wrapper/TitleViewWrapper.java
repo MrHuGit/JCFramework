@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.android.framework.jc.R;
 
 /**
- * @author Mr.Hu(Jc)
+ * @author Mr.Hu(Jc) JCFramework
  * @create 2018/3/16 10:34
- * @describe
+ * @describe 默认的标准的标题栏
  * @update
  */
 
@@ -30,21 +30,21 @@ public class TitleViewWrapper implements IViewWrapper {
 
     @Override
     public void onWrapperAttach(Context context) {
-        mContext=context;
+        mContext = context;
     }
 
     @Override
     public View onCreateWrapperView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.wrapper_view_title,container);
-        TextView tvTitle=view.findViewById(R.id.tv_wrapper_view_title);
-        if (!TextUtils.isEmpty(mTitle)){
+        View view = inflater.inflate(R.layout.wrapper_view_title, container);
+        TextView tvTitle = view.findViewById(R.id.tv_wrapper_view_title);
+        if (!TextUtils.isEmpty(mTitle)) {
             tvTitle.setText(mTitle);
         }
-        ImageView ivBack=view.findViewById(R.id.iv_back);
+        ImageView ivBack = view.findViewById(R.id.iv_back);
         ivBack.setOnClickListener(v -> {
-            if (mContext instanceof Activity){
-                Activity activity=(Activity)mContext;
-                if (!activity.isFinishing()){
+            if (mContext instanceof Activity) {
+                Activity activity = (Activity) mContext;
+                if (!activity.isFinishing()) {
                     activity.finish();
                 }
             }
@@ -52,8 +52,10 @@ public class TitleViewWrapper implements IViewWrapper {
         return view;
     }
 
+
     @Override
     public void onWrapperDestroy() {
 
     }
+
 }

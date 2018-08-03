@@ -10,14 +10,14 @@ import io.reactivex.disposables.Disposable;
  * @describe url获取
  * @update
  */
-public class UrlManager {
+public class FkUrlManager {
     private IAdapter mAdapter;
 
-    private UrlManager() {
+    private FkUrlManager() {
     }
 
     private static class Holder {
-        private final static UrlManager INSTANCE = new UrlManager();
+        private final static FkUrlManager INSTANCE = new FkUrlManager();
     }
 
     public interface IAdapter {
@@ -42,19 +42,19 @@ public class UrlManager {
     public void setAdapter(IAdapter adapter) {
         Disposable disposable = adapter.update();
         if (disposable != null) {
-            NetworkManager.getInstance().addDispose(UrlManager.this, disposable);
+            NetworkManager.getInstance().addDispose(FkUrlManager.this, disposable);
         }
         mAdapter = adapter;
     }
 
-    public static UrlManager getInstance() {
+    public static FkUrlManager getInstance() {
         return Holder.INSTANCE;
     }
 
     public String getUrl(String configUrlName) {
         String url = null;
         if (mAdapter != null) {
-            NetworkManager.getInstance().dispose(UrlManager.this);
+            NetworkManager.getInstance().dispose(FkUrlManager.this);
             url = mAdapter.getUrl(configUrlName);
         }
         if (TextUtils.isEmpty(url)) {

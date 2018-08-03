@@ -17,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".kline.KlineMainActivity"/>
         <!--<activity android:name=".MainKotlinActivity">-->
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN"/>-->

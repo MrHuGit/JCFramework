@@ -7,16 +7,16 @@ import com.android.framework.jc.JcFramework;
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/7/16 18:29
- * @describe
+ * @describe 网络错误提示
  * @update
  */
-public class MessageException extends Throwable{
+public class NetworkErrorException extends Throwable {
 
-    public MessageException(String message){
+    public NetworkErrorException(String message) {
         super(message);
     }
 
-    public MessageException(@StringRes int messageRes){
+    public NetworkErrorException(@StringRes int messageRes) {
         super(JcFramework.getInstance().getApplication().getString(messageRes));
     }
 }

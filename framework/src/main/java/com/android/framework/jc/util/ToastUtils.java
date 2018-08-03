@@ -5,7 +5,7 @@ import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 import com.android.framework.jc.R;
-import com.android.framework.jc.exception.MessageException;
+import com.android.framework.jc.exception.NetworkErrorException;
 
 import java.net.SocketTimeoutException;
 
@@ -25,7 +25,7 @@ public class ToastUtils {
     }
 
     public static void toast(Context context, Throwable throwable) {
-        if (throwable instanceof MessageException) {
+        if (throwable instanceof NetworkErrorException) {
             toast(context, throwable.getMessage());
         } else if (throwable instanceof SocketTimeoutException) {
             toast(context, R.string.network_timeout);

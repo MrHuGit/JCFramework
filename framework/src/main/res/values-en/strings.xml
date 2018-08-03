@@ -3,4 +3,5 @@
     <string name="app_name">JcFramework</string>
     <string name="network_error">Network Anomalies</string>
     <string name="network_timeout">Network Timeout</string>
+    <string name="Authorized_refused_to">Authorized refused to</string>
 </resources>

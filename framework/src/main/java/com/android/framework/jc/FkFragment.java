@@ -25,7 +25,7 @@ import io.reactivex.disposables.Disposable;
  * @describe
  * @update
  */
-public abstract class FkFragment extends Fragment{
+public abstract class FkFragment extends Fragment {
     protected Context mContext;
     private ArrayList<IViewWrapper> headWrappers = null;
     private ArrayList<IViewWrapper> footWrappers = null;
@@ -92,10 +92,10 @@ public abstract class FkFragment extends Fragment{
         headWrappers.add(wrapper);
         return this;
     }
+
     protected void addDispose(@NonNull Disposable disposable) {
         NetworkManager.getInstance().addDispose(this, disposable);
     }
-
 
 
     @Override
@@ -122,7 +122,7 @@ public abstract class FkFragment extends Fragment{
     private void addView(LinearLayout rootView, LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         for (int i = 0; i < headWrappers.size(); i++) {
             View headView = headWrappers.get(i).onCreateWrapperView(inflater, container, savedInstanceState);
-            if (headView==null){
+            if (headView == null) {
                 continue;
             }
             if (headView.getParent() != null) {
@@ -133,7 +133,7 @@ public abstract class FkFragment extends Fragment{
         }
         for (IViewWrapper wrapper : footWrappers) {
             View footView = wrapper.onCreateWrapperView(inflater, container, savedInstanceState);
-            if (footView==null){
+            if (footView == null) {
                 continue;
             }
             if (footView.getParent() != null) {
@@ -154,15 +154,27 @@ public abstract class FkFragment extends Fragment{
      * @return
      */
     protected abstract View onCreateRootView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+
+    /**
+     * @param message message
+     */
     protected void toast(String message) {
         ToastUtils.toast(mContext, message);
     }
 
+    /**
+     *
+     * @param messageRes messageRes
+     */
     protected void toast(@StringRes int messageRes) {
         ToastUtils.toast(mContext, messageRes);
     }
 
+    /**
+     *
+     * @param throwable throwable
+     */
     protected void toast(Throwable throwable) {
-        ToastUtils.toast(mContext,throwable);
+        ToastUtils.toast(mContext, throwable);
     }
 }
