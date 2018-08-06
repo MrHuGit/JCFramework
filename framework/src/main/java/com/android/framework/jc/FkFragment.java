@@ -27,8 +27,8 @@ import io.reactivex.disposables.Disposable;
  */
 public abstract class FkFragment extends Fragment {
     protected Context mContext;
-    private ArrayList<IViewWrapper> headWrappers = null;
-    private ArrayList<IViewWrapper> footWrappers = null;
+    private final ArrayList<IViewWrapper> headWrappers = new ArrayList<>();
+    private final  ArrayList<IViewWrapper> footWrappers = new ArrayList<>();
 
 
     @CallSuper
@@ -71,9 +71,7 @@ public abstract class FkFragment extends Fragment {
      * @return
      */
     public FkFragment addHeadWrapper(IViewWrapper wrapper) {
-        if (headWrappers == null) {
-            headWrappers = new ArrayList<>();
-        }
+
         headWrappers.add(wrapper);
         return this;
     }
@@ -86,9 +84,6 @@ public abstract class FkFragment extends Fragment {
      * @return
      */
     public FkFragment addFootWrapper(IViewWrapper wrapper) {
-        if (headWrappers == null) {
-            headWrappers = new ArrayList<>();
-        }
         headWrappers.add(wrapper);
         return this;
     }
