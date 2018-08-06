@@ -64,7 +64,21 @@ public class FormatUtils {
         decimalFormat.applyPattern(pattern);
         return decimalFormat.format(parseDouble(value));
     }
-
+    /**
+     * 根据指定小数位数解析字符串为double
+     *
+     * @param value
+     *         double数据
+     * @param pattern
+     *         "##.##"
+     *
+     * @return double字符串
+     */
+    public static String parseDouble(double value, String pattern) {
+        DecimalFormat decimalFormat = Holder.DECIMAL_FORMAT;
+        decimalFormat.applyPattern(pattern);
+        return decimalFormat.format(value);
+    }
     /**
      * 解析字符串为int
      *
