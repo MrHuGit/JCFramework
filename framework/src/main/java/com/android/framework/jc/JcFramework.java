@@ -120,6 +120,7 @@ public class JcFramework {
             activity.finish();
         }
         list.clear();
+        ModuleManager.getInstance().clear();
         framework.mApplication.onTerminate();
     }
 

@@ -36,7 +36,7 @@ public class ModuleManager {
      * @param module 模块
      */
     public void register(@NonNull String name, @NonNull IModule module) {
-        if (TextUtils.isEmpty(name) || mModuleMaps.containsKey(name)) {
+        if (TextUtils.isEmpty(name)) {
             throw new RuntimeException("ModuleManager register error");
         }
         mModuleMaps.put(name, module);
@@ -74,5 +74,9 @@ public class ModuleManager {
             }
 
         }
+    }
+
+    protected void clear(){
+        mModuleMaps.clear();
     }
 }
