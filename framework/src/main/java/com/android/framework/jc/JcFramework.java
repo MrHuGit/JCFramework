@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
 import android.support.annotation.NonNull;
 
 import com.android.framework.jc.exception.RepeatInitializeException;
@@ -122,6 +123,7 @@ public class JcFramework {
         list.clear();
         ModuleManager.getInstance().clear();
         framework.mApplication.onTerminate();
+        Process.killProcess(Process.myPid());
     }
 
     /**
