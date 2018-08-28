@@ -30,7 +30,7 @@ public class NetworkUtils {
         ConnectivityManager conManager = Holder.CONNECTIVITY_MANAGER;
         if (conManager != null) {
             NetworkInfo network = conManager.getActiveNetworkInfo();
-            if (network.getState() == NetworkInfo.State.CONNECTED) {
+            if (network!=null&&network.getState() == NetworkInfo.State.CONNECTED) {
                 result = true;
             }
         }
@@ -42,7 +42,7 @@ public class NetworkUtils {
      */
     public static boolean checkWifi() {
         ConnectivityManager conManager = Holder.CONNECTIVITY_MANAGER;
-        return conManager != null && conManager.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+        return conManager != null &&conManager.getActiveNetworkInfo()!=null&& conManager.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     /**
@@ -53,12 +53,15 @@ public class NetworkUtils {
     public static String getType() {
         ConnectivityManager conManager = Holder.CONNECTIVITY_MANAGER;
         if (conManager != null) {
-            NetworkInfo mNetworkInfo = conManager.getActiveNetworkInfo();
-            if (ConnectivityManager.TYPE_WIFI == mNetworkInfo.getType()) {
+            NetworkInfo network = conManager.getActiveNetworkInfo();
+            if (network==null){
+                return "unknown";
+            }
+            if (ConnectivityManager.TYPE_WIFI == network.getType()) {
                 return "WIFI";
             }
-            if (ConnectivityManager.TYPE_MOBILE == mNetworkInfo.getType()) {
-                switch (mNetworkInfo.getSubtype()) {
+            if (ConnectivityManager.TYPE_MOBILE == network.getType()) {
+                switch (network.getSubtype()) {
                     case TelephonyManager.NETWORK_TYPE_HSUPA:
                         return "HSUPA";
                     case TelephonyManager.NETWORK_TYPE_UMTS:
