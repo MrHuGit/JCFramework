@@ -88,14 +88,11 @@ public abstract class FkFragment extends Fragment {
         return this;
     }
 
-    protected void addDispose(@NonNull Disposable disposable) {
-        NetworkManager.getInstance().addDispose(this, disposable);
-    }
+
 
 
     @Override
     public void onDestroy() {
-        NetworkManager.getInstance().dispose(this);
         super.onDestroy();
         for (IViewWrapper wrapper : headWrappers) {
             wrapper.onWrapperDestroy();
@@ -150,26 +147,5 @@ public abstract class FkFragment extends Fragment {
      */
     protected abstract View onCreateRootView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
-    /**
-     * @param message message
-     */
-    protected void toast(String message) {
-        ToastUtils.toast(mContext, message);
-    }
 
-    /**
-     *
-     * @param messageRes messageRes
-     */
-    protected void toast(@StringRes int messageRes) {
-        ToastUtils.toast(mContext, messageRes);
-    }
-
-    /**
-     *
-     * @param throwable throwable
-     */
-    protected void toast(Throwable throwable) {
-        ToastUtils.toast(mContext, throwable);
-    }
 }

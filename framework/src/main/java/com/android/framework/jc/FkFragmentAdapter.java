@@ -64,7 +64,7 @@ public class FkFragmentAdapter<T extends Fragment> extends FragmentPagerAdapter 
      *
      * @return 当前对象
      */
-    public FkFragmentAdapter addFragment(@NonNull T t) {
+    public FkFragmentAdapter<T> addFragment(@NonNull T t) {
         mFragmentList.add(t);
         return this;
     }

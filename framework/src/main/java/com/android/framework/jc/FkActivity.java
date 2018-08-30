@@ -32,18 +32,6 @@ public class FkActivity extends AppCompatActivity {
         AppStateManager.getInstance().checkAppState(this);
     }
 
-    protected void toast(String message) {
-        ToastUtils.toast(this, message);
-    }
-
-    protected void toast(@StringRes int messageRes) {
-        ToastUtils.toast(this, messageRes);
-    }
-
-    protected void toast(Throwable throwable) {
-        ToastUtils.toast(this, throwable);
-    }
-
     protected <T extends Fragment> T findFragment(Class<T> tClass) {
         Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         T t = null;
@@ -68,13 +56,10 @@ public class FkActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragment).commit();
     }
 
-    protected void addDispose(@NonNull Disposable disposable) {
-        NetworkManager.getInstance().addDispose(this, disposable);
-    }
+
 
     @Override
     protected void onDestroy() {
-        NetworkManager.getInstance().dispose(this);
         super.onDestroy();
     }
 }
