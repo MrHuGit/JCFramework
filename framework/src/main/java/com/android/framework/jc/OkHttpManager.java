@@ -36,13 +36,15 @@ public class OkHttpManager {
         final long connectTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(CONNECT_TIMEOUT_KEY));
         final long readTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(READ_TIMEOUT_KEY));
         final long writeTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(WRITE_TIMEOUT_KEY));
-        mDefaultOkHttpClient = new OkHttpClient.Builder()
+        OkHttpClient.Builder build = new OkHttpClient.Builder()
                 .connectTimeout(connectTimeout <= 0 ? 10000 : connectTimeout, TimeUnit.MILLISECONDS)
                 .readTimeout(readTimeout <= 0 ? 10000 : readTimeout, TimeUnit.MILLISECONDS)
                 .writeTimeout(writeTimeout <= 0 ? 10000 : writeTimeout, TimeUnit.MILLISECONDS)
-                .addInterceptor(new LogInterceptor())
-                .cookieJar(mCookieJar)
-                .build();
+                .cookieJar(mCookieJar);
+        if ("true".equalsIgnoreCase(ConfigManager.getInstance().getValue("logDebug"))) {
+            build = build.addInterceptor(new LogInterceptor());
+        }
+        mDefaultOkHttpClient = build.build();
     }
 
     private static class Holder {

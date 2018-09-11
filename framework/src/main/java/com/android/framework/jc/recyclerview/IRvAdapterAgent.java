@@ -12,9 +12,6 @@ import java.util.List;
  * @update
  */
 
-/**
- * @param <T>
- */
 public interface IRvAdapterAgent<T> {
     /**
      * Adapter item设置点击监听

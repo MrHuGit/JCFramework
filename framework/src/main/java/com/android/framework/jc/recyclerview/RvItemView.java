@@ -13,27 +13,10 @@ import java.util.List;
  */
 
 public abstract class RvItemView<T> {
-//    private final List<RvItemView<T>> mList;
 
     public RvItemView() {
-//        mList = new ArrayList<>();
     }
 
-//    public RvItemView<T> addChildView(RvItemView<T> childView) {
-//        mList.add(childView);
-//        return this;
-//    }
-
-//    public boolean checkHaveChild() {
-//        return !mList.isEmpty();
-//    }
-
-//    public List<RvItemView<T>> getList() {
-//        return mList;
-//    }
-
-//    public void onViewAttachedToWindow(RecyclerView.ViewHolder viewHolder) {
-//    }
 
     public abstract @LayoutRes
     int getLayoutId();
@@ -45,7 +28,7 @@ public abstract class RvItemView<T> {
     public abstract void convert(ViewHolder holder, T t, int position);
 
 
-    public  boolean checkViewType(T item, int postion){return true;};
+    public  boolean checkViewType(T item, int position){return true;};
 
     public abstract void notifyPayloads(ViewHolder holder,T item, int position, List<Object> payloads);
 }

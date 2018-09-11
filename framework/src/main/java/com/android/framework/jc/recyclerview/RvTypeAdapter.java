@@ -1,5 +1,6 @@
 package com.android.framework.jc.recyclerview;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,9 @@ public class RvTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> implement
         mList=list;
         mTool = new RvAdapterTool<>();
     }
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (inflater == null) {
             inflater = LayoutInflater.from(parent.getContext());
         }
@@ -50,7 +52,7 @@ public class RvTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> implement
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final T item = mList.get(position);
         mTool.convert(holder, item, position);
         if (mClickListener != null) {
@@ -63,8 +65,8 @@ public class RvTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> implement
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
-        if (payloads==null || payloads.isEmpty()){
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()){
             onBindViewHolder(holder, position);
         }else{
             final T item = mList.get(position);
