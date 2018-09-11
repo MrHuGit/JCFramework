@@ -2,8 +2,6 @@ package com.android.framework.jc;
 
 import android.annotation.SuppressLint;
 
-import com.android.framework.jc.network.cookie.FkCookieJarImpl;
-import com.android.framework.jc.network.cookie.MemoryCookieCache;
 import com.android.framework.jc.network.interceptor.LogInterceptor;
 import com.android.framework.jc.util.FormatUtils;
 
@@ -29,10 +27,10 @@ public class OkHttpManager {
     private final static String READ_TIMEOUT_KEY = "okHttpReadTimeout";
     private final static String WRITE_TIMEOUT_KEY = "okHttpWriteTimeout";
     private final OkHttpClient mDefaultOkHttpClient;
-    private final FkCookieJarImpl mCookieJar;
+//    private final FkCookieJarImpl mCookieJar;
 
     private OkHttpManager() {
-        mCookieJar = new FkCookieJarImpl(new MemoryCookieCache());
+//        mCookieJar = new FkCookieJarImpl(new MemoryCookieCache());
         final long connectTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(CONNECT_TIMEOUT_KEY));
         final long readTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(READ_TIMEOUT_KEY));
         final long writeTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(WRITE_TIMEOUT_KEY));
@@ -40,7 +38,7 @@ public class OkHttpManager {
                 .connectTimeout(connectTimeout <= 0 ? 10000 : connectTimeout, TimeUnit.MILLISECONDS)
                 .readTimeout(readTimeout <= 0 ? 10000 : readTimeout, TimeUnit.MILLISECONDS)
                 .writeTimeout(writeTimeout <= 0 ? 10000 : writeTimeout, TimeUnit.MILLISECONDS)
-                .cookieJar(mCookieJar);
+                ;
         if ("true".equalsIgnoreCase(ConfigManager.getInstance().getValue("logDebug"))) {
             build = build.addInterceptor(new LogInterceptor());
         }
@@ -102,6 +100,6 @@ public class OkHttpManager {
     }
 
     protected void clearCookie() {
-        mCookieJar.clear();
+//        mCookieJar.clear();
     }
 }
