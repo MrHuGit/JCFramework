@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.android.framework.jc.js.listener.IPageStartedListener;
 import com.android.framework.jc.js.listener.IProgressChangedListener;
 import com.android.framework.jc.js.listener.IReceivedTitleListener;
 
@@ -20,6 +21,7 @@ import com.android.framework.jc.js.listener.IReceivedTitleListener;
  */
 public class FkWebView extends WebView {
     private FkWebChromeClient mFkWebChromeClient;
+    private FkWebViewClient mFkWebViewClient;
 
     public FkWebView(Context context) {
         super(context);
@@ -48,6 +50,9 @@ public class FkWebView extends WebView {
 
     @Override
     public void setWebViewClient(WebViewClient client) {
+        if (client instanceof FkWebViewClient) {
+            mFkWebViewClient = (FkWebViewClient) client;
+        }
         super.setWebViewClient(client);
     }
 
@@ -69,4 +74,9 @@ public class FkWebView extends WebView {
         }
     }
 
+    public void setOnPageStartedListener(IPageStartedListener listener) {
+        if (mFkWebViewClient != null) {
+            this.mFkWebViewClient.setOnPageStartedListener(listener);
+        }
+    }
 }

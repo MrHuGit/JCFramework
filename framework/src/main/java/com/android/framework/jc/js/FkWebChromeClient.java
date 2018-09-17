@@ -17,10 +17,8 @@ import org.json.JSONObject;
  * @update
  */
 public class FkWebChromeClient extends WebChromeClient {
-
     private IReceivedTitleListener mReceivedTitleListener;
     private IProgressChangedListener mProgressChangedListener;
-
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
         return super.onJsPrompt(view, url, message, defaultValue, result);
@@ -56,11 +54,11 @@ public class FkWebChromeClient extends WebChromeClient {
         }
     }
 
-    public void setReceivedTitleListener(IReceivedTitleListener listener) {
+    protected void setReceivedTitleListener(IReceivedTitleListener listener) {
         this.mReceivedTitleListener = listener;
     }
 
-    public void setProgressChangedListener(IProgressChangedListener listener) {
+    protected void setProgressChangedListener(IProgressChangedListener listener) {
         this.mProgressChangedListener = listener;
     }
 }
