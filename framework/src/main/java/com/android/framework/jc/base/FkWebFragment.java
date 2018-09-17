@@ -50,7 +50,7 @@ public abstract class FkWebFragment extends FkFragment implements IModule {
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        mFkWebView.setWebViewClient(new FkWebViewClient());
+        mFkWebView.setWebViewClient(new FkWebViewClient(mFkWebView));
         mFkWebView.setWebChromeClient(new FkWebChromeClient());
         mFkWebView.addJavascriptInterface(new FkJsInterface(mFkWebView),"exx");
         ModuleManager.getInstance().register(setWebViewName(),mFkWebView);
