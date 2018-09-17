@@ -3,7 +3,7 @@ package com.android.framework.jc.exception;
 /**
  * @author Mr.Hu(Jc)
  * @create 2018/3/16 15:09
- * @describe
+ * @describe 重复初始化异常
  * @update
  */
 

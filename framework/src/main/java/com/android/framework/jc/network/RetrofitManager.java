@@ -1,6 +1,4 @@
-package com.android.framework.jc;
-
-import com.android.framework.jc.network.FkJsonConverterFactory;
+package com.android.framework.jc.network;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -17,7 +15,7 @@ public class RetrofitManager {
         private final static RetrofitManager INSTANCE = new RetrofitManager();
     }
 
-    protected static RetrofitManager getInstance() {
+    public static RetrofitManager getInstance() {
         return Holder.INSTANCE;
     }
 
@@ -28,7 +26,7 @@ public class RetrofitManager {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
     }
 
-    protected Retrofit.Builder getRetrofitBuilder(){
+    public Retrofit.Builder getRetrofitBuilder(){
         return mDefaultRetrofitBuilder;
     }
 

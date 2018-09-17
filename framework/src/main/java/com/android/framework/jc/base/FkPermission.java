@@ -1,4 +1,4 @@
-package com.android.framework.jc;
+package com.android.framework.jc.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -53,7 +53,8 @@ public class FkPermission {
         /**
          * 添加监听
          *
-         * @param listener 回调监听
+         * @param listener
+         *         回调监听
          *
          * @return
          */
@@ -200,10 +201,25 @@ public class FkPermission {
      */
     public interface IPermissionListener {
 
+        /**
+         * 全部授权
+         */
         void onGrant();
 
+        /**
+         * 部分授权回调
+         *
+         * @param permissions
+         *         拒绝授权的列表
+         */
         void onRationale(String[] permissions);
 
+        /**
+         * 拒绝授权回调
+         *
+         * @param permissions
+         *         拒绝授权的列表
+         */
         void onDenied(String[] permissions);
     }
 }

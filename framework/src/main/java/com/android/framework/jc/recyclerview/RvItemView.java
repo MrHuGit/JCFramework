@@ -14,8 +14,6 @@ import java.util.List;
 
 public abstract class RvItemView<T> {
 
-    public RvItemView() {
-    }
 
 
     public abstract @LayoutRes
@@ -28,7 +26,12 @@ public abstract class RvItemView<T> {
     public abstract void convert(ViewHolder holder, T t, int position);
 
 
-    public  boolean checkViewType(T item, int position){return true;};
+    public boolean checkViewType(T item, int position) {
+        return true;
+    }
 
-    public abstract void notifyPayloads(ViewHolder holder,T item, int position, List<Object> payloads);
+
+    public void notifyPayloads(ViewHolder holder, T item, int position, List<Object> payloads) {
+    }
+
 }

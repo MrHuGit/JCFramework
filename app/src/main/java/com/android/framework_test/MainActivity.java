@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.android.framework.jc.AppStateManager;
 import com.android.framework.jc.NetworkManager;
+import com.android.framework.jc.base.AppStateManager;
 import com.android.framework.jc.recyclerview.IRvAdapterAgent;
 import com.android.framework.jc.recyclerview.NormalRvAdapter;
 import com.android.framework.jc.recyclerview.ViewHolder;
@@ -16,6 +16,9 @@ import com.android.framework.jc.util.LogUtils;
 import com.android.framework.jc.util.ScreenUtils;
 import com.android.framework_test.data.TestService;
 import com.android.framework_test.kline.KlineMainActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, KlineMainActivity.class));
             }
         });
+        JSONObject requestJson=new JSONObject();
+        try {
+            requestJson.put("key","userId");
+            requestJson.put("value","1915");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         NetworkManager.getInstance().addDispose(this, disposable);
     }
 

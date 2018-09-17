@@ -7,7 +7,7 @@ import com.android.framework.jc.JcFramework;
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/7/16 18:29
- * @describe 网络错误提示
+ * @describe 网络错误异常
  * @update
  */
 public class NetworkErrorException extends Throwable {

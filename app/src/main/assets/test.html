@@ -1,0 +1,50 @@
+<!--<html>-->
+
+<!--<head>-->
+<!--<title>我的第一个 HTML 页面</title>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<p>body 元素的内容会显示在浏览器中。</p>-->
+<!--<p>title 元素的内容会显示在浏览器的标题栏中。</p>-->
+<!--</body>-->
+
+<!--</html>-->
+<html>
+<body>
+
+<script type="text/javascript">
+ function sendMessage(){
+
+        // 调用APP原生方法
+            var s=exx.sendMessage("{'msgId':1001,'targetModuleName':'','comeFromModuleName':'','params':{'key':'key1','value':'value1'}}");
+            document.getElementById('span').innerHTML= s;
+         }
+
+
+         function onAppMessage(s){
+          document.getElementById('text').innerHTML=JSON.stringify(s);
+         }
+
+function checkApp(){
+ var u = navigator.userAgent;
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+if(isAndroid){alert('当前运行的平台是Android手机')}else if(isIOS){alert('当前运行的平台是IOS手机')}
+}
+</script>
+<div onclick="checkApp()">
+    检测手机平台
+</div>
+<div onclick="sendMessage()">
+    测试发送消息给Android
+</div>
+<div>原生回调消息内容：</div>
+<span id="span"></span>
+
+
+
+<div>原生发送过来的消息内容：</div>
+<span id="text"></span>
+</body>
+</html>

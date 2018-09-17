@@ -3,7 +3,10 @@ package com.android.framework.jc;
 import android.Manifest;
 import android.app.Activity;
 
+import com.android.framework.jc.base.FkPermission;
 import com.android.framework.jc.exception.NetworkErrorException;
+import com.android.framework.jc.network.OkHttpManager;
+import com.android.framework.jc.network.RetrofitManager;
 import com.android.framework.jc.network.interceptor.ProgressInterceptor;
 import com.android.framework.jc.util.FileUtils;
 
@@ -18,7 +21,7 @@ import retrofit2.http.Url;
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/7/18 15:24
- * @describe
+ * @describe 文件下载管理类
  * @update
  */
 public class FileDownloadManager {
@@ -33,6 +36,7 @@ public class FileDownloadManager {
     private static class Holder {
         private static FileDownloadManager INSTANCE = new FileDownloadManager();
     }
+
     /**
      * 下载文件
      *
@@ -65,6 +69,7 @@ public class FileDownloadManager {
                 }).request();
 
     }
+
     private Disposable download(String url, String savePath, Listener listener) {
         return RetrofitManager.getInstance().getRetrofitBuilder()
                 .client(OkHttpManager.getInstance()
@@ -97,6 +102,7 @@ public class FileDownloadManager {
                 });
 
     }
+
     private interface Service {
         /**
          * 下载文件

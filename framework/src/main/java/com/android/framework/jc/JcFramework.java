@@ -6,11 +6,14 @@ import android.app.Application;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
-import android.support.annotation.NonNull;
 
+import com.android.framework.jc.data.bean.FrameworkConfig;
 import com.android.framework.jc.exception.RepeatInitializeException;
+import com.android.framework.jc.module.IModule;
 import com.android.framework.jc.util.AppUtils;
+import com.android.framework.jc.util.LogUtils;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +23,7 @@ import retrofit2.Retrofit;
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/7/16 15:53
- * @describe
+ * @describe 简单功能的封装
  * @update
  */
 public class JcFramework {
@@ -30,6 +33,7 @@ public class JcFramework {
 
     private final Handler mHandler;
 
+    private final static Class TAG=JcFramework.class;
     private JcFramework() {
         mActivityList = new LinkedList<>();
         mHandler = new Handler();
@@ -44,7 +48,15 @@ public class JcFramework {
         return Holder.INSTANCE;
     }
 
-    private void initialize(Application application) {
+    /**
+     * 初始化
+     *
+     * @param application
+     *         application
+     * @param frameworkConfigCreate
+     *         配置文件创建接口
+     */
+    private void initialize(Application application, FrameworkConfigCreate frameworkConfigCreate) {
         if (!AppUtils.checkMainProcess(application)) {
             return;
         }
@@ -53,6 +65,12 @@ public class JcFramework {
         }
         this.mApplication = application;
         ConfigManager.getInstance().parseXml(application);
+
+        if (frameworkConfigCreate != null) {
+            setFrameworkConfig(frameworkConfigCreate.createFrameworkCreate());
+        }
+        //内存保存一个平台标识，以备以后H5使用
+        FkCacheManager.getInstance().saveToMemory("appPlatform", "2");
         this.mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -135,30 +153,61 @@ public class JcFramework {
      * @return
      */
     public static JcFramework init(Application application) {
+        return init(application, null);
+    }
+
+    /**
+     * 初始化
+     *
+     * @param application
+     *         application
+     *
+     * @return
+     */
+    public static JcFramework init(Application application, FrameworkConfigCreate frameworkConfigCreate) {
         JcFramework framework = getInstance();
-        framework.initialize(application);
+        framework.initialize(application, frameworkConfigCreate);
         return framework;
     }
 
     /**
-     * 设置自定义okHttpClient
+     * 设置用户配置
      *
-     * @param okHttpClient
-     *         自定义
+     * @param frameworkConfig
+     *         配置
      */
-    public JcFramework setCustomOkHttpClient(@NonNull OkHttpClient okHttpClient) {
-        NetworkManager.getInstance().initCustomOkHttp(okHttpClient);
-        return this;
+    private void setFrameworkConfig(FrameworkConfig frameworkConfig) {
+        if (frameworkConfig != null) {
+            OkHttpClient okHttpClient = frameworkConfig.getCustomOkHttpClient();
+            if (okHttpClient != null) {
+                NetworkManager.getInstance().initCustomOkHttp(okHttpClient);
+            }
+            Retrofit retrofit = frameworkConfig.getCustomRetrofit();
+            if (retrofit != null) {
+                NetworkManager.getInstance().initCustomRetrofit(retrofit);
+            }
+            FkUrlManager.IAdapter adapter = frameworkConfig.getUrlAdapter();
+            if (adapter != null) {
+                FkUrlManager.getInstance().setAdapter(adapter);
+            }
+
+            HashMap<Integer, Class<? extends IModule>> normalMsgMap = frameworkConfig.getNormalMsgMap();
+            if (normalMsgMap != null) {
+                ModuleManager.getInstance().addNormalMessage(normalMsgMap);
+            }
+
+            LogUtils.i(TAG,"setFrameworkConfig:FrameworkConfig,"+frameworkConfig);
+
+        }
     }
 
-    /**
-     * 设置自定义retrofit
-     *
-     * @param retrofit
-     *         自定义
-     */
-    public JcFramework setCustomRetrofit(@NonNull Retrofit retrofit) {
-        NetworkManager.getInstance().initCustomRetrofit(retrofit);
-        return this;
+    public interface FrameworkConfigCreate {
+        /**
+         * 创建框架配置
+         *
+         * @return 配置
+         */
+        FrameworkConfig createFrameworkCreate();
     }
+
 }

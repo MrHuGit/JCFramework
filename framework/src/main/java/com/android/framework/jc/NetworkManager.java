@@ -2,6 +2,9 @@ package com.android.framework.jc;
 
 import android.support.annotation.NonNull;
 
+import com.android.framework.jc.network.OkHttpManager;
+import com.android.framework.jc.network.RetrofitManager;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -29,7 +32,7 @@ public class NetworkManager {
     private NetworkManager() {
         mRetrofitMaps = new LinkedHashMap<>();
         mDisposableMap = new HashMap<>();
-        mDefaultRetrofitBuild=RetrofitManager.getInstance().getRetrofitBuilder();
+        mDefaultRetrofitBuild= RetrofitManager.getInstance().getRetrofitBuilder();
 
     }
 

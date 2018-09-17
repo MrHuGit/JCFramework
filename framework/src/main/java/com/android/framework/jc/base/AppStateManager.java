@@ -1,4 +1,4 @@
-package com.android.framework.jc;
+package com.android.framework.jc.base;
 
 import android.app.Activity;
 import android.content.Intent;

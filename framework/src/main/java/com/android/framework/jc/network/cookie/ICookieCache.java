@@ -15,14 +15,14 @@ public interface ICookieCache extends Iterable<Cookie> {
     /**
      * 保存cookie
      *
-     * @param cookies
+     * @param cookies cookies
      */
     void saveAll(Collection<Cookie> cookies);
 
     /**
      * 移除cookie
      *
-     * @param cookies
+     * @param cookies cookies
      */
     void removeAll(Collection<Cookie> cookies);
 

@@ -3,12 +3,21 @@ package com.android.framework.jc.configuration;
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/7/17 16:33
- * @describe
+ * @describe 配置文件实体类
  * @update
  */
 public class ConfigBean {
+    /**
+     * key
+     */
     private String key;
+    /**
+     * value
+     */
     private String value;
+    /**
+     * 描述
+     */
     private String description;
 
     public String getKey() {

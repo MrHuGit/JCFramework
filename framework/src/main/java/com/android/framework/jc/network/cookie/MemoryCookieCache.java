@@ -13,7 +13,7 @@ import okhttp3.Cookie;
 /**
  * @author Mr.Hu(Jc)
  * @create 2018/3/11 21:29
- * @describe
+ * @describe 内存缓存cookie
  * @update
  */
 
@@ -29,7 +29,8 @@ public class MemoryCookieCache implements ICookieCache {
 
     @Override
     public void removeAll(Collection<Cookie> cookies) {
-        this.mCookieSets.removeAll(cookies);
+        List<FkCookie> cookieList = FkCookie.decorateAll(cookies);
+        this.mCookieSets.removeAll(cookieList);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class MemoryCookieCache implements ICookieCache {
         return new SetCookieCacheIterator(mCookieSets.iterator());
     }
 
-   private final class SetCookieCacheIterator implements Iterator<Cookie> {
+    private final class SetCookieCacheIterator implements Iterator<Cookie> {
         private final Iterator<FkCookie> mCookies;
 
         public SetCookieCacheIterator(Iterator<FkCookie> cookies) {

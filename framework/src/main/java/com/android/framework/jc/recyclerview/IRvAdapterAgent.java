@@ -37,7 +37,7 @@ public interface IRvAdapterAgent<T> {
     /**
      * 添加数据
      *
-     * @param list
+     * @param list 数据集合
      *
      * @return 当前代理
      */
@@ -46,7 +46,7 @@ public interface IRvAdapterAgent<T> {
     /**
      * 获取数据集合
      *
-     * @return
+     * @return 数据集合
      */
     List<T> getList();
 

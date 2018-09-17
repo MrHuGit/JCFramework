@@ -1,23 +1,20 @@
-package com.android.framework.jc;
+package com.android.framework.jc.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.android.framework.jc.util.ToastUtils;
 import com.android.framework.jc.wrapper.IViewWrapper;
 
 import java.util.ArrayList;
-
-import io.reactivex.disposables.Disposable;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -136,6 +133,18 @@ public abstract class FkFragment extends Fragment {
 
     }
 
+    protected void onFinish() {
+        if (mContext instanceof Activity) {
+            ((Activity) mContext).finish();
+        }
+    }
+
+    protected void onResultOkFinish() {
+        if (mContext instanceof Activity) {
+            ((Activity) mContext).setResult(Activity.RESULT_OK);
+            ((Activity) mContext).finish();
+        }
+    }
     /**
      * 上层添加布局View
      *

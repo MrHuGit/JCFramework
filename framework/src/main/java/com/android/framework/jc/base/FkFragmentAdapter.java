@@ -1,4 +1,4 @@
-package com.android.framework.jc;
+package com.android.framework.jc.base;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

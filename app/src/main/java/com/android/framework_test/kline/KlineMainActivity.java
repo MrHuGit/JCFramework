@@ -3,7 +3,7 @@ package com.android.framework_test.kline;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.android.framework.jc.FkActivity;
+import com.android.framework.jc.base.FkActivity;
 import com.android.framework_test.R;
 
 /**
