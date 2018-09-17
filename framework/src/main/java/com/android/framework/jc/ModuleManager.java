@@ -147,22 +147,31 @@ public class ModuleManager {
     private void sendAppMessage(@NonNull MessageBody messageBody) {
         String targetModule = messageBody.getTargetModuleName();
         IMessageCallback callback=messageBody.getCallback();
-        if (targetModule == null) {
+        boolean result=false;
+        if (MessageBody.DEFAULT_TARGET_MODULE.equals(targetModule)) {
+
             for (IModule module : mModuleMaps.values()) {
                 module.onMessageReceive(messageBody);
-                IMessageCallback.resultSuccess(callback);
+                result=true;
+
             }
         } else {
             if (mModuleMaps.containsKey(targetModule)) {
                 IModule module = mModuleMaps.get(targetModule);
                 if (module != null) {
                     module.onMessageReceive(messageBody);
-                    IMessageCallback.resultSuccess(callback);
+                    result=true;
                 } else {
                     mModuleMaps.remove(targetModule);
-                    IMessageCallback.resultFail(callback,"指定的targetModuleName不存在，请检查模块targetModuleName");
+
                 }
             }
+
+        }
+        if (result){
+            IMessageCallback.resultSuccess(callback);
+        }else{
+            IMessageCallback.resultFail(callback,"指定的targetModuleName不存在，请检查模块targetModuleName");
         }
 
     }
