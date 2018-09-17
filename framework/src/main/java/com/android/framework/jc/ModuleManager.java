@@ -39,10 +39,10 @@ public class ModuleManager {
         mModuleMaps = new HashMap<>();
         mWebViewMap = new HashMap<>();
         mPlugMaps = new HashMap<>();
-        mPlugMaps.put(1000, Plug10001.class);
-        mPlugMaps.put(1001, Plug10000.class);
-        mPlugMaps.put(1002, Plug10003.class);
-        mPlugMaps.put(1003, Plug10002.class);
+        mPlugMaps.put(10000, Plug10000.class);
+        mPlugMaps.put(10001, Plug10001.class);
+        mPlugMaps.put(10002, Plug10002.class);
+        mPlugMaps.put(10003, Plug10003.class);
     }
 
     private static class Holder {
