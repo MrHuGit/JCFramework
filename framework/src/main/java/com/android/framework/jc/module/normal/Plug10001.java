@@ -21,7 +21,7 @@ public class Plug10001 implements IModule {
         String key = jsonObject.optString("key");
         JSONObject result=new JSONObject();
         try {
-            result.put("key",FkCacheManager.getInstance().getFromMemory(key));
+            result.put("value",FkCacheManager.getInstance().getFromMemory(key));
         } catch (JSONException e) {
             e.printStackTrace();
         }

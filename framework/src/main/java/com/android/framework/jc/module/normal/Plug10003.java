@@ -22,7 +22,7 @@ public class Plug10003 implements IModule {
         String key = jsonObject.optString("key");
         JSONObject result=new JSONObject();
         try {
-            result.put("key",FkCacheManager.getInstance().getFromDatabase(key));
+            result.put("value",FkCacheManager.getInstance().getFromDatabase(key));
         } catch (JSONException e) {
             e.printStackTrace();
         }
