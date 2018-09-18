@@ -10,6 +10,7 @@ import com.android.framework.jc.module.IMessageCallback;
 import com.android.framework.jc.module.MessageType;
 import com.android.framework.jc.module.body.MessageBody;
 import com.android.framework.jc.util.LogUtils;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,6 +77,7 @@ public class FkJsInterface {
             try {
                 resultJson.put("isSuccess", result.isSuccess() ? "1" : "0");
                 resultJson.put("resultMessage", result.getResultMessage());
+
                 resultJson.put("content", result.getContentJson());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -86,7 +88,7 @@ public class FkJsInterface {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String message = messageJson.toString();
+        String message =new Gson().toJson(messageJson);
         JcFramework.runOnMainThread(() -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 fkWebView.evaluateJavascript("javascript:onAppMessage(" + message + ")", value -> {

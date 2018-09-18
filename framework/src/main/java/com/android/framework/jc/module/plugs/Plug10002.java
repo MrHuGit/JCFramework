@@ -1,11 +1,10 @@
-package com.android.framework.jc.module.normal;
+package com.android.framework.jc.module.plugs;
 
 import com.android.framework.jc.FkCacheManager;
 import com.android.framework.jc.module.IMessageCallback;
 import com.android.framework.jc.module.IModule;
 import com.android.framework.jc.module.body.MessageBody;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**

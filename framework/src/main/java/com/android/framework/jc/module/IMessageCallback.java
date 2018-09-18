@@ -2,6 +2,7 @@ package com.android.framework.jc.module;
 
 import android.text.TextUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -49,6 +50,14 @@ public interface IMessageCallback {
             Result result=new Result();
             result.setSuccess(true);
             result.setResultMessage("调用成功");
+            if (contentJson==null){
+                contentJson=new JSONObject();
+                try {
+                    contentJson.put("value","");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             result.setContentJson(contentJson);
             callback.onCallback(result);
         }
@@ -65,7 +74,13 @@ public interface IMessageCallback {
             }else{
                 result.setResultMessage(failMessage);
             }
-
+            JSONObject contentJson=new JSONObject();
+            try {
+                contentJson.put("value","");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            result.setContentJson(contentJson);
             callback.onCallback(result);
         }
     }

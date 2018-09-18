@@ -10,10 +10,10 @@ import com.android.framework.jc.module.IMessageCallback;
 import com.android.framework.jc.module.IModule;
 import com.android.framework.jc.module.MessageType;
 import com.android.framework.jc.module.body.MessageBody;
-import com.android.framework.jc.module.normal.Plug10000;
-import com.android.framework.jc.module.normal.Plug10001;
-import com.android.framework.jc.module.normal.Plug10002;
-import com.android.framework.jc.module.normal.Plug10003;
+import com.android.framework.jc.module.plugs.Plug10000;
+import com.android.framework.jc.module.plugs.Plug10001;
+import com.android.framework.jc.module.plugs.Plug10002;
+import com.android.framework.jc.module.plugs.Plug10003;
 import com.android.framework.jc.util.LogUtils;
 
 import org.json.JSONException;
