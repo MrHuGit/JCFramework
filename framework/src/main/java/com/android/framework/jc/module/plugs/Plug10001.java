@@ -1,5 +1,7 @@
 package com.android.framework.jc.module.plugs;
 
+import android.text.TextUtils;
+
 import com.android.framework.jc.FkCacheManager;
 import com.android.framework.jc.module.IMessageCallback;
 import com.android.framework.jc.module.IModule;
@@ -21,15 +23,22 @@ public class Plug10001 implements IModule {
         String key = jsonObject.optString("key");
         JSONObject result=new JSONObject();
         String value=FkCacheManager.getInstance().getFromMemory(key);
-        try {
-
-            JSONObject valueJson=new JSONObject(value);
-            result.put("value",valueJson);
-        } catch (JSONException e) {
+        if (TextUtils.isEmpty(value)){
             try {
-                result.put("value",value);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
+                result.put("value","");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else{
+            try {
+                JSONObject valueJson=new JSONObject(value);
+                result.put("value",valueJson);
+            } catch (JSONException e) {
+                try {
+                    result.put("value",value);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
         IMessageCallback.resultSuccess(message.getCallback(),result);

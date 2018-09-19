@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.android.framework.jc.base.mvp.IFkContract;
 import com.android.framework.jc.wrapper.IViewWrapper;
 
 import java.util.ArrayList;
@@ -22,11 +23,12 @@ import java.util.ArrayList;
  * @describe
  * @update
  */
-public abstract class FkFragment extends Fragment {
+public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragment implements IFkContract.IView<P> {
     protected Context mContext;
     private final ArrayList<IViewWrapper> headWrappers = new ArrayList<>();
-    private final  ArrayList<IViewWrapper> footWrappers = new ArrayList<>();
-
+    private final ArrayList<IViewWrapper> footWrappers = new ArrayList<>();
+    protected P mPresenter;
+    private String mFragmentTag;
 
     @CallSuper
     @Override
@@ -86,8 +88,6 @@ public abstract class FkFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -145,6 +145,7 @@ public abstract class FkFragment extends Fragment {
             ((Activity) mContext).finish();
         }
     }
+
     /**
      * 上层添加布局View
      *
@@ -157,4 +158,25 @@ public abstract class FkFragment extends Fragment {
     protected abstract View onCreateRootView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
 
+    @Override
+    public void setPresenter(P presenter) {
+        mPresenter=presenter;
+        mPresenter.onAttachView(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mPresenter!=null){
+            mPresenter.onDetachView();
+        }
+    }
+
+    protected void setFragmentTag(String tag){
+        this.mFragmentTag=tag;
+    }
+
+    protected String getFragmentTag(){
+        return mFragmentTag;
+    }
 }

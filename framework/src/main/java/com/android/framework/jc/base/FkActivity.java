@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
 import com.android.framework.jc.R;
+import com.android.framework.jc.base.mvp.IFkContract;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -28,31 +30,35 @@ public class FkActivity extends AppCompatActivity {
         AppStateManager.getInstance().checkAppState(this);
     }
 
-    protected <T extends Fragment> T findFragment(Class<T> tClass) {
+    protected <T extends FkFragment<? extends IFkContract.IPresenter>> T findFragment(Class<T> tClass) {
         Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         T t = null;
         if (oldFragment != null) {
-            if (oldFragment.getClass().getName().equals(tClass.getName())) {
-                try {
-                    t = (T) oldFragment;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                getSupportFragmentManager().beginTransaction().remove(oldFragment).commit();
+            try {
+                t = (T) oldFragment;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-
         }
         return t;
     }
 
-    protected void addFragment(Fragment fragment) {
+    protected void putFragment(FkFragment<? extends IFkContract.IPresenter> fragment) {
+        if (fragment == null) {
+            return;
+        }
         setContentView(R.layout.activity_fk_framework);
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout, fragment).commit();
+        String tag = fragment.getFragmentTag();
+        if (TextUtils.isEmpty(tag)) {
+            tag = fragment.getClass().getCanonicalName();
+            fragment.setFragmentTag(tag);
+        }
+        commitFragment(fragment,tag);
     }
 
-
+    private void commitFragment(Fragment fragment, String tag) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment, tag).commit();
+    }
 
     @Override
     protected void onDestroy() {
