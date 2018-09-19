@@ -11,13 +11,25 @@ import retrofit2.Retrofit;
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/9/12 20:25
- * @describe
+ * @describe 框架的配置
  * @update
  */
 public class FrameworkConfig {
+    /**
+     * 自定义OkHttpClient
+     */
     private OkHttpClient customOkHttpClient;
+    /**
+     * 自定义Retrofit
+     */
     private Retrofit customRetrofit;
+    /**
+     * 地址适配器
+     */
     private FkUrlManager.IAdapter urlAdapter;
+    /**
+     * 通用组件（插件）
+     */
     private HashMap<Integer, Class<? extends IModule>> normalMsgMap;
 
     public OkHttpClient getCustomOkHttpClient() {

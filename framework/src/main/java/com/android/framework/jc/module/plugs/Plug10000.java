@@ -14,9 +14,6 @@ import org.json.JSONObject;
  * @update
  */
 public class Plug10000 implements IModule {
-
-
-
     @Override
     public void onMessageReceive(MessageBody message) {
         JSONObject jsonObject = message.getMessageJson();

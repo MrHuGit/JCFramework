@@ -50,7 +50,9 @@ dependencies {
     implementation deps.glide
     implementation deps.support.recyclerview
     implementation deps.support.appcompat
-
+    //下拉刷新
+    implementation deps.refresh.smartrefresh_layout
+    implementation deps.refresh.smartrefresh_header
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

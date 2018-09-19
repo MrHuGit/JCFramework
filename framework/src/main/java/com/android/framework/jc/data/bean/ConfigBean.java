@@ -1,4 +1,4 @@
-package com.android.framework.jc.configuration;
+package com.android.framework.jc.data.bean;
 
 /**
  * @author Mr.Hu(Jc) JCFramework

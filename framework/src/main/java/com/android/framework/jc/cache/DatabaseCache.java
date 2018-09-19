@@ -6,8 +6,8 @@ package com.android.framework.jc.cache;
  * @describe 数据库缓存
  * @update
  */
-public class DatabaseCache implements IFkCache{
-//todo 数据库部分待完善
+public class DatabaseCache implements IFkCache {
+    //todo 数据库部分待完善
     @Override
     public void clear() {
 

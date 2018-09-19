@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.text.TextUtils;
 
-import com.android.framework.jc.configuration.ConfigBean;
+import com.android.framework.jc.data.bean.ConfigBean;
 import com.android.framework.jc.exception.NoConfigException;
 
 import org.xmlpull.v1.XmlPullParser;
