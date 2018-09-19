@@ -27,7 +27,7 @@ public class LogInterceptor implements Interceptor {
         long t1 = System.nanoTime();
         // 执行本次网络请求操作，返回response信息 耗时
         Response response = chain.proceed(request);
-        LogUtils.d(LogInterceptor.class,"Request{ \n"+request.toString()+"\n"+request.headers().toString()+"\n }");
+        LogUtils.i(LogInterceptor.class,"Request{ \n"+request.toString()+"\n"+request.headers().toString()+"\n }");
         long t2 = System.nanoTime();
         LogUtils.d(LogInterceptor.class,String.format(Locale.getDefault(), "Received {%n%s Time consuming %.1fms%n%s%n}",
                 response.request().url(), (t2 - t1) / 1e6d, response.headers()));
