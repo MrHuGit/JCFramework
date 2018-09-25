@@ -24,24 +24,12 @@ public class JsTestActivity extends FkActivity {
         TestFragment fragment = findFragment(TestFragment.class);
         if (fragment == null) {
             fragment = new TestFragment();
-            addFragment(fragment);
+            putFragment(fragment);
+
+
         }
 
     }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        JSONObject jsonObject=new JSONObject();
-//        try {
-//            jsonObject.put("test","content");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        MessageBody messageBody=new MessageBody(10005,jsonObject);
-//
-//
-//        return true;
-//    }
 
     public static class TestFragment extends FkWebFragment {
 
@@ -49,22 +37,6 @@ public class JsTestActivity extends FkActivity {
         @Override
         public void onAttach(Context context) {
             super.onAttach(context);
-//            addHeadWrapper(new IViewWrapper() {
-//                @Override
-//                public void onWrapperAttach(Context context) {
-//
-//                }
-//
-//                @Override
-//                public View onCreateWrapperView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//                    return null;
-//                }
-//
-//                @Override
-//                public void onWrapperDestroy() {
-//
-//                }
-//            });
         }
 
         @Override
