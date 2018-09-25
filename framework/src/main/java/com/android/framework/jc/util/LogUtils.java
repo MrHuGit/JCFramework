@@ -18,8 +18,8 @@ public final class LogUtils {
         throw new StopInstantiatedException();
     }
 
-    private static class Holder {
-        private final static boolean DEBUG = "true".equalsIgnoreCase(ConfigManager.getInstance().getValue("logDebug").trim());
+    public static class Holder {
+        public final static boolean DEBUG = "true".equalsIgnoreCase(ConfigManager.getInstance().getValue("logDebug").trim());
     }
 
     public static void v(String... s) {

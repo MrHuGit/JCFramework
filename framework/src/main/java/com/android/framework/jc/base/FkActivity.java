@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.android.framework.jc.R;
-import com.android.framework.jc.base.mvp.IFkContract;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -30,7 +29,7 @@ public class FkActivity extends AppCompatActivity {
         AppStateManager.getInstance().checkAppState(this);
     }
 
-    protected <T extends FkFragment<? extends IFkContract.IPresenter>> T findFragment(Class<T> tClass) {
+    protected <T extends FkFragment> T findFragment(Class<T> tClass) {
         Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout);
         T t = null;
         if (oldFragment != null) {
@@ -43,7 +42,7 @@ public class FkActivity extends AppCompatActivity {
         return t;
     }
 
-    protected void putFragment(FkFragment<? extends IFkContract.IPresenter> fragment) {
+    protected void putFragment(FkFragment fragment) {
         if (fragment == null) {
             return;
         }
