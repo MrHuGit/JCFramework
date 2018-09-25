@@ -24,7 +24,7 @@ public class JsTestActivity extends FkActivity {
         TestFragment fragment = findFragment(TestFragment.class);
         if (fragment == null) {
             fragment = new TestFragment();
-            addFragment(fragment);
+            putFragment(fragment);
         }
 
     }
