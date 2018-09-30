@@ -25,10 +25,7 @@ public class JsTestActivity extends FkActivity {
         if (fragment == null) {
             fragment = new TestFragment();
             putFragment(fragment);
-
-
         }
-
     }
 
     public static class TestFragment extends FkWebFragment {
