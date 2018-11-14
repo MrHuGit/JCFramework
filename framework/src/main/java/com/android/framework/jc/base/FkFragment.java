@@ -7,6 +7,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,11 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
     protected P mPresenter;
     private String mFragmentTag;
 
+    @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+    }
+
     @CallSuper
     @Override
     public void onAttach(Context context) {
@@ -48,18 +54,23 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = onCreateRootView(inflater, container, savedInstanceState);
-        LinearLayout result;
-        if (rootView instanceof LinearLayout && ((LinearLayout) rootView).getOrientation() == LinearLayout.VERTICAL) {
-            result = (LinearLayout) rootView;
-            addView(result, inflater, container, savedInstanceState);
-        } else {
-            result = new LinearLayout(mContext);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            result.setLayoutParams(params);
-            result.setOrientation(LinearLayout.VERTICAL);
-            addView(result, inflater, container, savedInstanceState);
+        if (headWrappers.size() > 0 || footWrappers.size() > 0) {
+            LinearLayout result;
+            if (rootView instanceof LinearLayout && ((LinearLayout) rootView).getOrientation() == LinearLayout.VERTICAL) {
+                result = (LinearLayout) rootView;
+                addView(result, inflater, container, savedInstanceState);
+            } else {
+                result = new LinearLayout(mContext);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                result.setLayoutParams(params);
+                result.setOrientation(LinearLayout.VERTICAL);
+                result.addView(rootView);
+                addView(result, inflater, container, savedInstanceState);
+            }
+            return result;
         }
-        return result;
+
+        return rootView;
     }
 
     /**
@@ -83,22 +94,9 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
      * @return
      */
     public FkFragment addFootWrapper(IViewWrapper wrapper) {
-        headWrappers.add(wrapper);
+        footWrappers.add(wrapper);
         return this;
     }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        for (IViewWrapper wrapper : headWrappers) {
-            wrapper.onWrapperDestroy();
-        }
-        for (IViewWrapper wrapper : footWrappers) {
-            wrapper.onWrapperDestroy();
-        }
-    }
-
 
     /**
      * 根据上层的view动态添加头部跟尾部装饰者View进去
@@ -110,7 +108,7 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
      */
     private void addView(LinearLayout rootView, LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         for (int i = 0; i < headWrappers.size(); i++) {
-            View headView = headWrappers.get(i).onCreateWrapperView(inflater, container, savedInstanceState);
+            View headView = headWrappers.get(i).onCreateWrapperView(inflater, null, savedInstanceState);
             if (headView == null) {
                 continue;
             }
@@ -121,7 +119,7 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
 
         }
         for (IViewWrapper wrapper : footWrappers) {
-            View footView = wrapper.onCreateWrapperView(inflater, container, savedInstanceState);
+            View footView = wrapper.onCreateWrapperView(inflater, null, savedInstanceState);
             if (footView == null) {
                 continue;
             }
@@ -160,23 +158,29 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
 
     @Override
     public void setPresenter(P presenter) {
-        mPresenter=presenter;
+        mPresenter = presenter;
         mPresenter.onAttachView(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             mPresenter.onDetachView();
+        }
+        for (IViewWrapper wrapper : headWrappers) {
+            wrapper.onWrapperDestroy();
+        }
+        for (IViewWrapper wrapper : footWrappers) {
+            wrapper.onWrapperDestroy();
         }
     }
 
-    protected void setFragmentTag(String tag){
-        this.mFragmentTag=tag;
+    protected void setFragmentTag(String tag) {
+        this.mFragmentTag = tag;
     }
 
-    protected String getFragmentTag(){
+    protected String getFragmentTag() {
         return mFragmentTag;
     }
 }

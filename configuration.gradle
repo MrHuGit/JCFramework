@@ -1,6 +1,6 @@
 def defaultConfigs = [:]
-defaultConfigs.compileSdkVersion = 27
-defaultConfigs.buildToolsVersion = "27.0.3"
+defaultConfigs.compileSdkVersion = 28
+defaultConfigs.buildToolsVersion = "28.0.3"
 defaultConfigs.minSdkVersion = 16
 defaultConfigs.targetSdkVersion = 26
 defaultConfigs.versionCode = 1
@@ -11,7 +11,7 @@ ext.defaultConfigs = defaultConfigs
 
 def versions = [:]
 versions.latest = "+"
-versions.support = "27.1.1"
+versions.support = "28.0.0"
 versions.rxjava2 = "2.1.6"
 versions.rxandroid2 = "2.0.1"
 versions.kotlin = "1.2.31"

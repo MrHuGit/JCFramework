@@ -3,7 +3,6 @@ package com.android.framework_test;
 import android.app.Application;
 
 import com.android.framework.jc.JcFramework;
-import com.android.framework.jc.base.AppStateManager;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -15,9 +14,6 @@ public class MineApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppStateManager.getInstance().setAppRunningState();
         JcFramework.init(this);
-
-
     }
 }

@@ -1,5 +1,6 @@
 package com.android.framework.jc.util;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
@@ -13,15 +14,16 @@ import com.android.framework.jc.JcFramework;
  * @update
  */
 public class ResourcesUtils {
-    public static DisplayMetrics getDisplayMetrics(){
+    public static DisplayMetrics getDisplayMetrics() {
         return getResource().getDisplayMetrics();
     }
 
-    public static Resources getResource(){
-        return JcFramework.getInstance().getApplication().getResources();
+    public static Resources getResource() {
+        Activity activity = JcFramework.getInstance().getTopActivity();
+        return activity == null ? JcFramework.getInstance().getApplication().getResources() : activity.getResources();
     }
 
-    public static String getString(@StringRes int stringRes){
+    public static String getString(@StringRes int stringRes) {
         return getResource().getString(stringRes);
     }
 }

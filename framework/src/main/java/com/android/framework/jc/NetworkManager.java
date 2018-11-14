@@ -118,7 +118,7 @@ public class NetworkManager {
     /**
      * 清除所有请求
      */
-    protected void clearDisposable() {
+     void clearDisposable() {
         for (CompositeDisposable compositeDisposable : mDisposableMap.values()) {
             compositeDisposable.clear();
         }

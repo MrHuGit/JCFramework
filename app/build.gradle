@@ -3,14 +3,15 @@ apply plugin: 'com.android.application'
 //apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion defaultConfigs.compileSdkVersion
+    buildToolsVersion defaultConfigs.buildToolsVersion
     defaultConfig {
-        applicationId "com.android.jcframework"
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion defaultConfigs.minSdkVersion
+        targetSdkVersion defaultConfigs.targetSdkVersion
+        versionCode defaultConfigs.versionCode
+        versionName defaultConfigs.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        flavorDimensions "versionCode"
     }
     buildTypes {
         release {
@@ -34,14 +35,11 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.support.appcompat
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+//    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     //    implementation 'com.github.MrHuGit:JCFramework:T0.0.1'
     implementation 'com.aliyun.dpa:oss-android-sdk:2.8.4'
     implementation 'com.squareup.okio:okio:1.14.0'
-    implementation 'com.neovisionaries:nv-websocket-client:2.2'
+    implementation 'com.neovisionaries:nv-websocket-client:2.5'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     implementation deps.okhttp3

@@ -6,7 +6,6 @@ import android.text.TextUtils;
 
 import com.android.framework.jc.JcFramework;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -49,11 +48,25 @@ public class SharedPreferencesUtils {
      * @return String
      */
     public static String getString(String key) {
-        String result = "";
+        return getString(key, "");
+    }
+
+    /**
+     * 通过key获取String
+     *
+     * @param key
+     *         key
+     * @param defValue
+     *         默认字符串
+     *
+     * @return String
+     */
+    public static String getString(String key, String defValue) {
+        String result = defValue;
         if (!TextUtils.isEmpty(key)) {
             SharedPreferences sp = Holder.SHARED_PREFERENCES;
             if (sp != null) {
-                result = sp.getString(key, "");
+                result = sp.getString(key, defValue);
             }
         }
         return result;
@@ -85,11 +98,25 @@ public class SharedPreferencesUtils {
      * @return int
      */
     public static int getInt(String key) {
-        int result = 0;
+        return getInt(key, 0);
+    }
+
+    /**
+     * 通过key获取int
+     *
+     * @param key
+     *         key
+     * @param defValue
+     *         默认值
+     *
+     * @return int
+     */
+    public static int getInt(String key, int defValue) {
+        int result = defValue;
         if (!TextUtils.isEmpty(key)) {
             SharedPreferences sp = Holder.SHARED_PREFERENCES;
             if (sp != null) {
-                result = sp.getInt(key, 0);
+                result = sp.getInt(key, defValue);
             }
         }
         return result;
@@ -121,11 +148,25 @@ public class SharedPreferencesUtils {
      * @return long
      */
     public static long getLong(String key) {
-        long result = 0L;
+        return getLong(key, 0L);
+    }
+
+    /**
+     * 通过key获取long
+     *
+     * @param key
+     *         key
+     * @param defValue
+     *         默认值
+     *
+     * @return long
+     */
+    public static long getLong(String key, long defValue) {
+        long result = defValue;
         if (!TextUtils.isEmpty(key)) {
             SharedPreferences sp = Holder.SHARED_PREFERENCES;
             if (sp != null) {
-                result = sp.getLong(key, 0L);
+                result = sp.getLong(key, defValue);
             }
         }
         return result;
@@ -157,11 +198,25 @@ public class SharedPreferencesUtils {
      * @return float
      */
     public static float getFloat(String key) {
-        float result = 0f;
+        return getFloat(key, 0F);
+    }
+
+    /**
+     * 通过key获取float
+     *
+     * @param key
+     *         key
+     * @param defValue
+     *         默认值
+     *
+     * @return float
+     */
+    public static float getFloat(String key, float defValue) {
+        float result = defValue;
         if (!TextUtils.isEmpty(key)) {
             SharedPreferences sp = Holder.SHARED_PREFERENCES;
             if (sp != null) {
-                result = sp.getFloat(key, 0f);
+                result = sp.getFloat(key, defValue);
             }
         }
         return result;
@@ -193,11 +248,25 @@ public class SharedPreferencesUtils {
      * @return boolean
      */
     public static boolean getBoolean(String key) {
-        boolean result = false;
+        return getBoolean(key, false);
+    }
+
+    /**
+     * 通过key获取boolean
+     *
+     * @param key
+     *         key
+     * @param defValue
+     *         默认值
+     *
+     * @return boolean
+     */
+    public static boolean getBoolean(String key, boolean defValue) {
+        boolean result = defValue;
         if (!TextUtils.isEmpty(key)) {
             SharedPreferences sp = Holder.SHARED_PREFERENCES;
             if (sp != null) {
-                result = sp.getBoolean(key, false);
+                result = sp.getBoolean(key, defValue);
             }
         }
         return result;
@@ -228,15 +297,27 @@ public class SharedPreferencesUtils {
      *
      * @return Set<String>
      */
-    public static Set<String> getStringSet(String key, Set<String> value) {
-        Set<String> result = null;
-        if (!TextUtils.isEmpty(key) && value != null) {
+    public static Set<String> getStringSet(String key) {
+        return getStringSet(key, null);
+    }
+
+    /**
+     * 通过key获取Set<String>
+     *
+     * @param key
+     *         key
+     *
+     * @return Set<String>
+     */
+    public static Set<String> getStringSet(String key, Set<String> defValues) {
+        Set<String> result = defValues;
+        if (!TextUtils.isEmpty(key)) {
             SharedPreferences sp = Holder.SHARED_PREFERENCES;
             if (sp != null) {
-                result = sp.getStringSet(key, new HashSet<>());
+                result = sp.getStringSet(key, defValues);
             }
         }
-        return result == null ? new HashSet<>() : result;
+        return result;
     }
 
     /**

@@ -30,7 +30,7 @@ public class NetworkUtils {
         ConnectivityManager conManager = Holder.CONNECTIVITY_MANAGER;
         if (conManager != null) {
             NetworkInfo network = conManager.getActiveNetworkInfo();
-            if (network!=null&&network.getState() == NetworkInfo.State.CONNECTED) {
+            if (network != null && network.getState() == NetworkInfo.State.CONNECTED) {
                 result = true;
             }
         }
@@ -42,7 +42,7 @@ public class NetworkUtils {
      */
     public static boolean checkWifi() {
         ConnectivityManager conManager = Holder.CONNECTIVITY_MANAGER;
-        return conManager != null &&conManager.getActiveNetworkInfo()!=null&& conManager.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+        return conManager != null && conManager.getActiveNetworkInfo() != null && conManager.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     /**
@@ -54,7 +54,7 @@ public class NetworkUtils {
         ConnectivityManager conManager = Holder.CONNECTIVITY_MANAGER;
         if (conManager != null) {
             NetworkInfo network = conManager.getActiveNetworkInfo();
-            if (network==null){
+            if (network == null) {
                 return "unknown";
             }
             if (ConnectivityManager.TYPE_WIFI == network.getType()) {

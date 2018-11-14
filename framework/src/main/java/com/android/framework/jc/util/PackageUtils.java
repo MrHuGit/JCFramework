@@ -14,12 +14,15 @@ import com.android.framework.jc.exception.StopInstantiatedException;
  */
 
 public final class PackageUtils {
-    private PackageUtils(){throw new StopInstantiatedException();}
-    public static PackageInfo getPackageInfo(Context context){
+    private PackageUtils() {
+        throw new StopInstantiatedException();
+    }
+
+    public static PackageInfo getPackageInfo(Context context) {
         PackageManager packageManager = context.getPackageManager();
-        PackageInfo packageInfo=null;
+        PackageInfo packageInfo = null;
         try {
-             packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

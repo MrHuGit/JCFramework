@@ -5,15 +5,18 @@ import android.app.Activity;
 
 import com.android.framework.jc.base.FkPermission;
 import com.android.framework.jc.exception.NetworkErrorException;
-import com.android.framework.jc.network.OkHttpManager;
 import com.android.framework.jc.network.RetrofitManager;
 import com.android.framework.jc.network.interceptor.ProgressInterceptor;
 import com.android.framework.jc.util.FileUtils;
+import com.android.framework.jc.util.FormatUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -24,11 +27,30 @@ import retrofit2.http.Url;
  * @describe 文件下载管理类
  * @update
  */
+@Deprecated
 public class FileDownloadManager {
+    private final static String CONNECT_TIMEOUT_KEY = "okHttpConnectTimeout";
+    private final static String READ_TIMEOUT_KEY = "okHttpReadTimeout";
+    private final static String WRITE_TIMEOUT_KEY = "okHttpWriteTimeout";
+    private final OkHttpClient.Builder mOkHttpBuild;
 
     private FileDownloadManager() {
+        final long connectTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(CONNECT_TIMEOUT_KEY));
+        final long readTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(READ_TIMEOUT_KEY));
+        final long writeTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(WRITE_TIMEOUT_KEY));
+        mOkHttpBuild = new OkHttpClient.Builder()
+                .connectTimeout(connectTimeout <= 0 ? 10000 : connectTimeout, TimeUnit.MILLISECONDS)
+                .readTimeout(readTimeout <= 0 ? 10000 : readTimeout, TimeUnit.MILLISECONDS)
+                .writeTimeout(writeTimeout <= 0 ? 10000 : writeTimeout, TimeUnit.MILLISECONDS);
+
     }
 
+    /**
+     * 此下载类即将弃用，请采用FkDownload
+     * {@link FkDownload}
+     *
+     * @return FileDownloadManager
+     */
     public static FileDownloadManager getInstance() {
         return Holder.INSTANCE;
     }
@@ -71,16 +93,14 @@ public class FileDownloadManager {
     }
 
     private Disposable download(String url, String savePath, Listener listener) {
-        return RetrofitManager.getInstance().getRetrofitBuilder()
-                .client(OkHttpManager.getInstance()
-                        .getDefaultOkHttpClient()
-                        .newBuilder()
-                        .addInterceptor(new ProgressInterceptor((progress, total, bytesRead, done) -> {
-                            if (listener != null) {
-                                JcFramework.runOnMainThread(() -> listener.onProgress(progress, total, bytesRead));
 
-                            }
-                        })).build())
+        return RetrofitManager.getInstance().getRetrofitBuilder()
+                .client(mOkHttpBuild.addInterceptor(new ProgressInterceptor((progress, total, bytesRead, done) -> {
+                    if (listener != null) {
+                        JcFramework.runOnMainThread(() -> listener.onProgress(progress, total, bytesRead));
+
+                    }
+                })).build())
                 .baseUrl("https://github.com/MrHuGit/")
                 .build()
                 .create(Service.class)

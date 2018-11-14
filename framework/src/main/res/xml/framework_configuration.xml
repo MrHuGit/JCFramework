@@ -16,4 +16,9 @@
         description="OkHttp写入超时时间（MILLISECONDS）"
         key="okHttpWriteTimeout"
         value="20000"/>
+
+    <item
+        description="HTTPS请求是否忽略证书校验（true,false）"
+        key="ignoreSsl"
+        value="true"/>
 </framework_configuration>

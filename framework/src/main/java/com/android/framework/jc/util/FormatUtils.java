@@ -1,5 +1,6 @@
 package com.android.framework.jc.util;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -16,6 +17,7 @@ import java.util.Locale;
 public class FormatUtils {
     private static class Holder {
         private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat();
+        @SuppressLint("ConstantLocale")
         private final static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
 

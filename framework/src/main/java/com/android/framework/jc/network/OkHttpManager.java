@@ -1,12 +1,14 @@
 package com.android.framework.jc.network;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 
 import com.android.framework.jc.ConfigManager;
+import com.android.framework.jc.NetworkManager;
 import com.android.framework.jc.network.cookie.FkCookieJarImpl;
 import com.android.framework.jc.network.cookie.MemoryCookieCache;
-import com.android.framework.jc.network.interceptor.LogInterceptor;
 import com.android.framework.jc.util.FormatUtils;
+import com.android.framework.jc.util.LogUtils;
 
 import java.lang.reflect.Field;
 import java.security.SecureRandom;
@@ -18,6 +20,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -29,6 +32,7 @@ public class OkHttpManager {
     private final static String CONNECT_TIMEOUT_KEY = "okHttpConnectTimeout";
     private final static String READ_TIMEOUT_KEY = "okHttpReadTimeout";
     private final static String WRITE_TIMEOUT_KEY = "okHttpWriteTimeout";
+    private final static String IGNORE_SSL = "ignoreSsl";
     private final OkHttpClient mDefaultOkHttpClient;
     private final FkCookieJarImpl mCookieJar;
 
@@ -43,7 +47,7 @@ public class OkHttpManager {
                 .writeTimeout(writeTimeout <= 0 ? 10000 : writeTimeout, TimeUnit.MILLISECONDS)
                 .cookieJar(mCookieJar);
         if ("true".equalsIgnoreCase(ConfigManager.getInstance().getValue("logDebug"))) {
-            build = build.addInterceptor(new LogInterceptor());
+            build = build.addInterceptor(new HttpLoggingInterceptor(new HttpLog()));
         }
         mDefaultOkHttpClient = build.build();
     }
@@ -57,6 +61,20 @@ public class OkHttpManager {
     }
 
     public OkHttpClient getDefaultOkHttpClient() {
+        if ("true".equalsIgnoreCase(ConfigManager.getInstance().getValue(IGNORE_SSL))) {
+            ignoreSsl(mDefaultOkHttpClient);
+        }
+        return mDefaultOkHttpClient;
+    }
+
+    public void clearCookie() {
+        mCookieJar.clear();
+    }
+
+    /**
+     * 忽略证书
+     */
+    public static OkHttpClient ignoreSsl(OkHttpClient okHttpClient) {
         SSLContext sc = null;
         try {
             sc = SSLContext.getInstance("SSL");
@@ -64,13 +82,11 @@ public class OkHttpManager {
                 @SuppressLint("TrustAllX509TrustManager")
                 @Override
                 public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
-
                 }
 
                 @SuppressLint("TrustAllX509TrustManager")
                 @Override
                 public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
-
                 }
 
                 @Override
@@ -81,28 +97,30 @@ public class OkHttpManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         HostnameVerifier hv1 = (hostname, session) -> true;
-
         String workerClassName = "okhttp3.OkHttpClient";
         try {
             Class workerClass = Class.forName(workerClassName);
             Field hostnameVerifier = workerClass.getDeclaredField("hostnameVerifier");
             hostnameVerifier.setAccessible(true);
-            hostnameVerifier.set(mDefaultOkHttpClient, hv1);
+            hostnameVerifier.set(okHttpClient, hv1);
 
             Field sslSocketFactory = workerClass.getDeclaredField("sslSocketFactory");
             sslSocketFactory.setAccessible(true);
             if (sc != null) {
-                sslSocketFactory.set(mDefaultOkHttpClient, sc.getSocketFactory());
+                sslSocketFactory.set(okHttpClient, sc.getSocketFactory());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return mDefaultOkHttpClient;
+        return okHttpClient;
     }
 
-    public void clearCookie() {
-        mCookieJar.clear();
+    private final static class HttpLog implements HttpLoggingInterceptor.Logger {
+
+        @Override
+        public void log(@NonNull String message) {
+            LogUtils.i(NetworkManager.class, message);
+        }
     }
 }

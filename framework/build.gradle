@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'realm-android'
 android {
     compileSdkVersion defaultConfigs.compileSdkVersion
     buildToolsVersion defaultConfigs.buildToolsVersion
@@ -24,7 +25,7 @@ android {
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             buildConfigField("String", "frameworkCongigurationXmlName", '"framework_configuration"')
             debuggable true
             minifyEnabled false
@@ -40,6 +41,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.appcompat
     implementation deps.okhttp3
     implementation deps.okhttp3_logging_interceptor
     implementation deps.rxjava2
@@ -53,9 +55,6 @@ dependencies {
     //下拉刷新
     implementation deps.refresh.smartrefresh_layout
     implementation deps.refresh.smartrefresh_header
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 // 指定编码
 tasks.withType(JavaCompile) {
@@ -69,7 +68,7 @@ task sourcesJar(type: Jar) {
 }
 
 task javadoc(type: Javadoc) {
-    failOnError  false
+    failOnError false
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.compile

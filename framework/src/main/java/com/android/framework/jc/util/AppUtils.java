@@ -66,10 +66,12 @@ public class AppUtils {
         intent.setDataAndType(getInstallUri(context, apkPath), "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
+
     /**
      * 检测当前App是否运行在后台
      *
      * @param context
+     *         context
      *
      * @return 是否运行在后台
      */
@@ -101,9 +103,10 @@ public class AppUtils {
     /**
      * 获取应用程序名称
      *
-     * @param context context
+     * @param context
+     *         context
      *
-     * @return
+     * @return 应用程序名称
      */
     public static String getAppName(Context context) {
         String appName = "";
@@ -118,7 +121,8 @@ public class AppUtils {
     /**
      * 获取应用程序版本名称信息
      *
-     * @param context context
+     * @param context
+     *         context
      *
      * @return 当前应用的版本名称
      */
@@ -135,6 +139,7 @@ public class AppUtils {
      * [获取应用程序版本号]
      *
      * @param context
+     *         context
      *
      * @return 当前应用的版本号
      */
@@ -148,11 +153,11 @@ public class AppUtils {
     }
 
 
-
     /**
      * 5x系统以后利用反射获取当前栈顶activity的包名
      *
      * @param context
+     *         context
      *
      * @return 包名
      */
@@ -197,6 +202,17 @@ public class AppUtils {
         }
         return pkgName;
     }
+
+    /**
+     * 获取uri
+     *
+     * @param context
+     *         context
+     * @param filePath
+     *         文件路径
+     *
+     * @return Uri
+     */
     private static Uri getInstallUri(Context context, String filePath) {
         Uri resultUri = null;
         if (context != null && !TextUtils.isEmpty(filePath)) {

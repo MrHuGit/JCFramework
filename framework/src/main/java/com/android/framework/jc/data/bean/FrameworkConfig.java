@@ -32,7 +32,7 @@ public class FrameworkConfig {
      */
     private HashMap<Integer, Class<? extends IModule>> normalMsgMap;
 
-    public OkHttpClient getCustomOkHttpClient() {
+    public OkHttpClient getCustomOkHttpClient()  {
         return customOkHttpClient;
     }
 

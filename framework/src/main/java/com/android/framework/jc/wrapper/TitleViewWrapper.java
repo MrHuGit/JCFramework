@@ -35,7 +35,7 @@ public class TitleViewWrapper implements IViewWrapper {
 
     @Override
     public View onCreateWrapperView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.wrapper_view_title, container);
+        View view = inflater.inflate(R.layout.wrapper_view_title, null);
         TextView tvTitle = view.findViewById(R.id.tv_wrapper_view_title);
         if (!TextUtils.isEmpty(mTitle)) {
             tvTitle.setText(mTitle);

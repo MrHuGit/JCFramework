@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.reactivex.plugins.RxJavaPlugins;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
@@ -33,7 +34,8 @@ public class JcFramework {
 
     private final Handler mHandler;
 
-    private final static Class TAG=JcFramework.class;
+    private final static Class TAG = JcFramework.class;
+
     private JcFramework() {
         mActivityList = new LinkedList<>();
         mHandler = new Handler();
@@ -107,6 +109,15 @@ public class JcFramework {
                 mActivityList.remove(activity);
             }
         });
+        setRxJavaErrorHandler();
+
+    }
+
+    /**
+     * RxJava2 当取消订阅后(dispose())，RxJava抛出的异常后续无法接收(此时后台线程仍在跑，可能会抛出IO等异常),全部由RxJavaPlugin接收
+     */
+    private void setRxJavaErrorHandler() {
+        RxJavaPlugins.setErrorHandler(throwable -> LogUtils.i(TAG, throwable.toString()));
     }
 
     public Application getApplication() {
@@ -134,6 +145,7 @@ public class JcFramework {
     public static void exitApp() {
         JcFramework framework = getInstance();
         NetworkManager.getInstance().clearDisposable();
+        FkDownload.Cache.getInstance().updateAll();
         final List<Activity> list = framework.mActivityList;
         for (Activity activity : list) {
             activity.finish();
@@ -150,7 +162,7 @@ public class JcFramework {
      * @param application
      *         application
      *
-     * @return
+     * @return JcFramework
      */
     public static JcFramework init(Application application) {
         return init(application, null);
@@ -162,7 +174,7 @@ public class JcFramework {
      * @param application
      *         application
      *
-     * @return
+     * @return JcFramework
      */
     public static JcFramework init(Application application, FrameworkConfigCreate frameworkConfigCreate) {
         JcFramework framework = getInstance();
@@ -196,7 +208,7 @@ public class JcFramework {
                 ModuleManager.getInstance().addNormalMessage(normalMsgMap);
             }
 
-            LogUtils.i(TAG,"setFrameworkConfig:FrameworkConfig,"+frameworkConfig);
+            LogUtils.i(TAG, "setFrameworkConfig:FrameworkConfig," + frameworkConfig);
 
         }
     }

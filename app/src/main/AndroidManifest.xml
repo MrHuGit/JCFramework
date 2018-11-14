@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.android.framework_test">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".MineApplication"
         android:allowBackup="true"
@@ -10,24 +13,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.android.framework_test.js.JsTestActivity">
+        <activity
+            android:name=".module.MainActivity"
+            android:theme="@style/MainActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="qj_fang"/>
             </intent-filter>
         </activity>
         <activity android:name=".kline.KlineMainActivity"/>
-        <!--<activity android:name=".js.JsTestActivity"/>-->
-        <!--<activity android:name=".MainKotlinActivity">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.MAIN"/>-->
+        <activity android:name=".js.JsTestActivity"/>
+        <activity android:name=".module.util.UtilListActivity"/>
+        <activity android:name=".module.util.AppUtilsActivity"/>
+        <activity android:name=".module.util.Base64UtilsActivity"/>
+        <activity android:name=".module.util.ConvertUtilsActivity"/>
+        <activity android:name=".module.util.FileUtilsActivity"/>
+        <activity android:name=".module.util.FormatUtilsActivity"/>
+        <activity android:name=".module.util.LogUtilsActivity"/>
+        <activity android:name=".module.util.NetworkUtilsActivity"/>
+        <activity android:name=".module.util.PackageUtilsActivity"/>
+        <activity android:name=".module.util.ResourcesUtilsActivity"/>
+        <activity android:name=".module.util.RSAUtilsActivity"/>
+        <activity android:name=".module.util.ScreenUtilsActivity"/>
 
-        <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
     </application>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>

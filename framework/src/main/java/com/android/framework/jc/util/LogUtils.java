@@ -9,7 +9,7 @@ import com.android.framework.jc.exception.StopInstantiatedException;
 /**
  * @author Mr.Hu(Jc)JCFramework
  * @create 2018/3/9 16:05
- * @describe
+ * @describe log日志工具
  * @update
  */
 
