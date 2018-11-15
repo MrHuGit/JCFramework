@@ -77,7 +77,7 @@ public class FileUtils {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
-            long allLength = 0 == downloadBean.getTotalLength() ? responseBody.contentLength() : downloadBean.getDownLength() + responseBody.contentLength();
+            long allLength = -1 == downloadBean.getTotalLength() ? responseBody.contentLength() : downloadBean.getDownLength() + responseBody.contentLength();
 
             inputStream = responseBody.byteStream();
             randomAccessFile = new RandomAccessFile(file, "rwd");

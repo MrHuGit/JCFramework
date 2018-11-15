@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.framework.jc.FkDownload;
 import com.android.framework.jc.JcFramework;
 import com.android.framework.jc.base.AppStateManager;
+import com.android.framework.jc.util.LogUtils;
+import com.android.framework.jc.util.ToastUtils;
 import com.android.framework_test.R;
 import com.android.framework_test.adapter.ListChooseAdapter;
 import com.android.framework_test.base.BaseActivity;
@@ -38,13 +41,20 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         AppStateManager.getInstance().setAppRunningState();
         MainFragment fragment = findFragment(MainFragment.class);
         if (fragment == null) {
             fragment = MainFragment.newFragment();
             putFragment(fragment);
         }
-
+        new FkDownload.Build()
+                .cache(false)
+                .downloadUrl("http://192.168.4.180:9903/react_native.zip")
+                .setOnFinishListener(LogUtils::i)
+                .setOnErrorListener(throwable -> ToastUtils.toast(this,throwable.getMessage()))
+                .build()
+                .onStartDownload(this);
     }
     @Override
     public void onBackPressed() {

@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.LongConsumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -53,8 +52,7 @@ public class FkDownload {
     /**
      * 开始下载
      */
-    public void onStartDownload() {
-        Activity activity = JcFramework.getInstance().getTopActivity();
+    public void onStartDownload(Activity activity) {
         FkPermission.with(activity)
                 .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .permission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -113,19 +111,8 @@ public class FkDownload {
             downloadBean = new DownloadBean();
             downloadBean.setSavePath(savePath);
             downloadBean.setFileUrl(downloadUrl);
-            try {
-                URL url = new URL(downloadUrl);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                int fileLength = httpURLConnection.getContentLength();
-                httpURLConnection.disconnect();
-                downloadBean.setTotalLength(fileLength);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                downloadBean.setTotalLength(-1);
-            } catch (IOException e) {
-                e.printStackTrace();
-                downloadBean.setTotalLength(-1);
-            }
+            downloadBean.setTotalLength(-1);
+
 
 
         }
@@ -145,6 +132,22 @@ public class FkDownload {
      * @return disposable
      */
     private Disposable download(DownloadBean downloadBean) {
+        FkScheduler.runOnIoThread(() -> {
+            try {
+                URL url = new URL(downloadBean.getDownloadUrl());
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                int fileLength = httpURLConnection.getContentLength();
+                httpURLConnection.disconnect();
+                downloadBean.setTotalLength(fileLength);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                downloadBean.setTotalLength(-1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                downloadBean.setTotalLength(-1);
+            }
+        });
+
         OkHttpClient.Builder okHttpClientBuild = createOkHttpClientBuild();
         if (mBuild.onProgressListener != null) {
             okHttpClientBuild.addInterceptor(new ProgressInterceptor((progress, total, bytesRead, done) ->
@@ -157,12 +160,6 @@ public class FkDownload {
                 .build()
                 .create(IDownloadService.class)
                 .download("bytes=" + downloadBean.getDownLength() + "-", downloadBean.getDownloadUrl())
-                .doOnRequest(new LongConsumer() {
-                    @Override
-                    public void accept(long t) throws Exception {
-
-                    }
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .retryWhen(new RetryWhenFunction<>(mBuild.retryCount,mBuild.delay))
