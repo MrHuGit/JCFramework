@@ -1,16 +1,11 @@
 package com.android.framework.jc.base.mvp;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.StringRes;
-
-import com.android.framework.jc.JcFramework;
-
 import java.lang.ref.WeakReference;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/9/19 18:25
- * @describe
+ * @describe Presenter基类实现
  * @update
  */
 public class BaseFkPresenter<V extends IFkContract.IView> implements IFkContract.IPresenter<V> {
@@ -37,11 +32,5 @@ public class BaseFkPresenter<V extends IFkContract.IView> implements IFkContract
         return viewWeakReference != null ? viewWeakReference.get() : null;
     }
 
-    static String getResString(@StringRes int stringResId){
-        return JcFramework.getInstance().getApplication().getResources().getString(stringResId);
-    }
 
-    static int getColor(@ColorRes int colorResId){
-        return JcFramework.getInstance().getApplication().getResources().getColor(colorResId);
-    }
 }

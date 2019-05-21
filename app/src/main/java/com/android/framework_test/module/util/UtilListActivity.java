@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.framework.jc.wrapper.TitleViewWrapper;
+import com.android.framework.jc.wrapper.FkTitleViewWrapper;
 import com.android.framework_test.R;
 import com.android.framework_test.adapter.ListChooseAdapter;
 import com.android.framework_test.base.BaseActivity;
@@ -49,7 +49,7 @@ public class UtilListActivity extends BaseActivity {
 
         @Override
         public void onAttach(Context context) {
-            addHeadWrapper(new TitleViewWrapper("工具类列表"));
+            addHeadWrapper(new FkTitleViewWrapper("工具类列表"));
             super.onAttach(context);
         }
 

@@ -1,7 +1,7 @@
 package com.android.framework_test.adapter;
 
-import com.android.framework.jc.recyclerview.NormalRvAdapter;
-import com.android.framework.jc.recyclerview.ViewHolder;
+import com.android.framework.jc.adapter.recyclerview.NormalRvAdapter;
+import com.android.framework.jc.adapter.recyclerview.ViewHolder;
 import com.android.framework_test.R;
 import com.android.framework_test.data.bean.ListBean;
 

@@ -38,7 +38,49 @@ public class FormatUtils {
         }
         return result;
     }
+    /**
+     * 解析字符串为double
+     *
+     * @param value double
+     *
+     * @param decimalDigits
+     *         小数位数
+     *
+     * @return double字符串
+     */
+    public static String parseDouble(double value, int decimalDigits,boolean needZero) {
+        return parseDouble(value, getParsePattern(decimalDigits,needZero));
+    }
+    /**
+     * 解析字符串为double
+     *
+     * @param value double字符串
+     *
+     * @param decimalDigits
+     *         小数位数
+     *
+     * @return double字符串
+     */
+    public static String parseDouble(String value, int decimalDigits,boolean needZero) {
+        return parseDouble(value, getParsePattern(decimalDigits,needZero));
+    }
 
+    public static String getParsePattern(int decimalDigits,boolean needZero){
+        String pointPattern;
+        if (needZero){
+            pointPattern="0";
+        }else{
+            pointPattern="#";
+        }
+        StringBuilder patternSb = new StringBuilder("#0");
+        if (decimalDigits>0){
+            patternSb.append(".");
+        }
+        for (int i = 0; i < decimalDigits; i++) {
+            patternSb.append(pointPattern);
+        }
+        return patternSb.toString();
+    }
     /**
      * 解析字符串为double
      *

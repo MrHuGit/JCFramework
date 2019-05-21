@@ -9,7 +9,7 @@ import com.android.framework.jc.exception.StopInstantiatedException;
 /**
  * @author Mr.Hu(Jc)JCFramework
  * @create 2018/3/9 14:25
- * @describe
+ * @describe android包相关工具
  * @update
  */
 

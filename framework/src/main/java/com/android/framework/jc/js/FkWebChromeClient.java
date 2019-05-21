@@ -7,9 +7,6 @@ import android.webkit.WebView;
 import com.android.framework.jc.js.listener.IProgressChangedListener;
 import com.android.framework.jc.js.listener.IReceivedTitleListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/9/13 11:23
@@ -17,25 +14,21 @@ import org.json.JSONObject;
  * @update
  */
 public class FkWebChromeClient extends WebChromeClient {
+    private FkWebViewProgressBar mProgressBar;
     private IReceivedTitleListener mReceivedTitleListener;
     private IProgressChangedListener mProgressChangedListener;
+
+    public FkWebChromeClient() {
+
+    }
+
+    public FkWebChromeClient(FkWebViewProgressBar progressBar) {
+        this.mProgressBar = progressBar;
+    }
+
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
         return super.onJsPrompt(view, url, message, defaultValue, result);
-    }
-
-    private synchronized JSONObject dispatchMessage(String action, String message) {
-        JSONObject jsonObject = new JSONObject();
-        if ("sendMessage".equalsIgnoreCase(action)) {
-            try {
-                JSONObject messageJson = new JSONObject(message);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return jsonObject;
     }
 
     @Override
@@ -52,13 +45,16 @@ public class FkWebChromeClient extends WebChromeClient {
         if (mProgressChangedListener != null) {
             mProgressChangedListener.onProgressChanged(webView, newProgress);
         }
+        if (mProgressBar != null) {
+            mProgressBar.onProgressChange(newProgress);
+        }
     }
 
-    protected void setReceivedTitleListener(IReceivedTitleListener listener) {
+    void setReceivedTitleListener(IReceivedTitleListener listener) {
         this.mReceivedTitleListener = listener;
     }
 
-    protected void setProgressChangedListener(IProgressChangedListener listener) {
+    void setProgressChangedListener(IProgressChangedListener listener) {
         this.mProgressChangedListener = listener;
     }
 }

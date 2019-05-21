@@ -8,10 +8,8 @@ import com.android.framework.jc.base.FkPermission;
 import com.android.framework.jc.data.bean.DownloadBean;
 import com.android.framework.jc.exception.NetworkErrorException;
 import com.android.framework.jc.functions.RetryWhenFunction;
-import com.android.framework.jc.network.RetrofitManager;
-import com.android.framework.jc.network.interceptor.ProgressInterceptor;
+import com.android.framework.jc.data.network.interceptor.ProgressInterceptor;
 import com.android.framework.jc.util.FileUtils;
-import com.android.framework.jc.util.FormatUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -19,7 +17,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -40,12 +37,8 @@ import retrofit2.http.Url;
  */
 public class FkDownload {
     private final static String BASE_URL = "https://github.com/MrHuGit/";
-    private final static String CONNECT_TIMEOUT_KEY = "okHttpConnectTimeout";
-    private final static String READ_TIMEOUT_KEY = "okHttpReadTimeout";
-    private final static String WRITE_TIMEOUT_KEY = "okHttpWriteTimeout";
-    private final Build mBuild;
-
-    private FkDownload(Build build) {
+    private final Builder mBuild;
+    private FkDownload(Builder build) {
         this.mBuild = build;
     }
 
@@ -86,7 +79,7 @@ public class FkDownload {
      *         下载地址
      */
     public void onStopDownload(String downloadUrl) {
-        NetworkManager.getInstance().dispose(downloadUrl);
+        NetworkManager.getInstance().clearDispose(downloadUrl);
         if (mBuild.cache) {
             Cache.getInstance().update(Cache.getInstance().getCache(downloadUrl));
         }
@@ -112,7 +105,6 @@ public class FkDownload {
             downloadBean.setSavePath(savePath);
             downloadBean.setFileUrl(downloadUrl);
             downloadBean.setTotalLength(-1);
-
 
 
         }
@@ -148,12 +140,12 @@ public class FkDownload {
             }
         });
 
-        OkHttpClient.Builder okHttpClientBuild = createOkHttpClientBuild();
+        OkHttpClient.Builder okHttpClientBuild = OkHttpManager.getDefaultOkHttpClientBuilder();
         if (mBuild.onProgressListener != null) {
             okHttpClientBuild.addInterceptor(new ProgressInterceptor((progress, total, bytesRead, done) ->
                     FkScheduler.runOnUiThread(() -> mBuild.onProgressListener.onProgress(progress, total, done))));
         }
-        return RetrofitManager.getInstance()
+        return JcFramework.getInstance().getFrameworkConfig()
                 .getRetrofitBuilder()
                 .client(okHttpClientBuild.build())
                 .baseUrl(BASE_URL)
@@ -162,7 +154,7 @@ public class FkDownload {
                 .download("bytes=" + downloadBean.getDownLength() + "-", downloadBean.getDownloadUrl())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .retryWhen(new RetryWhenFunction<>(mBuild.retryCount,mBuild.delay))
+                .retryWhen(new RetryWhenFunction<>(mBuild.retryCount, mBuild.delay))
                 .doOnNext(responseBody -> FileUtils.write(responseBody, downloadBean))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> {
@@ -172,15 +164,7 @@ public class FkDownload {
     }
 
 
-    private OkHttpClient.Builder createOkHttpClientBuild() {
-        final long connectTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(CONNECT_TIMEOUT_KEY));
-        final long readTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(READ_TIMEOUT_KEY));
-        final long writeTimeout = FormatUtils.parseLong(ConfigManager.getInstance().getValue(WRITE_TIMEOUT_KEY));
-        return new OkHttpClient.Builder()
-                .connectTimeout(connectTimeout <= 0 ? 10000 : connectTimeout, TimeUnit.MILLISECONDS)
-                .readTimeout(readTimeout <= 0 ? 10000 : readTimeout, TimeUnit.MILLISECONDS)
-                .writeTimeout(writeTimeout <= 0 ? 10000 : writeTimeout, TimeUnit.MILLISECONDS);
-    }
+
 
     /**
      * 下载失败回调
@@ -259,8 +243,11 @@ public class FkDownload {
 
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
 
-    public static class Build {
+    public static class Builder {
         private OnProgressListener onProgressListener;
         private OnErrorListener onErrorListener;
         private OnFinishListener onFinishListener;
@@ -270,45 +257,45 @@ public class FkDownload {
         private int retryCount = 0;
         private long delay = 1000L;
 
-        public Build() {
+        private Builder() {
         }
 
-        public Build setOnProgressListener(OnProgressListener progressListener) {
+        public Builder setOnProgressListener(OnProgressListener progressListener) {
             this.onProgressListener = progressListener;
             return this;
         }
 
-        public Build setOnErrorListener(OnErrorListener errorListener) {
+        public Builder setOnErrorListener(OnErrorListener errorListener) {
             this.onErrorListener = errorListener;
             return this;
         }
 
-        public Build setOnFinishListener(OnFinishListener finishListener) {
+        public Builder setOnFinishListener(OnFinishListener finishListener) {
             this.onFinishListener = finishListener;
             return this;
         }
 
-        public Build downloadUrl(String downloadUrl) {
+        public Builder downloadUrl(String downloadUrl) {
             this.downloadUrl = downloadUrl;
             return this;
         }
 
-        public Build savePath(String savePath) {
+        public Builder savePath(String savePath) {
             this.savePath = savePath;
             return this;
         }
 
-        public Build cache(boolean needCache) {
+        public Builder cache(boolean needCache) {
             this.cache = needCache;
             return this;
         }
 
-        public Build retryCount(int retryCount) {
+        public Builder retryCount(int retryCount) {
             this.retryCount = retryCount;
             return this;
         }
 
-        public Build delay(long delay) {
+        public Builder delay(long delay) {
             this.delay = delay;
             return this;
         }

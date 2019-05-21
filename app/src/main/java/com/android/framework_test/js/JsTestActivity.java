@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.android.framework.jc.base.FkActivity;
 import com.android.framework.jc.base.FkWebFragment;
-import com.android.framework.jc.module.body.MessageBody;
+import com.android.framework.jc.message.body.MessageBody;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -50,8 +50,8 @@ public class JsTestActivity extends FkActivity {
 
 
         @Override
-        public void onMessageReceive(MessageBody message) {
-
+        public boolean onMessageReceive(MessageBody messageBody) {
+            return false;
         }
     }
 }

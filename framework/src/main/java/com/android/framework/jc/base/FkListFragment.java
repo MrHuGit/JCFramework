@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.framework.jc.R;
-import com.android.framework.jc.recyclerview.RvTypeAdapter;
+import com.android.framework.jc.adapter.recyclerview.RvTypeAdapter;
 import com.android.framework.jc.wrapper.IViewWrapper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;

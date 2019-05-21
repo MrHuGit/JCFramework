@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.android.framework.jc.data.bean.ConfigBean;
 import com.android.framework.jc.exception.NoConfigException;
+import com.android.framework.jc.util.FormatUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -46,7 +47,7 @@ public class ConfigManager {
      * @param context
      *         context
      */
-    protected void parseXml(Context context) {
+    void parseXml(Context context) {
         int resourceId = context.getResources().getIdentifier(XML_NAME, "xml", context.getPackageName());
         XmlResourceParser xmlParser = context.getResources().getXml(resourceId);
         configSet.clear();
@@ -88,7 +89,7 @@ public class ConfigManager {
      */
     public String getValue(String key) {
         if (TextUtils.isEmpty(key)) {
-           throw new RuntimeException("key is empty");
+            throw new RuntimeException("key is empty");
         }
         for (ConfigBean bean : configSet) {
             if (key.equals(bean.getKey())) {
@@ -96,6 +97,14 @@ public class ConfigManager {
             }
         }
         throw new NoConfigException(key);
+    }
+
+    public boolean getBooleanValue(String key) {
+        return "true".equalsIgnoreCase(getValue(key));
+    }
+
+    public long getLongValue(String key) {
+        return FormatUtils.parseLong(getValue(key));
     }
 
     /**

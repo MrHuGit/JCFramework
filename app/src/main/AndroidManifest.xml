@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".module.MainActivity"
+            android:name=".module.TinkerTestActivity"
             android:theme="@style/MainActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,6 +31,7 @@
         </activity>
         <activity android:name=".kline.KlineMainActivity"/>
         <activity android:name=".js.JsTestActivity"/>
+        <!--工具相关-->
         <activity android:name=".module.util.UtilListActivity"/>
         <activity android:name=".module.util.AppUtilsActivity"/>
         <activity android:name=".module.util.Base64UtilsActivity"/>
@@ -44,6 +45,14 @@
         <activity android:name=".module.util.RSAUtilsActivity"/>
         <activity android:name=".module.util.ScreenUtilsActivity"/>
 
+        <!--网络相关-->
+        <activity android:name=".module.network.NetworkListActivity"/>
+
+
+        <service
+            android:name=".tinker.JcTinkerResultService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
     </application>
 
 

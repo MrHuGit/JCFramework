@@ -4,22 +4,20 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Process;
+import android.support.annotation.NonNull;
 
-import com.android.framework.jc.data.bean.FrameworkConfig;
 import com.android.framework.jc.exception.RepeatInitializeException;
-import com.android.framework.jc.module.IModule;
+import com.android.framework.jc.message.MessageManager;
+import com.android.framework.jc.message.plugs.BasePlug;
 import com.android.framework.jc.util.AppUtils;
 import com.android.framework.jc.util.LogUtils;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.plugins.RxJavaPlugins;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -32,13 +30,12 @@ public class JcFramework {
     private Activity mTopActivity;
     private final LinkedList<Activity> mActivityList;
 
-    private final Handler mHandler;
 
     private final static Class TAG = JcFramework.class;
+    private IFramework.FrameworkConfig mFrameworkConfig;
 
     private JcFramework() {
         mActivityList = new LinkedList<>();
-        mHandler = new Handler();
     }
 
     private static class Holder {
@@ -55,10 +52,10 @@ public class JcFramework {
      *
      * @param application
      *         application
-     * @param frameworkConfigCreate
+     * @param frameworkCreate
      *         配置文件创建接口
      */
-    private void initialize(Application application, FrameworkConfigCreate frameworkConfigCreate) {
+    private void initialize(Application application, IFramework frameworkCreate) {
         if (!AppUtils.checkMainProcess(application)) {
             return;
         }
@@ -67,10 +64,7 @@ public class JcFramework {
         }
         this.mApplication = application;
         ConfigManager.getInstance().parseXml(application);
-
-        if (frameworkConfigCreate != null) {
-            setFrameworkConfig(frameworkConfigCreate.createFrameworkCreate());
-        }
+        setFrameworkConfig(frameworkCreate);
         //内存保存一个平台标识，以备以后H5使用
         FkCacheManager.getInstance().saveToMemory("appPlatform", "2");
         this.mApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
@@ -128,30 +122,19 @@ public class JcFramework {
         return mTopActivity;
     }
 
-    public Handler getHandler() {
-        return mHandler;
-    }
-
-    public static void runOnMainThread(Runnable runnable) {
-        JcFramework framework = getInstance();
-        if (runnable != null && framework != null) {
-            framework.mHandler.post(runnable);
-        }
-    }
-
     /**
      * 退出app
      */
     public static void exitApp() {
         JcFramework framework = getInstance();
-        NetworkManager.getInstance().clearDisposable();
+        NetworkManager.getInstance().clearAllDisposable();
         FkDownload.Cache.getInstance().updateAll();
         final List<Activity> list = framework.mActivityList;
         for (Activity activity : list) {
             activity.finish();
         }
         list.clear();
-        ModuleManager.getInstance().clear();
+        MessageManager.getInstance().clear();
         framework.mApplication.onTerminate();
         Process.killProcess(Process.myPid());
     }
@@ -176,7 +159,7 @@ public class JcFramework {
      *
      * @return JcFramework
      */
-    public static JcFramework init(Application application, FrameworkConfigCreate frameworkConfigCreate) {
+    public static JcFramework init(Application application, IFramework frameworkConfigCreate) {
         JcFramework framework = getInstance();
         framework.initialize(application, frameworkConfigCreate);
         return framework;
@@ -185,41 +168,33 @@ public class JcFramework {
     /**
      * 设置用户配置
      *
-     * @param frameworkConfig
+     * @param frameworkCreate
      *         配置
      */
-    private void setFrameworkConfig(FrameworkConfig frameworkConfig) {
-        if (frameworkConfig != null) {
-            OkHttpClient okHttpClient = frameworkConfig.getCustomOkHttpClient();
-            if (okHttpClient != null) {
-                NetworkManager.getInstance().initCustomOkHttp(okHttpClient);
-            }
-            Retrofit retrofit = frameworkConfig.getCustomRetrofit();
-            if (retrofit != null) {
-                NetworkManager.getInstance().initCustomRetrofit(retrofit);
-            }
-            FkUrlManager.IAdapter adapter = frameworkConfig.getUrlAdapter();
-            if (adapter != null) {
-                FkUrlManager.getInstance().setAdapter(adapter);
-            }
-
-            HashMap<Integer, Class<? extends IModule>> normalMsgMap = frameworkConfig.getNormalMsgMap();
-            if (normalMsgMap != null) {
-                ModuleManager.getInstance().addNormalMessage(normalMsgMap);
-            }
-
-            LogUtils.i(TAG, "setFrameworkConfig:FrameworkConfig," + frameworkConfig);
-
+    private void setFrameworkConfig(IFramework frameworkCreate) {
+        if (frameworkCreate != null) {
+            mFrameworkConfig = frameworkCreate.createFramework();
         }
+        if (mFrameworkConfig == null) {
+            mFrameworkConfig = IFramework.FrameworkConfig.builder().build();
+        }
+        FkUrlManager.IAdapter adapter = mFrameworkConfig.getUrlAdapter();
+        if (adapter != null) {
+            FkUrlManager.getInstance().setAdapter(adapter);
+        }
+
+        Map<Integer, Class<? extends BasePlug>> addPlugsMap = mFrameworkConfig.getAddPlugsMap();
+        if (addPlugsMap != null) {
+            MessageManager.getInstance().addNormalMessage(addPlugsMap);
+        }
+        LogUtils.i(TAG, "FrameworkConfig," + mFrameworkConfig);
+
     }
 
-    public interface FrameworkConfigCreate {
-        /**
-         * 创建框架配置
-         *
-         * @return 配置
-         */
-        FrameworkConfig createFrameworkCreate();
+    @NonNull
+    public IFramework.FrameworkConfig getFrameworkConfig() {
+        return mFrameworkConfig == null ? mFrameworkConfig = IFramework.FrameworkConfig.builder().build() : mFrameworkConfig;
     }
+
 
 }

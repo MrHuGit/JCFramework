@@ -15,11 +15,12 @@ import io.realm.annotations.RealmModule;
  * @update
  */
 public class FkRealmManager {
-    private final Realm mRealm;
+    final Realm mRealm;
 
     private FkRealmManager() {
         Realm.init(JcFramework.getInstance().getApplication().getApplicationContext());
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("gesture.realm")
+        String realmName=ConfigManager.getInstance().getValue("realmName")+".realm";
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(realmName)
                 .schemaVersion(0)
                 .modules(Realm.getDefaultModule(), new FkRealmModule())
                 .deleteRealmIfMigrationNeeded()
@@ -41,7 +42,7 @@ public class FkRealmManager {
         return Holder.INSTANCE;
     }
 
-    protected void executeTransaction(Realm.Transaction transaction) {
+    public void executeTransaction(Realm.Transaction transaction) {
         mRealm.executeTransaction(transaction);
     }
 
@@ -53,7 +54,7 @@ public class FkRealmManager {
      * @param <T>
      *         数据类型
      */
-    protected <T extends RealmModel> void copyToRealmOrUpdate(T t) {
+    public <T extends RealmModel> void copyToRealmOrUpdate(T t) {
         executeTransaction(realm -> realm.copyToRealmOrUpdate(t));
 
     }
@@ -66,7 +67,7 @@ public class FkRealmManager {
      * @param <T>
      *         数据类型
      */
-    protected <T extends RealmModel> void copyToRealmOrUpdate(List<T> list) {
+    public <T extends RealmModel> void copyToRealmOrUpdate(List<T> list) {
         executeTransaction(realm -> realm.copyToRealmOrUpdate(list));
     }
 
@@ -80,7 +81,7 @@ public class FkRealmManager {
      *
      * @return 查询
      */
-    protected <T extends RealmModel> RealmQuery<T> query(Class<T> tClass) {
+    public <T extends RealmModel> RealmQuery<T> query(Class<T> tClass) {
         return mRealm.where(tClass);
     }
 
@@ -95,7 +96,7 @@ public class FkRealmManager {
      *
      * @return 复制后的数据
      */
-    protected <T extends RealmModel> T copyFromRealm(T realmObject) {
+    public <T extends RealmModel> T copyFromRealm(T realmObject) {
         return mRealm.copyFromRealm(realmObject);
     }
 
@@ -109,7 +110,7 @@ public class FkRealmManager {
      *
      * @return 复制后的数据集合
      */
-    protected <T extends RealmModel> List<T> copyFromRealm(Iterable<T> realmObjects) {
+    public <T extends RealmModel> List<T> copyFromRealm(Iterable<T> realmObjects) {
         return mRealm.copyFromRealm(realmObjects);
     }
 

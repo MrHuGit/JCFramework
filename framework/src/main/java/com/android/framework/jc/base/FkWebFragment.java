@@ -9,13 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 
-import com.android.framework.jc.ModuleManager;
 import com.android.framework.jc.R;
 import com.android.framework.jc.js.FkJsInterface;
 import com.android.framework.jc.js.FkWebChromeClient;
 import com.android.framework.jc.js.FkWebView;
-import com.android.framework.jc.js.FkWebViewClient;
-import com.android.framework.jc.module.IModule;
+import com.android.framework.jc.message.IModule;
+import com.android.framework.jc.message.MessageManager;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -50,10 +49,10 @@ public abstract class FkWebFragment extends FkFragment implements IModule {
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        mFkWebView.setWebViewClient(new FkWebViewClient(mFkWebView));
+//        mFkWebView.setWebViewClient(new FkWebViewClient(mFkWebView));
         mFkWebView.setWebChromeClient(new FkWebChromeClient());
         mFkWebView.addJavascriptInterface(new FkJsInterface(mFkWebView),"exx");
-        ModuleManager.getInstance().register(setWebViewName(),mFkWebView);
+        MessageManager.getInstance().register(setWebViewName(),mFkWebView);
     }
 
     /**
@@ -65,6 +64,6 @@ public abstract class FkWebFragment extends FkFragment implements IModule {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ModuleManager.getInstance().unRegisterWebView(setWebViewName());
+        MessageManager.getInstance().unRegister(mFkWebView);
     }
 }

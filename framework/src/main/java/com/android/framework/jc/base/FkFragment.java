@@ -2,12 +2,12 @@ package com.android.framework.jc.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +30,6 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
     private final ArrayList<IViewWrapper> footWrappers = new ArrayList<>();
     protected P mPresenter;
     private String mFragmentTag;
-
-    @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-        super.onInflate(context, attrs, savedInstanceState);
-    }
 
     @CallSuper
     @Override
@@ -77,8 +72,9 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
      * 添加头部装饰者
      *
      * @param wrapper
+     *         头部装饰者
      *
-     * @return
+     * @return 当前对象
      */
     public FkFragment addHeadWrapper(IViewWrapper wrapper) {
 
@@ -90,8 +86,9 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
      * 添加尾部装饰者
      *
      * @param wrapper
+     *         wrapper
      *
-     * @return
+     * @return 当前对象
      */
     public FkFragment addFootWrapper(IViewWrapper wrapper) {
         footWrappers.add(wrapper);
@@ -102,9 +99,13 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
      * 根据上层的view动态添加头部跟尾部装饰者View进去
      *
      * @param rootView
+     *         rootView
      * @param inflater
+     *         inflater
      * @param container
+     *         container
      * @param savedInstanceState
+     *         savedInstanceState
      */
     private void addView(LinearLayout rootView, LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         for (int i = 0; i < headWrappers.size(); i++) {
@@ -137,21 +138,49 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
         }
     }
 
+    /**
+     * 关闭页面并回调
+     */
     protected void onResultOkFinish() {
+        onResultOkFinish(null);
+    }
+
+    /**
+     * 关闭页面并回调
+     */
+    protected void onResultOkFinish(Intent intent) {
         if (mContext instanceof Activity) {
-            ((Activity) mContext).setResult(Activity.RESULT_OK);
+            ((Activity) mContext).setResult(Activity.RESULT_OK, intent);
+
             ((Activity) mContext).finish();
         }
+    }
+
+    /**
+     * 如果当前fragment属于viewPager中的一个页面，viewPager选中的时候调用此方法
+     */
+    public void onViewPagerSelected() {
+
+    }
+
+    /**
+     * 如果当前fragment属于viewPager中的一个页面，viewPager选中的时候调用此方法
+     */
+    public void onViewPagerUnSelected() {
+
     }
 
     /**
      * 上层添加布局View
      *
      * @param inflater
+     *         inflater
      * @param container
+     *         container
      * @param savedInstanceState
+     *         savedInstanceState
      *
-     * @return
+     * @return 上层添加布局View
      */
     protected abstract View onCreateRootView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 

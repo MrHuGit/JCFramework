@@ -1,8 +1,8 @@
 package com.android.framework.jc;
 
-import com.android.framework.jc.cache.DatabaseCache;
-import com.android.framework.jc.cache.IFkCache;
-import com.android.framework.jc.cache.MemoryCache;
+import com.android.framework.jc.data.cache.DatabaseCache;
+import com.android.framework.jc.data.cache.IFkCache;
+import com.android.framework.jc.data.cache.MemoryCache;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -16,7 +16,7 @@ public class FkCacheManager {
 
     private FkCacheManager() {
         mMemoryCache = new MemoryCache();
-        mDatabaseCache = new DatabaseCache();
+        mDatabaseCache = new DatabaseCache(FkRealmManager.getInstance());
 
     }
 

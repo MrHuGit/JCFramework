@@ -2,16 +2,13 @@ package com.android.framework.jc;
 
 import android.support.annotation.NonNull;
 
-import com.android.framework.jc.network.OkHttpManager;
-import com.android.framework.jc.network.RetrofitManager;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import okhttp3.internal.Util;
 import retrofit2.Retrofit;
 
@@ -26,13 +23,12 @@ public class NetworkManager {
     private final HashMap<Object, CompositeDisposable> mDisposableMap;
     private final static String HTTP="http:";
     private final static String HTTPS="https:";
-    private Retrofit mCustomRetrofit;
-    private final Retrofit.Builder mDefaultRetrofitBuild;
+    private final Retrofit.Builder mRetrofitBuild;
 
     private NetworkManager() {
         mRetrofitMaps = new LinkedHashMap<>();
         mDisposableMap = new HashMap<>();
-        mDefaultRetrofitBuild= RetrofitManager.getInstance().getRetrofitBuilder();
+        mRetrofitBuild= JcFramework.getInstance().getFrameworkConfig().getRetrofitBuilder();
 
     }
 
@@ -59,15 +55,11 @@ public class NetworkManager {
             throw new IllegalArgumentException("Illegal URL: " + url);
         }
         if (mRetrofitMaps.containsKey(httpUrl)) {
-            return mRetrofitMaps.get(httpUrl).create(service);
+            return Objects.requireNonNull(mRetrofitMaps.get(httpUrl)).create(service);
         }
         Retrofit retrofit;
         synchronized (NetworkManager.class) {
-            if (mCustomRetrofit != null) {
-                retrofit = mCustomRetrofit.newBuilder().baseUrl(url).build();
-            } else {
-                retrofit = mDefaultRetrofitBuild.baseUrl(url).build();
-            }
+            retrofit = mRetrofitBuild.baseUrl(url).build();
             mRetrofitMaps.put(httpUrl, retrofit);
         }
         return retrofit.create(service);
@@ -82,15 +74,17 @@ public class NetworkManager {
      * @param tag
      *         tag{@link #addDispose(Object, Disposable)}
      */
-    public void dispose(Object tag) {
+    public void clearDispose(Object tag) {
         if (mDisposableMap.containsKey(tag)) {
             CompositeDisposable compositeDisposable = mDisposableMap.remove(tag);
-            compositeDisposable.clear();
+            if (compositeDisposable != null) {
+                compositeDisposable.clear();
+            }
         }
     }
 
     /**
-     * 添加网络请求,可以用{@link #dispose(Object)}移除请求
+     * 添加网络请求,可以用{@link #clearDispose(Object)}移除请求
      *
      * @param tag
      *         tag
@@ -118,7 +112,7 @@ public class NetworkManager {
     /**
      * 清除所有请求
      */
-     void clearDisposable() {
+     void clearAllDisposable() {
         for (CompositeDisposable compositeDisposable : mDisposableMap.values()) {
             compositeDisposable.clear();
         }
@@ -134,26 +128,7 @@ public class NetworkManager {
         return Holder.INSTANCE;
     }
 
-    /**
-     * 设置自定义okHttpClient
-     *
-     * @param okHttpClient
-     *         自定义
-     */
-    protected synchronized void initCustomOkHttp(@NonNull OkHttpClient okHttpClient) {
-        mDefaultRetrofitBuild.client(okHttpClient);
-    }
 
-    /**
-     * 设置自定义retrofit
-     *
-     * @param retrofit
-     *         自定义
-     */
-    protected synchronized void initCustomRetrofit(@NonNull Retrofit retrofit) {
-        mRetrofitMaps.put(retrofit.baseUrl(), retrofit);
-        mCustomRetrofit = retrofit;
-    }
 
 
 }

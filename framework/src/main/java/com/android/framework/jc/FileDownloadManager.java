@@ -5,8 +5,7 @@ import android.app.Activity;
 
 import com.android.framework.jc.base.FkPermission;
 import com.android.framework.jc.exception.NetworkErrorException;
-import com.android.framework.jc.network.RetrofitManager;
-import com.android.framework.jc.network.interceptor.ProgressInterceptor;
+import com.android.framework.jc.data.network.interceptor.ProgressInterceptor;
 import com.android.framework.jc.util.FileUtils;
 import com.android.framework.jc.util.FormatUtils;
 
@@ -94,11 +93,11 @@ public class FileDownloadManager {
 
     private Disposable download(String url, String savePath, Listener listener) {
 
-        return RetrofitManager.getInstance().getRetrofitBuilder()
+        return JcFramework.getInstance().getFrameworkConfig()
+                .getRetrofitBuilder()
                 .client(mOkHttpBuild.addInterceptor(new ProgressInterceptor((progress, total, bytesRead, done) -> {
                     if (listener != null) {
-                        JcFramework.runOnMainThread(() -> listener.onProgress(progress, total, bytesRead));
-
+                        FkScheduler.runOnUiThread(() -> listener.onProgress(progress, total, bytesRead));
                     }
                 })).build())
                 .baseUrl("https://github.com/MrHuGit/")

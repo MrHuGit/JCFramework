@@ -1,5 +1,6 @@
 package com.android.framework.jc.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -7,6 +8,16 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
 import com.android.framework.jc.JcFramework;
+
+import java.lang.reflect.Field;
+import java.security.SecureRandom;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -94,5 +105,53 @@ public class NetworkUtils {
     public static void openSetting() {
         Intent intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
         JcFramework.getInstance().getTopActivity().startActivity(intent);
+    }
+
+
+    /**
+     * 忽略OkHttp HTTPS证书
+     * @param okHttpClient okHttpClient
+     * @return okHttpClient
+     */
+    public static OkHttpClient ignoreOkHttpSsl(OkHttpClient okHttpClient){
+        SSLContext sc = null;
+        try {
+            sc = SSLContext.getInstance("SSL");
+            sc.init(null, new TrustManager[]{new X509TrustManager() {
+                @SuppressLint("TrustAllX509TrustManager")
+                @Override
+                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                }
+
+                @SuppressLint("TrustAllX509TrustManager")
+                @Override
+                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                }
+
+                @Override
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+            }}, new SecureRandom());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        HostnameVerifier hv1 = (hostname, session) -> true;
+        String workerClassName = "okhttp3.OkHttpClient";
+        try {
+            Class workerClass = Class.forName(workerClassName);
+            Field hostnameVerifier = workerClass.getDeclaredField("hostnameVerifier");
+            hostnameVerifier.setAccessible(true);
+            hostnameVerifier.set(okHttpClient, hv1);
+
+            Field sslSocketFactory = workerClass.getDeclaredField("sslSocketFactory");
+            sslSocketFactory.setAccessible(true);
+            if (sc != null) {
+                sslSocketFactory.set(okHttpClient, sc.getSocketFactory());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return okHttpClient;
     }
 }

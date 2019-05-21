@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
-
+//
 android {
     compileSdkVersion defaultConfigs.compileSdkVersion
     buildToolsVersion defaultConfigs.buildToolsVersion
@@ -12,6 +10,11 @@ android {
         versionName defaultConfigs.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         flavorDimensions "versionCode"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
     buildTypes {
         release {
@@ -53,4 +56,13 @@ dependencies {
 //    implementation "org.jetbrains.anko:anko-common:$anko_version"
     implementation deps.support.recyclerview
     implementation project(':framework')
+    implementation"com.google.dagger:dagger:2.16"
+    annotationProcessor"com.google.dagger:dagger-compiler:2.15"
+    testImplementation deps.junit
+
+// 若使用annotation需要单独引用,对于tinker的其他库都无需再引用
+    compileOnly("com.tencent.tinker:tinker-android-anno:${versions.tinker}")
+    implementation("com.tencent.tinker:tinker-android-lib:${versions.tinker}")
+    api("com.tencent.tinker:tinker-android-lib:${versions.tinker}") { changing = true }
 }
+apply from: "tinker.gradle"

@@ -60,7 +60,7 @@ public class RSAUtils {
      *
      * @return 加密后的数据
      */
-    public static byte[] encryptDefaultPublic(byte[] data) {
+    public static byte[] encrypt(byte[] data) {
         return encrypt(data, loadPublicKey(DEFAULT_PUBLIC_KEY));
     }
 
@@ -72,7 +72,7 @@ public class RSAUtils {
      *
      * @return 加密后的数据
      */
-    public static String encryptDefaultPublic(String value) {
+    public static String encrypt(String value) {
         return encrypt(value, loadPublicKey(DEFAULT_PUBLIC_KEY));
     }
 
@@ -134,7 +134,7 @@ public class RSAUtils {
      *
      * @return 解密后的数据
      */
-    public static byte[] decryptDefaultPublic(byte[] encryptedData) {
+    public static byte[] decrypt(byte[] encryptedData) {
         return decrypt(encryptedData, loadPrivateKey(DEFAULT_PRIVATE_KEY));
     }
 
@@ -146,7 +146,7 @@ public class RSAUtils {
      *
      * @return 解密后的数据
      */
-    public static String decryptDefaultPublic(String encryptedString) {
+    public static String decrypt(String encryptedString) {
         return decrypt(encryptedString, loadPrivateKey(DEFAULT_PRIVATE_KEY));
     }
 
