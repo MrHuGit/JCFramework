@@ -8,7 +8,6 @@ import android.os.Process;
 import android.support.annotation.NonNull;
 
 import com.android.framework.jc.exception.RepeatInitializeException;
-import com.android.framework.jc.message.MessageManager;
 import com.android.framework.jc.message.plugs.BasePlug;
 import com.android.framework.jc.util.AppUtils;
 import com.android.framework.jc.util.LogUtils;
@@ -25,12 +24,14 @@ import io.reactivex.plugins.RxJavaPlugins;
  * @describe 简单功能的封装
  * @update
  */
-public class JcFramework {
+public final class JcFramework {
     private Application mApplication;
     private Activity mTopActivity;
     private final LinkedList<Activity> mActivityList;
-
-
+    /**
+     * 活动在前端的Activity的数量
+     */
+    private int activityStartedCount = 0;
     private final static Class TAG = JcFramework.class;
     private IFramework.FrameworkConfig mFrameworkConfig;
 
@@ -43,6 +44,11 @@ public class JcFramework {
         private static JcFramework INSTANCE = new JcFramework();
     }
 
+    /**
+     * 获取框架单例
+     *
+     * @return 框架单例
+     */
     public static JcFramework getInstance() {
         return Holder.INSTANCE;
     }
@@ -75,7 +81,13 @@ public class JcFramework {
 
             @Override
             public void onActivityStarted(Activity activity) {
-
+                if (activityStartedCount == 0) {
+                    IFramework.AppLifecycleListener lifecycleListener = getFrameworkConfig().getAppLifecycleListener();
+                    if (lifecycleListener!=null){
+                        lifecycleListener.onLifecycle(true);
+                    }
+                }
+                activityStartedCount++;
             }
 
             @Override
@@ -90,6 +102,14 @@ public class JcFramework {
 
             @Override
             public void onActivityStopped(Activity activity) {
+                activityStartedCount--;
+                if (activityStartedCount<=0){
+                    IFramework.AppLifecycleListener lifecycleListener = getFrameworkConfig().getAppLifecycleListener();
+                    if (lifecycleListener!=null){
+                        lifecycleListener.onLifecycle(false);
+                    }
+                }
+
 
             }
 
@@ -114,10 +134,20 @@ public class JcFramework {
         RxJavaPlugins.setErrorHandler(throwable -> LogUtils.i(TAG, throwable.toString()));
     }
 
+    /**
+     * 获取Application
+     *
+     * @return Application
+     */
     public Application getApplication() {
         return mApplication;
     }
 
+    /**
+     * 获取栈顶的Activity
+     *
+     * @return 栈顶的Activity
+     */
     public Activity getTopActivity() {
         return mTopActivity;
     }
@@ -191,10 +221,22 @@ public class JcFramework {
 
     }
 
+    /**
+     * 获取框架配置
+     *
+     * @return 框架配置参数
+     */
     @NonNull
-    public IFramework.FrameworkConfig getFrameworkConfig() {
+    IFramework.FrameworkConfig getFrameworkConfig() {
         return mFrameworkConfig == null ? mFrameworkConfig = IFramework.FrameworkConfig.builder().build() : mFrameworkConfig;
     }
 
-
+    /**
+     * 判断当前APP是否运行在后台
+     *
+     * @return APP是否运行在后台
+     */
+    public boolean checkAppBackground() {
+        return activityStartedCount <= 0;
+    }
 }

@@ -63,6 +63,7 @@ dependencies {
 // 若使用annotation需要单独引用,对于tinker的其他库都无需再引用
     compileOnly("com.tencent.tinker:tinker-android-anno:${versions.tinker}")
     implementation("com.tencent.tinker:tinker-android-lib:${versions.tinker}")
+    implementation("com.tencent.tinker:tinker-android-loader:${versions.tinker}") { changing = true }
     api("com.tencent.tinker:tinker-android-lib:${versions.tinker}") { changing = true }
 }
 apply from: "tinker.gradle"

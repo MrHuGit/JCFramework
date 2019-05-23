@@ -1,11 +1,11 @@
-package com.android.framework.jc.message;
+package com.android.framework.jc;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.android.framework.jc.JcFramework;
 import com.android.framework.jc.js.FkWebView;
+import com.android.framework.jc.message.IModule;
 import com.android.framework.jc.message.body.MessageBody;
 import com.android.framework.jc.message.plugs.BasePlug;
 import com.android.framework.jc.message.plugs.Plug10000;
@@ -24,7 +24,7 @@ import java.util.Map;
  * @describe 消息管理类
  * @update
  */
-public class MessageManager {
+public final class MessageManager {
     private final IMessageAdapter mMessageAdapter;
     private final HashMap<String, IModule> mModuleMaps;
     private final Map<Integer, Class<? extends BasePlug>> mPlugMaps;
@@ -226,7 +226,7 @@ public class MessageManager {
      * @param map
      *         map
      */
-    public void addNormalMessage(Map<Integer, Class<? extends BasePlug>> map) {
+    void addNormalMessage(Map<Integer, Class<? extends BasePlug>> map) {
         mPlugMaps.putAll(map);
     }
 
@@ -266,7 +266,7 @@ public class MessageManager {
      *
      * @return 是否是通用组件
      */
-     boolean checkPlugMessage(MessageBody messageBody) {
+    public boolean checkPlugMessage(MessageBody messageBody) {
         boolean result = false;
         int messageId = messageBody.getMsgId();
         if (mPlugMaps.containsKey(messageId)) {

@@ -20,7 +20,7 @@ public class FkUrlManager {
         private final static FkUrlManager INSTANCE = new FkUrlManager();
     }
 
-    public static FkUrlManager getInstance() {
+     static FkUrlManager getInstance() {
         return Holder.INSTANCE;
     }
 
@@ -49,7 +49,7 @@ public class FkUrlManager {
      * @param adapter
      *         适配器
      */
-    protected void setAdapter(IAdapter adapter) {
+     void setAdapter(IAdapter adapter) {
         Disposable disposable = adapter.update();
         if (disposable != null) {
             NetworkManager.getInstance().addDispose(FkUrlManager.this, disposable);
@@ -66,7 +66,7 @@ public class FkUrlManager {
      *
      * @return 实际url地址（如果设置了适配器，这里返回的就不再是配置文件中配置的地址）
      */
-    public String getUrl(String configUrlName) {
+     String getUrl(String configUrlName) {
         String url = null;
         if (mAdapter != null) {
             NetworkManager.getInstance().clearDispose(FkUrlManager.this);

@@ -1,10 +1,11 @@
-package com.android.framework.jc.message;
+package com.android.framework.jc;
 
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.android.framework.jc.FkScheduler;
 import com.android.framework.jc.js.FkWebView;
+import com.android.framework.jc.message.IMessageCallback;
+import com.android.framework.jc.message.ModuleType;
 import com.android.framework.jc.message.body.MessageBody;
 import com.android.framework.jc.util.LogUtils;
 
@@ -21,7 +22,7 @@ public interface IMessageAdapter {
     int DEFAULT_RESPONSE_MSG_ID = -1;
 
     /**
-     * 接收到H5的消息
+     * 接收到H5的消息{@link Default#onReceiveJsMessage(FkWebView, String)}
      *
      * @param fkWebView
      *         webView
@@ -32,7 +33,7 @@ public interface IMessageAdapter {
 
 
     /**
-     * 消息回调处理
+     * 消息回调处理{@link Default#createCallbackResult(JSONObject, boolean, String)}
      *
      * @param resultContentJson
      *         回调内容
@@ -46,7 +47,7 @@ public interface IMessageAdapter {
     JSONObject createCallbackResult(JSONObject resultContentJson, boolean isSuccess, String failMessage);
 
     /**
-     * 分发消息处理
+     * 分发消息处理{@link Default#dispatchMessage(MessageBody)}
      *
      * @param messageBody
      *         消息体
@@ -54,7 +55,7 @@ public interface IMessageAdapter {
     void dispatchMessage(MessageBody messageBody);
 
     /**
-     * 发送消息给H5
+     * 发送消息给H5{@link Default#sendMessageToJs(FkWebView, MessageBody)}
      *
      * @param fkWebView
      *         fkWebView

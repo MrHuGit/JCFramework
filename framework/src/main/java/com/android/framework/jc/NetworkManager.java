@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
  * @describe 网络请求
  * @update
  */
-public class NetworkManager {
+public final class NetworkManager {
     private final LinkedHashMap<HttpUrl, Retrofit> mRetrofitMaps;
     private final HashMap<Object, CompositeDisposable> mDisposableMap;
     private final static String HTTP="http:";

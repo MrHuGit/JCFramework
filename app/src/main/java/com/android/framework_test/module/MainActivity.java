@@ -17,14 +17,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.framework.jc.FkScheduler;
 import com.android.framework.jc.JcFramework;
 import com.android.framework.jc.NetworkManager;
+import com.android.framework.jc.adapter.recyclerview.BaseViewHolder;
+import com.android.framework.jc.adapter.recyclerview.NormalRvAdapter;
 import com.android.framework.jc.base.AppStateManager;
 import com.android.framework.jc.data.network.interceptor.FkLogInterceptor;
 import com.android.framework.jc.util.LogUtils;
 import com.android.framework.jc.widget.NumberInputFilter;
 import com.android.framework_test.R;
-import com.android.framework_test.adapter.ListChooseAdapter;
 import com.android.framework_test.base.BaseActivity;
 import com.android.framework_test.base.BaseFragment;
 import com.android.framework_test.data.bean.ListBean;
@@ -86,7 +88,7 @@ public class MainActivity extends BaseActivity {
 
     public static class MainFragment extends BaseFragment {
         private RecyclerView mRecyclerView;
-        private ListChooseAdapter mAdapter;
+        private NormalRvAdapter<ListBean> mAdapter;
         private TextView tvAddItem;
 
         public static MainFragment newFragment() {
@@ -110,37 +112,40 @@ public class MainActivity extends BaseActivity {
             mRecyclerView = view.findViewById(R.id.recycler_view);
             tvAddItem = (TextView) view.findViewById(R.id.tv_add_item);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-            mRecyclerView.setAdapter(mAdapter = new ListChooseAdapter());
+            mRecyclerView.setAdapter(mAdapter = new NormalRvAdapter<ListBean>(R.layout.item_list_choose, R.layout.item_empty, ListBean.class) {
+                @Override
+                protected void onConvert(BaseViewHolder<ListBean> viewHolder, ListBean t, int position) {
+                    viewHolder.setText(R.id.tv_name, t.getName());
+                }
+
+            });
             EditText et = view.findViewById(R.id.et_input_test);
             et.setFilters(new InputFilter[]{new NumberInputFilter(2)});
             network();
             mRecyclerView.setOnClickListener(v -> network());
             mAdapter.setOnItemClickListener((view1, holder, listBean, position) -> startActivity(new Intent(mContext, listBean.getActivityClass())));
-            addList();
-            DefaultItemAnimator itemAnimator=new DefaultItemAnimator();
-            itemAnimator.setChangeDuration(3000);
+            DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
+            itemAnimator.setChangeDuration(800);
+            itemAnimator.setAddDuration(800);
             mRecyclerView.setItemAnimator(itemAnimator);
             final boolean[] notify = {true};
             tvAddItem.setOnClickListener(v -> {
-                List<ListBean> list = new ArrayList<>();
-                list.add(new ListBean("工具" + Math.random(), UtilListActivity.class));
-                list.add(new ListBean("工具" + Math.random(), UtilListActivity.class));
-                if (notify[0]) {
-                    mAdapter.setList(list).notifyItemRangeChanged(0, list.size());
-                } else {
+                mAdapter.showLoadingView(R.layout.item_loading);
+                FkScheduler.runOnDelay(() -> {
+                    List<ListBean> list = new ArrayList<>();
+                    if (notify[0]) {
+                        list.add(new ListBean("工具" + Math.random(), UtilListActivity.class));
+                        list.add(new ListBean("工具" + Math.random(), UtilListActivity.class));
+                    }
                     mAdapter.setList(list).notifyDataSetChanged();
-                }
-                notify[0] = !notify[0];
+                    notify[0] = !notify[0];
+                }, 3000);
+
 
             });
-LogUtils.i(MainFragment.class,Environment.getExternalStorageDirectory().getAbsolutePath());
+            LogUtils.i(MainFragment.class, Environment.getExternalStorageDirectory().getAbsolutePath());
         }
 
-        private void addList() {
-            List<ListBean> list = new ArrayList<>();
-            list.add(new ListBean("工具", UtilListActivity.class));
-            mAdapter.setList(list).notifyDataSetChanged();
-        }
 
         private void network() {
             HashMap<String, String> params = new HashMap<>();

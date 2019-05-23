@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.android.framework.jc.data.network.cookie.ICookieCache;
 import com.android.framework.jc.data.network.cookie.MemoryCookieCache;
-import com.android.framework.jc.message.IMessageAdapter;
 import com.android.framework.jc.message.plugs.BasePlug;
 
 import java.util.Map;
@@ -19,6 +18,15 @@ import retrofit2.Retrofit;
  * @update
  */
 public interface IFramework {
+    interface AppLifecycleListener {
+        /**
+         * 当前APP是否可见（运行在前台）
+         *
+         * @param isAppShow
+         *         是否可见（运行在前台）
+         */
+        void onLifecycle(boolean isAppShow);
+    }
 
     /**
      * 创建框架配置
@@ -39,30 +47,34 @@ public interface IFramework {
         }
 
         @NonNull
-        public OkHttpClient getOkHttpClient() {
+        OkHttpClient getOkHttpClient() {
             return builder.okHttpClient == null ? OkHttpManager.getInstance().getOkHttpClient() : builder.okHttpClient;
         }
 
         @NonNull
-        public Retrofit.Builder getRetrofitBuilder() {
+        Retrofit.Builder getRetrofitBuilder() {
             return builder.retrofitBuilder == null ? RetrofitManager.getInstance().getRetrofitBuilder() : builder.retrofitBuilder;
         }
 
-        public FkUrlManager.IAdapter getUrlAdapter() {
+        FkUrlManager.IAdapter getUrlAdapter() {
             return builder.urlAdapter;
         }
 
-        public ICookieCache getCookieCache() {
+        ICookieCache getCookieCache() {
             return builder.cookieCache == null ? new MemoryCookieCache() : builder.cookieCache;
         }
 
         @NonNull
-        public IMessageAdapter getMessageAdapter() {
+        IMessageAdapter getMessageAdapter() {
             return builder.messageAdapter == null ? new IMessageAdapter.Default() : builder.messageAdapter;
         }
 
-        public Map<Integer, Class<? extends BasePlug>> getAddPlugsMap() {
+        Map<Integer, Class<? extends BasePlug>> getAddPlugsMap() {
             return builder.addPlugsMap;
+        }
+
+        AppLifecycleListener getAppLifecycleListener() {
+            return builder.appLifecycleListener;
         }
     }
 
@@ -92,7 +104,10 @@ public interface IFramework {
          * 通用组件（插件）
          */
         private Map<Integer, Class<? extends BasePlug>> addPlugsMap;
-
+        /**
+         * APP的生命周期监听
+         */
+        private IFramework.AppLifecycleListener appLifecycleListener;
 
         private Builder() {
 
@@ -118,13 +133,18 @@ public interface IFramework {
             return this;
         }
 
-        public IFramework.Builder setMessageBuilder(IMessageAdapter messageAdapter) {
+        public IFramework.Builder setMessageAdapter(IMessageAdapter messageAdapter) {
             this.messageAdapter = messageAdapter;
             return this;
         }
 
         public IFramework.Builder addPlugsMap(Map<Integer, Class<? extends BasePlug>> addPlugsMap) {
             this.addPlugsMap = addPlugsMap;
+            return this;
+        }
+
+        public IFramework.Builder setAppLifecycleListener(IFramework.AppLifecycleListener appLifecycleListener) {
+            this.appLifecycleListener = appLifecycleListener;
             return this;
         }
 

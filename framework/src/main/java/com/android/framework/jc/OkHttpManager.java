@@ -4,6 +4,7 @@ import com.android.framework.jc.data.network.cookie.FkCookieJarImpl;
 import com.android.framework.jc.data.network.cookie.ICookieCache;
 import com.android.framework.jc.data.network.interceptor.FkCacheInterceptor;
 import com.android.framework.jc.data.network.interceptor.FkLogInterceptor;
+import com.android.framework.jc.util.AppUtils;
 import com.android.framework.jc.util.NetworkUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -16,7 +17,7 @@ import okhttp3.OkHttpClient;
  * @describe OkHttp管理类
  * @update
  */
-public class OkHttpManager {
+final class OkHttpManager {
     private final static String CONNECT_TIMEOUT_KEY = "okHttpConnectTimeout";
     private final static String READ_TIMEOUT_KEY = "okHttpReadTimeout";
     private final static String WRITE_TIMEOUT_KEY = "okHttpWriteTimeout";
@@ -39,7 +40,7 @@ public class OkHttpManager {
 //                .addNetworkInterceptor(cacheInterceptor)
                 .cookieJar(mCookieJar);
         //根据配置文件的log日志开关判断是否需要添加日志拦截器
-        if (ConfigManager.getInstance().getBooleanValue(LOG_DEBUG)) {
+        if (ConfigManager.getInstance().getBooleanValue(LOG_DEBUG) && AppUtils.checkDebug(JcFramework.getInstance().getApplication())) {
             build.addInterceptor(new FkLogInterceptor());
         }
         mDefaultOkHttpClient = build.build();
@@ -49,19 +50,19 @@ public class OkHttpManager {
         private final static OkHttpManager INSTANCE = new OkHttpManager();
     }
 
-    public static OkHttpManager getInstance() {
+    static OkHttpManager getInstance() {
         return Holder.INSTANCE;
     }
 
 
-    public  OkHttpClient getOkHttpClient() {
+    OkHttpClient getOkHttpClient() {
         return ConfigManager.getInstance().getBooleanValue(IGNORE_SSL) ? NetworkUtils.ignoreOkHttpSsl(mDefaultOkHttpClient) : mDefaultOkHttpClient;
     }
 
     /**
      * 清除cookie
      */
-     void clearCookie() {
+    void clearCookie() {
         mCookieJar.clear();
     }
 

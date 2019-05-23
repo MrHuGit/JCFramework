@@ -19,7 +19,7 @@ import com.android.framework.jc.js.FkWebChromeClient;
 import com.android.framework.jc.js.FkWebView;
 import com.android.framework.jc.js.FkWebViewClient;
 import com.android.framework.jc.js.FkWebViewProgressBar;
-import com.android.framework.jc.message.MessageManager;
+import com.android.framework.jc.MessageManager;
 import com.android.framework.jc.util.ConvertUtils;
 import com.android.framework.jc.util.WebViewUtils;
 

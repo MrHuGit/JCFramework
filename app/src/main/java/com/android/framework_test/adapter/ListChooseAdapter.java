@@ -1,7 +1,7 @@
 package com.android.framework_test.adapter;
 
+import com.android.framework.jc.adapter.recyclerview.BaseViewHolder;
 import com.android.framework.jc.adapter.recyclerview.NormalRvAdapter;
-import com.android.framework.jc.adapter.recyclerview.ViewHolder;
 import com.android.framework_test.R;
 import com.android.framework_test.data.bean.ListBean;
 
@@ -13,11 +13,12 @@ import com.android.framework_test.data.bean.ListBean;
  */
 public class ListChooseAdapter extends NormalRvAdapter<ListBean> {
     public ListChooseAdapter() {
-        super(R.layout.item_list_choose);
+        super(R.layout.item_list_choose,R.layout.item_empty,ListBean.class);
     }
 
+
     @Override
-    public void convert(ViewHolder holder, ListBean bean, int position) {
-        holder.setText(R.id.tv_name, bean.getName());
+    protected void onConvert(BaseViewHolder<ListBean> viewHolder, ListBean t, int position) {
+
     }
 }

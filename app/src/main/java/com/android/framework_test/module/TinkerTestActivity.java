@@ -6,11 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.android.framework.jc.FkDownload;
-import com.android.framework.jc.base.AppStateManager;
+import com.android.framework.jc.MessageManager;
+import com.android.framework.jc.adapter.recyclerview.BaseViewHolder;
 import com.android.framework.jc.adapter.recyclerview.NormalRvAdapter;
-import com.android.framework.jc.adapter.recyclerview.ViewHolder;
+import com.android.framework.jc.base.AppStateManager;
 import com.android.framework.jc.message.IModule;
-import com.android.framework.jc.message.MessageManager;
 import com.android.framework.jc.message.body.MessageBody;
 import com.android.framework.jc.widget.WebViewWrap;
 import com.android.framework_test.R;
@@ -53,11 +53,10 @@ public class TinkerTestActivity extends BaseActivity implements IModule {
         webViewWrap.loadUrl("http://tnode.exxstar.com/Exx_Double_Festival_h5?lan=zh");
         webViewWrap.registerModule("activityCenter","exx");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mAdapter = new NormalRvAdapter<String>(R.layout.item_list_choose) {
-
+        recyclerView.setAdapter(mAdapter = new NormalRvAdapter<String>(R.layout.item_list_choose, String.class) {
             @Override
-            public void convert(ViewHolder holder, String bean, int position) {
-                holder.setText(R.id.tv_name, bean);
+            protected void onConvert(BaseViewHolder<String> viewHolder, String t, int position) {
+
             }
         });
         List<String> list = new ArrayList<>();

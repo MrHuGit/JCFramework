@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.android.framework.jc.IFramework;
 import com.android.framework.jc.JcFramework;
+import com.android.framework.jc.util.LogUtils;
 import com.tencent.tinker.anno.DefaultLifeCycle;
 import com.tencent.tinker.entry.DefaultApplicationLike;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
@@ -24,21 +25,18 @@ public class TinkerApplicationLike extends DefaultApplicationLike {
     public TinkerApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag,
                                  long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
         super(application, tinkerFlags, tinkerLoadVerifyFlag, applicationStartElapsedTime, applicationStartMillisTime, tinkerResultIntent);
-        this.mApplication=application;
+        this.mApplication = application;
     }
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        JcFramework.init(mApplication, new IFramework() {
-            @Override
-            public FrameworkConfig createFramework() {
-                return null;
-            }
-        });
+        JcFramework.init(mApplication, () -> IFramework.FrameworkConfig.builder()
+                .setAppLifecycleListener(isAppShow -> LogUtils.i(TinkerApplicationLike.class, "isAppShow->" + isAppShow))
+                .build());
         // 初始化TinkerPatch SDK, 更多配置可参照API章节中的,初始化 SDK
-        TinkerManager.installTinker(this,true);
+        TinkerManager.installTinker(this, true);
 
     }
 }

@@ -11,13 +11,13 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * @describe
  * @update
  */
-public class RetrofitManager {
+final  class RetrofitManager {
     private final Retrofit.Builder mDefaultRetrofitBuilder;
     private static class Holder {
         private final static RetrofitManager INSTANCE = new RetrofitManager();
     }
 
-    public static RetrofitManager getInstance() {
+     static RetrofitManager getInstance() {
         return Holder.INSTANCE;
     }
 
@@ -28,7 +28,7 @@ public class RetrofitManager {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
     }
 
-    public Retrofit.Builder getRetrofitBuilder(){
+     Retrofit.Builder getRetrofitBuilder(){
         return mDefaultRetrofitBuilder;
     }
 

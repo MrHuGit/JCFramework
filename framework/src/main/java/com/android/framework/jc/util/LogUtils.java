@@ -19,7 +19,8 @@ public final class LogUtils {
     }
 
     public static class Holder {
-        public final static boolean DEBUG = "true".equalsIgnoreCase(ConfigManager.getInstance().getValue("logDebug").trim());
+        private final static boolean DEBUG = AppUtils.checkDebug(JcFramework.getInstance().getApplication()) &&
+                "true".equalsIgnoreCase(ConfigManager.getInstance().getValue("logDebug").trim());
     }
 
     public static void v(String... s) {

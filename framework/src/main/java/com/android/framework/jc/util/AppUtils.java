@@ -3,6 +3,7 @@ package com.android.framework.jc.util;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +24,23 @@ import java.util.List;
  * @update
  */
 public class AppUtils {
+    /**
+     * 判断当前应用是否是debug状态
+     *
+     * @param context
+     *         context
+     *
+     * @return 是否是debug状态
+     */
+    public static boolean checkDebug(Context context) {
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     /**
      * 是否是主进程
      *

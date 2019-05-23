@@ -2,7 +2,7 @@ package com.android.framework.jc.js;
 
 import android.webkit.JavascriptInterface;
 
-import com.android.framework.jc.message.MessageManager;
+import com.android.framework.jc.MessageManager;
 
 /**
  * @author Mr.Hu(Jc) JCFramework

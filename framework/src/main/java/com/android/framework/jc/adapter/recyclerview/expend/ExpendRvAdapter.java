@@ -6,10 +6,10 @@
 //import android.view.View;
 //import android.view.ViewGroup;
 //
-//import com.android.framework.jc.adapter.recyclerview.IRvAdapterAgent;
+//import com.android.framework.jc.adapter.recyclerview.deprecated.IRvAdapterAgent;
 //import com.android.framework.jc.adapter.recyclerview.RvAdapterTool;
-//import com.android.framework.jc.adapter.recyclerview.RvItemView;
-//import com.android.framework.jc.adapter.recyclerview.ViewHolder;
+//import com.android.framework.jc.adapter.recyclerview.deprecated.RvItemView;
+//import com.android.framework.jc.adapter.recyclerview.deprecated.ViewHolder;
 //
 //import java.util.List;
 //

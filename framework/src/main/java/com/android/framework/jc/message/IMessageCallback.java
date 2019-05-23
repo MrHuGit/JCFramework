@@ -1,5 +1,7 @@
 package com.android.framework.jc.message;
 
+import com.android.framework.jc.MessageManager;
+
 import org.json.JSONObject;
 
 /**
