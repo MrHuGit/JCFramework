@@ -18,32 +18,45 @@ import com.android.framework.jc.wrapper.IViewWrapper;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 /**
  * @author Mr.Hu(Jc) JCFramework
  * @create 2018/7/16 18:28
  * @describe
  * @update
  */
-public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragment implements IFkContract.IView<P> {
+public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragment implements IFkContract.IView {
     protected Context mContext;
     private final ArrayList<IViewWrapper> headWrappers = new ArrayList<>();
     private final ArrayList<IViewWrapper> footWrappers = new ArrayList<>();
+    @Inject
     protected P mPresenter;
-    private String mFragmentTag;
 
     @CallSuper
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        onCreateComponent();
+        if (mPresenter != null) {
+            getLifecycle().addObserver(mPresenter);
+        }
         for (IViewWrapper wrapper : headWrappers) {
-            wrapper.onWrapperAttach(context);
+            getLifecycle().addObserver(wrapper);
         }
         for (IViewWrapper wrapper : footWrappers) {
-            wrapper.onWrapperAttach(context);
+            getLifecycle().addObserver(wrapper);
         }
-
-        mContext = context;
     }
+
+    protected abstract void onCreateComponent();
 
     @Nullable
     @Override
@@ -68,18 +81,15 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
         return rootView;
     }
 
+
     /**
      * 添加头部装饰者
      *
      * @param wrapper
      *         头部装饰者
-     *
-     * @return 当前对象
      */
-    public FkFragment addHeadWrapper(IViewWrapper wrapper) {
-
+    public void addHeadWrapper(IViewWrapper wrapper) {
         headWrappers.add(wrapper);
-        return this;
     }
 
     /**
@@ -87,12 +97,9 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
      *
      * @param wrapper
      *         wrapper
-     *
-     * @return 当前对象
      */
-    public FkFragment addFootWrapper(IViewWrapper wrapper) {
+    public void addFootWrapper(IViewWrapper wrapper) {
         footWrappers.add(wrapper);
-        return this;
     }
 
     /**
@@ -109,7 +116,7 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
      */
     private void addView(LinearLayout rootView, LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         for (int i = 0; i < headWrappers.size(); i++) {
-            View headView = headWrappers.get(i).onCreateWrapperView(inflater, null, savedInstanceState);
+            View headView = headWrappers.get(i).onCreateView(inflater, null, savedInstanceState);
             if (headView == null) {
                 continue;
             }
@@ -120,7 +127,7 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
 
         }
         for (IViewWrapper wrapper : footWrappers) {
-            View footView = wrapper.onCreateWrapperView(inflater, null, savedInstanceState);
+            View footView = wrapper.onCreateView(inflater, null, savedInstanceState);
             if (footView == null) {
                 continue;
             }
@@ -185,31 +192,4 @@ public abstract class FkFragment<P extends IFkContract.IPresenter> extends Fragm
     protected abstract View onCreateRootView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
 
-    @Override
-    public void setPresenter(P presenter) {
-        mPresenter = presenter;
-        mPresenter.onAttachView(this);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mPresenter != null) {
-            mPresenter.onDetachView();
-        }
-        for (IViewWrapper wrapper : headWrappers) {
-            wrapper.onWrapperDestroy();
-        }
-        for (IViewWrapper wrapper : footWrappers) {
-            wrapper.onWrapperDestroy();
-        }
-    }
-
-    protected void setFragmentTag(String tag) {
-        this.mFragmentTag = tag;
-    }
-
-    protected String getFragmentTag() {
-        return mFragmentTag;
-    }
 }

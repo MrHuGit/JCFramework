@@ -1,6 +1,12 @@
 package com.android.framework.jc.base.mvp;
 
+import android.arch.lifecycle.LifecycleOwner;
+
+import com.android.framework.jc.NetworkManager;
+
 import java.lang.ref.WeakReference;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
@@ -8,29 +14,44 @@ import java.lang.ref.WeakReference;
  * @describe Presenter基类实现
  * @update
  */
-public class BaseFkPresenter<V extends IFkContract.IView> implements IFkContract.IPresenter<V> {
-    private WeakReference<V> viewWeakReference;
+public class BaseFkPresenter<V> implements IFkContract.IPresenter {
+    private WeakReference<V> mViewReference;
 
-    @Override
-    public void onAttachView(V view) {
-        viewWeakReference = new WeakReference<>(view);
+    public BaseFkPresenter(V view) {
+        mViewReference = new WeakReference<>(view);
+    }
+
+
+
+
+    protected void addDispose(Disposable disposable) {
+        NetworkManager.getInstance().addDispose(this, disposable);
     }
 
     @Override
-    public void onDetachView() {
-        if (viewWeakReference != null) {
-            viewWeakReference.clear();
+    public void onDestroy(LifecycleOwner owner) {
+        if (mViewReference != null) {
+            mViewReference.clear();
         }
+        NetworkManager.getInstance().clearDispose(this);
     }
 
+
+    /**
+     * 检测view是否绑定且未被销毁
+     *
+     * @return true表示可以继续调用View的方法
+     */
     protected boolean checkView() {
         return getView() != null;
     }
 
-
+    /**
+     * 获取view
+     *
+     * @return view
+     */
     protected V getView() {
-        return viewWeakReference != null ? viewWeakReference.get() : null;
+        return mViewReference == null ? null : mViewReference.get();
     }
-
-
 }

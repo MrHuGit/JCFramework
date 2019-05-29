@@ -1,6 +1,6 @@
 package com.android.framework.jc.wrapper;
 
-import android.content.Context;
+import android.arch.lifecycle.LifecycleObserver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,14 +14,7 @@ import android.view.ViewGroup;
  * @update
  */
 
-public interface IViewWrapper {
-    /**
-     * onAttach
-     *
-     * @param context
-     *         context
-     */
-    void onWrapperAttach(Context context);
+public interface IViewWrapper extends LifecycleObserver {
 
     /**
      * 动态添加View
@@ -35,12 +28,7 @@ public interface IViewWrapper {
      *
      * @return view
      */
-    View onCreateWrapperView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
+    View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
-
-    /**
-     * 销毁
-     */
-    void onWrapperDestroy();
 
 }

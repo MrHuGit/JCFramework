@@ -7,27 +7,10 @@ package com.android.framework.jc.base.mvp;
  * @update
  */
 public interface IFkContract {
-    interface IPresenter<V extends IView> {
-        /**
-         * 关联View
-         *
-         * @param view
-         */
-        void onAttachView(V view);
+    interface IPresenter extends IFkLifecycle{
 
-        /**
-         * 解除View绑定
-         */
-        void onDetachView();
     }
 
-    interface IView<P extends IPresenter> {
-        /**
-         * 关联Presenter
-         *
-         * @param presenter
-         *         presenter
-         */
-        void setPresenter(P presenter);
+    interface IView {
     }
 }

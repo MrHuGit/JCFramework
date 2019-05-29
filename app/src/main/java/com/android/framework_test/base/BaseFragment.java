@@ -14,12 +14,16 @@ import com.android.framework.jc.base.FkFragment;
  * @describe
  * @update
  */
-public abstract class BaseFragment<P extends IBaseContract.IPresenter> extends FkFragment<P> implements IBaseContract.IView<P> {
-//    @Override
-//    protected View onCreateRootView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return null;
-//    }
+public class BaseFragment extends FkFragment<IBaseContract.IPresenter> implements IBaseContract.IView {
 
 
+    @Override
+    protected void onCreateComponent() {
+        DaggerIBaseContract_IComponent.builder().setView(this).build().inject(this);
+    }
 
+    @Override
+    protected View onCreateRootView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return null;
+    }
 }

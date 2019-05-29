@@ -50,6 +50,10 @@ dependencies {
     //下拉刷新
     implementation deps.refresh.smartrefresh_layout
     implementation deps.refresh.smartrefresh_header
+
+//    implementation"com.google.dagger:dagger:2.16"
+    implementation deps.dagger.runtime
+    annotationProcessor deps.dagger.compiler
 }
 // 指定编码
 tasks.withType(JavaCompile) {

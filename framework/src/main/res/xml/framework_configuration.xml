@@ -20,7 +20,10 @@
         description="OkHttp缓存数据大小(单位M)"
         key="okHttpCacheSize"
         value="10"/>
-
+    <item
+        description="APP被系统回收后再次打开是否要重启应用"
+        key="restartAfterRecover"
+        value="true"/>
     <item
         description="realm数据库名称"
         key="realmName"

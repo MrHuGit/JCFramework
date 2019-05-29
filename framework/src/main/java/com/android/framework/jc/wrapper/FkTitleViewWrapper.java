@@ -22,19 +22,14 @@ import com.android.framework.jc.R;
 
 public class FkTitleViewWrapper implements IViewWrapper {
     private final String mTitle;
-    private Context mContext;
 
     public FkTitleViewWrapper(String title) {
         this.mTitle = title;
     }
 
     @Override
-    public void onWrapperAttach(Context context) {
-        mContext = context;
-    }
-
-    @Override
-    public View onCreateWrapperView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Context context=inflater.getContext();
         View view = inflater.inflate(R.layout.wrapper_view_title, null);
         TextView tvTitle = view.findViewById(R.id.tv_wrapper_view_title);
         if (!TextUtils.isEmpty(mTitle)) {
@@ -42,20 +37,14 @@ public class FkTitleViewWrapper implements IViewWrapper {
         }
         ImageView ivBack = view.findViewById(R.id.iv_back);
         ivBack.setOnClickListener(v -> {
-            if (mContext instanceof Activity) {
-                Activity activity = (Activity) mContext;
+            if (context instanceof Activity) {
+                Activity activity = (Activity) context;
                 if (!activity.isFinishing()) {
                     activity.finish();
                 }
             }
         });
         return view;
-    }
-
-
-    @Override
-    public void onWrapperDestroy() {
-
     }
 
 }
