@@ -34,6 +34,7 @@ public class FkActivity extends AppCompatActivity {
         T t = null;
         if (oldFragment != null) {
             try {
+                //noinspection unchecked
                 t = (T) oldFragment;
             } catch (Exception e) {
                 e.printStackTrace();

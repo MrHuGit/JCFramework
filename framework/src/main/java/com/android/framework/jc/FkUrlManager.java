@@ -69,7 +69,7 @@ public class FkUrlManager {
     public String getUrl(String configUrlName) {
         String url = null;
         if (mAdapter != null) {
-            NetworkManager.getInstance().dispose(FkUrlManager.this);
+            NetworkManager.getInstance().clearDisposeByTag(FkUrlManager.this);
             url = mAdapter.getUrl(configUrlName);
         }
         if (TextUtils.isEmpty(url)) {

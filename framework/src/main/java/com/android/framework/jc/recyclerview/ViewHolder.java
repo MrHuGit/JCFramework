@@ -60,12 +60,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return (T) view;
     }
 
-    public ViewHolder setText(@IdRes int viewId,String value){
+    public ViewHolder setText(@IdRes int viewId, String value){
         TextView textView=getView(viewId);
         textView.setText(value);
         return this;
     }
-    public ViewHolder setText(@IdRes int viewId,@StringRes int valueId){
+    public ViewHolder setText(@IdRes int viewId, @StringRes int valueId){
         TextView textView=getView(viewId);
         textView.setText(valueId);
         return this;

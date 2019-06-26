@@ -61,7 +61,7 @@ public class RvAdapterTool<T> {
                 "No RvItemView added that matches position=" + position + " in data source");
     }
 
-    public void notifyPayloads(ViewHolder holder,T item, int position, List<Object> payloads){
+    public void notifyPayloads(ViewHolder holder, T item, int position, List<Object> payloads){
         int delegatesCount = mRvItemViews.size();
         for (int i = 0; i < delegatesCount; i++) {
             RvItemView<T> itemView = mRvItemViews.valueAt(i);

@@ -29,9 +29,14 @@ public class FormatUtils {
      */
     public static double parseDouble(String value) {
         double result = 0;
+        if (TextUtils.isEmpty(value)){
+            return result;
+        }
         try {
             result = Double.parseDouble(value);
         } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }catch (NullPointerException e){
             e.printStackTrace();
         }
         return result;
@@ -89,6 +94,9 @@ public class FormatUtils {
      */
     public static int parseInt(String value) {
         int result = 0;
+        if (TextUtils.isEmpty(value)){
+            return result;
+        }
         try {
             result = Integer.parseInt(value);
         } catch (NumberFormatException e) {
@@ -107,6 +115,9 @@ public class FormatUtils {
      */
     public static float parseFloat(String value) {
         float result = 0;
+        if (TextUtils.isEmpty(value)){
+            return result;
+        }
         try {
             result = Float.parseFloat(value);
         } catch (NumberFormatException e) {
@@ -125,6 +136,9 @@ public class FormatUtils {
      */
     public static long parseLong(String value) {
         long result = 0;
+        if (TextUtils.isEmpty(value)){
+            return result;
+        }
         try {
             result = Long.parseLong(value);
         } catch (NumberFormatException e) {

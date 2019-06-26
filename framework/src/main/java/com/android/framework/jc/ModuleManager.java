@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.android.framework.jc.js.FkWebView;
-import com.android.framework.jc.module.IMessageCallback;
 import com.android.framework.jc.module.IModule;
 import com.android.framework.jc.module.MessageType;
 import com.android.framework.jc.module.body.MessageBody;
@@ -120,23 +119,6 @@ public class ModuleManager {
         }
     }
 
-//    /**
-//     * 发送调用插件的消息
-//     *
-//     * @param messageBody
-//     *         消息体
-//     *
-//     * @return JSONObject
-//     */
-//    public JSONObject sendPlugMessage(@NonNull MessageBody messageBody) {
-//        LogUtils.i(TAG, "sendPlugMessage：messageBody" + messageBody);
-//        int messageId = messageBody.getMsgId();
-//        IPlug plug = create(mPlugMaps.get(messageId));
-//        if (plug != null) {
-//            return plug.onReceive(messageBody);
-//        }
-//        return null;
-//    }
 
     /**
      * 发送消息
@@ -146,14 +128,11 @@ public class ModuleManager {
      */
     private void sendAppMessage(@NonNull MessageBody messageBody) {
         String targetModule = messageBody.getTargetModuleName();
-        IMessageCallback callback=messageBody.getCallback();
         boolean result=false;
         if (MessageBody.DEFAULT_TARGET_MODULE.equals(targetModule)) {
-
             for (IModule module : mModuleMaps.values()) {
                 module.onMessageReceive(messageBody);
                 result=true;
-
             }
         } else {
             if (mModuleMaps.containsKey(targetModule)) {
@@ -163,15 +142,14 @@ public class ModuleManager {
                     result=true;
                 } else {
                     mModuleMaps.remove(targetModule);
-
                 }
             }
-
         }
-        if (result){
-            IMessageCallback.resultSuccess(callback);
-        }else{
-            IMessageCallback.resultFail(callback,"指定的targetModuleName不存在，请检查模块targetModuleName");
+        if (!result){
+            LogUtils.i(TAG, "指定的targetModuleName不存在，请检查模块targetModuleName");
+//            IMessageCallback.resultSuccess(callback);
+//        }else{
+//            IMessageCallback.resultFail(callback,"指定的targetModuleName不存在，请检查模块targetModuleName");
         }
 
     }

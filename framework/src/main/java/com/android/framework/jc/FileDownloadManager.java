@@ -72,9 +72,7 @@ public class FileDownloadManager {
 
     private Disposable download(String url, String savePath, Listener listener) {
         return RetrofitManager.getInstance().getRetrofitBuilder()
-                .client(OkHttpManager.getInstance()
-                        .getDefaultOkHttpClient()
-                        .newBuilder()
+                .client(OkHttpManager.getDefaultOkHttpClientBuilder()
                         .addInterceptor(new ProgressInterceptor((progress, total, bytesRead, done) -> {
                             if (listener != null) {
                                 JcFramework.runOnMainThread(() -> listener.onProgress(progress, total, bytesRead));

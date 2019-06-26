@@ -1,6 +1,8 @@
 package com.android.framework.jc.js;
 
 import android.graphics.Bitmap;
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -15,10 +17,17 @@ import com.android.framework.jc.js.listener.IPageStartedListener;
 public class FkWebViewClient extends WebViewClient {
 
 
+
+    private FkWebViewProgressBar mProgressBar;
+
     private IPageStartedListener mPageStartedListener;
 
-    public FkWebViewClient(FkWebView webView){
+    public FkWebViewClient() {
 
+    }
+
+    public FkWebViewClient(FkWebViewProgressBar progressBar) {
+        this.mProgressBar = progressBar;
     }
     @Override
     public void onPageFinished(WebView view, String url) {
@@ -32,9 +41,17 @@ public class FkWebViewClient extends WebViewClient {
         if (mPageStartedListener!=null){
             mPageStartedListener.onPageStarted(webView, url, favicon);
         }
+        if (mProgressBar!=null){
+            mProgressBar.onProgressStart();
+        }
     }
 
     protected void setOnPageStartedListener (IPageStartedListener listener) {
         this.mPageStartedListener = listener;
+    }
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        handler.proceed();
+        super.onReceivedSslError(view, handler, error);
     }
 }

@@ -33,7 +33,7 @@ public class JcFramework {
 
     private final Handler mHandler;
 
-    private final static Class TAG=JcFramework.class;
+    private final static Class TAG= JcFramework.class;
     private JcFramework() {
         mActivityList = new LinkedList<>();
         mHandler = new Handler();

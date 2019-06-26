@@ -19,15 +19,13 @@ import java.util.List;
  * @update
  */
 public class FkFragmentAdapter<T extends Fragment> extends FragmentPagerAdapter {
-    private final List<CharSequence> mTitleList;
-    private final List<Integer> mTitleResList;
-    private final List<T> mFragmentList;
+    protected final List<CharSequence> mTitleList;
+    protected final List<T> mFragmentList;
 
     public FkFragmentAdapter(FragmentManager fm) {
         super(fm);
         this.mFragmentList = new ArrayList<>();
         this.mTitleList = new ArrayList<>();
-        this.mTitleResList = new ArrayList<>();
     }
 
     @Override
@@ -45,11 +43,7 @@ public class FkFragmentAdapter<T extends Fragment> extends FragmentPagerAdapter 
     public CharSequence getPageTitle(@StringRes int position) {
         CharSequence result;
         if (mTitleList.size() == 0) {
-            if (mTitleResList.size() == 0) {
-                result = super.getPageTitle(position);
-            } else {
-                result = ResourcesUtils.getString(mTitleResList.get(position));
-            }
+            result = super.getPageTitle(position);
         } else {
             result = mTitleList.get(position);
         }
@@ -96,8 +90,8 @@ public class FkFragmentAdapter<T extends Fragment> extends FragmentPagerAdapter 
      * @return 当前对象
      */
     public FkFragmentAdapter<T> addFragment(T f, int titleRes) {
-        mTitleResList.add(titleRes);
-        mFragmentList.add(f);
+        addFragment(f);
+        mTitleList.add(ResourcesUtils.getString(titleRes));
         return this;
     }
 
@@ -129,5 +123,11 @@ public class FkFragmentAdapter<T extends Fragment> extends FragmentPagerAdapter 
      */
     public List<CharSequence> getTitleList() {
         return mTitleList;
+    }
+
+
+    public void clear() {
+        mTitleList.clear();
+        mFragmentList.clear();
     }
 }

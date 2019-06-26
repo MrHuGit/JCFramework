@@ -82,7 +82,7 @@ public class NetworkManager {
      * @param tag
      *         tag{@link #addDispose(Object, Disposable)}
      */
-    public void dispose(Object tag) {
+    public void clearDisposeByTag(Object tag) {
         if (mDisposableMap.containsKey(tag)) {
             CompositeDisposable compositeDisposable = mDisposableMap.remove(tag);
             compositeDisposable.clear();
@@ -90,7 +90,7 @@ public class NetworkManager {
     }
 
     /**
-     * 添加网络请求,可以用{@link #dispose(Object)}移除请求
+     * 添加网络请求,可以用{@link #clearDisposeByTag(Object)}移除请求
      *
      * @param tag
      *         tag

@@ -17,8 +17,17 @@ import org.json.JSONObject;
  * @update
  */
 public class FkWebChromeClient extends WebChromeClient {
+    private FkWebViewProgressBar mProgressBar;
     private IReceivedTitleListener mReceivedTitleListener;
     private IProgressChangedListener mProgressChangedListener;
+
+    public FkWebChromeClient() {
+
+    }
+
+    public FkWebChromeClient(FkWebViewProgressBar progressBar) {
+        this.mProgressBar = progressBar;
+    }
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
         return super.onJsPrompt(view, url, message, defaultValue, result);
@@ -51,6 +60,9 @@ public class FkWebChromeClient extends WebChromeClient {
         super.onProgressChanged(webView, newProgress);
         if (mProgressChangedListener != null) {
             mProgressChangedListener.onProgressChanged(webView, newProgress);
+        }
+        if (mProgressBar != null) {
+            mProgressBar.onProgressChange(newProgress);
         }
     }
 
