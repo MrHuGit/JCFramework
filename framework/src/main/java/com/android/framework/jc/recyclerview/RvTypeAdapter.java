@@ -2,7 +2,6 @@ package com.android.framework.jc.recyclerview;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,7 +17,6 @@ import java.util.List;
 public class RvTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> implements IRvAdapterAgent<T> {
     List<T> mList;
     private final RvAdapterTool<T> mTool;
-    private LayoutInflater inflater;
     private OnItemClickListener<T> mClickListener;
     private OnItemLongClickListener<T> mLongClickListener;
 
@@ -26,25 +24,21 @@ public class RvTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> implement
         mTool = new RvAdapterTool<>();
     }
 
-    public RvTypeAdapter( List<T> list) {
+    public RvTypeAdapter(List<T> list) {
         mList=list;
         mTool = new RvAdapterTool<>();
     }
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (inflater == null) {
-            inflater = LayoutInflater.from(parent.getContext());
-        }
-
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parentView, int viewType) {
         RvItemView itemView = mTool.getItemView(viewType);
         int layoutId = itemView.getLayoutId();
         View layoutView = itemView.getLayoutView();
         ViewHolder viewHolder;
         if (layoutView != null) {
-            viewHolder = ViewHolder.create(inflater.getContext(), layoutView);
+            viewHolder = ViewHolder.create(layoutView);
         } else {
-            viewHolder = ViewHolder.create(inflater.getContext(), parent, layoutId);
+            viewHolder = ViewHolder.create(parentView, layoutId);
 
         }
         onAfterViewHolderCreate(viewHolder);

@@ -1,4 +1,4 @@
-package com.android.framework.jc.recyclerview;
+package com.android.framework.jc.adapter.recyclerview;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -12,26 +12,25 @@ import android.widget.TextView;
 
 /**
  * @author Mr.Hu(Jc) JCFramework
- * @create 2018/3/23 15:31
+ * @create 2019-07-01 14:53
  * @describe
  * @update
  */
-
-public class ViewHolder extends RecyclerView.ViewHolder {
-
+public class FkRvViewHolder extends RecyclerView.ViewHolder {
     private final SparseArray<View> mViews;
 
-    private ViewHolder(View itemView) {
+    private FkRvViewHolder(View itemView) {
         super(itemView);
         mViews = new SparseArray<>();
     }
 
-    public static ViewHolder create(View itemView) {
-        return new ViewHolder(itemView);
+
+    public static FkRvViewHolder create(View itemView) {
+        return new FkRvViewHolder(itemView);
     }
 
-    public static ViewHolder create(ViewGroup parentView, @LayoutRes int layoutId) {
-        return new ViewHolder( LayoutInflater.from(parentView.getContext()).inflate(layoutId, parentView, false));
+    public static FkRvViewHolder create(ViewGroup parentView, @LayoutRes int layoutId) {
+        return new FkRvViewHolder(LayoutInflater.from(parentView.getContext()).inflate(layoutId, parentView, false));
     }
 
     public View getItemView() {
@@ -66,7 +65,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
      *
      * @return ViewHolder
      */
-    public ViewHolder setText(@IdRes int viewId, String value) {
+    public FkRvViewHolder setText(@IdRes int viewId, String value) {
         TextView textView = getView(viewId);
         textView.setText(value);
         return this;
@@ -82,15 +81,14 @@ public class ViewHolder extends RecyclerView.ViewHolder {
      *
      * @return ViewHolder
      */
-    public ViewHolder setText(@IdRes int viewId, @StringRes int valueId) {
+    public FkRvViewHolder setText(@IdRes int viewId, @StringRes int valueId) {
         TextView textView = getView(viewId);
         textView.setText(valueId);
         return this;
     }
 
-    public ViewHolder setVisibility(@IdRes int viewId, int visibility) {
+    public FkRvViewHolder setVisibility(@IdRes int viewId, int visibility) {
         getView(viewId).setVisibility(visibility);
         return this;
     }
-
 }

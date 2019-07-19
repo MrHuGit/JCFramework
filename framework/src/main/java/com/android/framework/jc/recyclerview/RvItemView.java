@@ -16,8 +16,7 @@ public abstract class RvItemView<T> {
 
 
 
-    public abstract @LayoutRes
-    int getLayoutId();
+    public abstract @LayoutRes int getLayoutId();
 
     public View getLayoutView() {
         return null;

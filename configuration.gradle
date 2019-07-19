@@ -1,6 +1,6 @@
 def defaultConfigs = [:]
-defaultConfigs.compileSdkVersion = 27
-defaultConfigs.buildToolsVersion = "27.0.3"
+defaultConfigs.compileSdkVersion = 28
+defaultConfigs.buildToolsVersion = "28.0.3"
 defaultConfigs.minSdkVersion = 16
 defaultConfigs.targetSdkVersion = 26
 defaultConfigs.versionCode = 1
